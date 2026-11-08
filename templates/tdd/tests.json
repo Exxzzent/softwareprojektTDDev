@@ -1,0 +1,22 @@
+[
+  {
+    "test_id": "TC-01",
+    "feature": "Add a task",
+    "steps": [
+      "Open the app",
+      "Fill 'Test Item' in the task input",
+      "Click the Add button"
+    ],
+    "expected": "'Test Item' appears in the task list"
+  },
+  {
+    "test_id": "TC-02",
+    "feature": "Complete a task",
+    "steps": [
+      "Open the app",
+      "Add a task 'Test Item'",
+      "Click the checkbox next to 'Test Item'"
+    ],
+    "expected": "'Test Item' is shown as completed"
+  }
+]
