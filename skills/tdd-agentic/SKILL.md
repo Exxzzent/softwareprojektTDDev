@@ -32,7 +32,9 @@ Never open `tdd/oracle-tests.json` or any `tdd/check-*.json`.
 ## Your tools
 
 - `start_app` — deploy the project (restarts a running instance so your code changes take
-  effect); returns the app URL. Use the start command in `tdd/app.md`.
+  effect); returns the app URL. Use the start command in `tdd/app.md`. If the app does not
+  start, `start_app` returns the start error instead of a URL; that error is your feedback. A
+  failed `start_app` is not a `run_tests` call; log it as a `deploy_failed` line.
 - `run_tests` — run all acceptance test cases against the deployed app; returns per-test verdicts
   and failure reports. Use the test procedure below over **all** tests in `tdd/tests.json`.
 - `stop_app` — stop the deployed app as described in `tdd/app.md`.
@@ -61,8 +63,18 @@ Never open `tdd/oracle-tests.json` or any `tdd/check-*.json`.
 
 Use the browser tool of your harness (for example Playwright). Run every test case on its own:
 
-- Start each test from a fresh page at the app URL. If your harness can run a subagent with its
-  own context, run each test case in one, so every test starts with an empty context.
+- **Separate tester.** If your harness can run a subagent, you must run each test case in its own
+  subagent with an empty context. Give it only the test case (`test_id`, `feature`, `steps`,
+  `expected`), the app URL and this test procedure: no source code, no file paths, no account of
+  how you implemented anything. It returns the verdict and, for `fail`/`partial`, the failure
+  report. Only if your harness has no subagents, run the test yourself and judge only what the
+  browser shows, never what the code says. Record which of the two you used in the `done` line
+  (`"tester": "subagent"` or `"tester": "self"`).
+- Start each test from a fresh page at the app URL.
+- During a test run, do not edit any project file (appending to `tdd/tdd-log.jsonl` is fine);
+  finish every test of the run first.
+- Take every verdict exactly as the test returned it. Never upgrade, downgrade or re-run a genuine
+  verdict; only `error` cases are re-run (see below).
 - At every step read the page's accessibility snapshot (for example Playwright
   `browser_snapshot`). Use a screenshot only to verify visual properties such as colors, styling
   and layout.
@@ -115,9 +127,10 @@ earlier lines. `round` is the number of the `run_tests` call (1, 2, 3, …).
 
 ```json
 {"event": "tool", "approach": "agentic", "tool": "start_app"}
+{"event": "deploy_failed", "approach": "agentic", "error": "..."}
 {"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-01", "verdict": "fail", "report": "Feature: ..."}
 {"event": "tool", "approach": "agentic", "tool": "stop_app"}
-{"event": "done", "approach": "agentic", "rounds_used": 4, "stop_reason": "agent_decided"}
+{"event": "done", "approach": "agentic", "rounds_used": 4, "stop_reason": "agent_decided", "tester": "subagent"}
 ```
 
 `verdict` is one of `pass`, `partial`, `fail`, `error`. `report` holds the failure report for

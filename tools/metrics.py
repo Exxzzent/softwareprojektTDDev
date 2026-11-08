@@ -11,6 +11,7 @@ github.com/yxwan123/TDD (analysis/metrics.py, analysis/stats.py, analysis/tables
 from __future__ import annotations
 
 import csv
+import io
 import itertools
 import json
 import random
@@ -132,10 +133,21 @@ def cmd_loop(path: str) -> None:
 # -- summary across runs (paper RQ2-RQ4) -------------------------------------
 
 def _num(x: str) -> float | None:
+    """Accepts 58.3 and 58,3 (decimal comma); placeholders such as XXX or empty cells -> None."""
     try:
-        return float(x)
+        return float(str(x).strip().replace(",", "."))
     except (TypeError, ValueError):
         return None
+
+
+def read_runs(path: str) -> list[dict]:
+    """runs.csv with `;` (template, Excel in German) or `,` as separator; rows without a
+    `run_id` are skipped. A UTF-8 BOM from Excel is ignored."""
+    text = Path(path).read_text(encoding="utf-8-sig")
+    header = text.splitlines()[0] if text else ""
+    delim = ";" if header.count(";") >= header.count(",") else ","
+    rows = csv.DictReader(io.StringIO(text), delimiter=delim)
+    return [r for r in rows if (r.get("run_id") or "").strip()]
 
 
 def _tokens(row: dict) -> float | None:
@@ -194,7 +206,7 @@ def wilcoxon_greater(deltas: list[float]) -> float | None:
 
 
 def cmd_summary(path: str) -> None:
-    rows = list(csv.DictReader(Path(path).open()))
+    rows = read_runs(path)
     groups: dict[tuple[str, str], list[dict]] = defaultdict(list)
     for r in rows:
         groups[(r["agent"].strip(), r["approach"].strip().lower())].append(r)
@@ -239,7 +251,9 @@ def cmd_summary(path: str) -> None:
         print(f"| {agent} | {appr} | {len(deltas)} | {sum(deltas) / len(deltas):.1f} "
               f"| [{ci[0]}, {ci[1]}] | {p:.3f} |")
     print("\nNote: with n pairs the smallest possible one-sided Wilcoxon p is 1/2^n "
-          "(n=4: 0.0625, n=5: 0.031). Few pairs = illustrative, not significant.")
+          "(n=4: 0.0625, n=5: 0.031). Few pairs = illustrative, not significant.\n"
+          "Pairing by `repeat` is arbitrary when all runs build the same application (the paper "
+          "pairs by application); report mean delta and single values, p only as orientation.")
 
 
 def main() -> None:

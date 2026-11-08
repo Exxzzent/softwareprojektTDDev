@@ -152,6 +152,12 @@ gestartet wird.
 
 ### 3.5 Einfrieren
 
+Der Ausgangsstand enthält **keinen App-Code**: nur `tdd/` und höchstens ein Gerüst, das für alle
+Läufe gleich ist (z. B. `.gitignore`). Im Paper beginnt jeder Lauf in einem leeren Projekt.
+Enthält der Ausgangsstand schon Teile der Features, bauen alle Ansätze darauf auf, und die
+Unterschiede zwischen ihnen verschwimmen. Wenn die Case Study in einem bestehenden Projekt läuft,
+die App in einen eigenen, leeren Ordner bzw. ein eigenes Repo legen.
+
 Ab hier ändert sich nichts mehr in `tdd/`. Ausgangsstand festhalten:
 
 ```bash
@@ -200,9 +206,11 @@ Pro Lauf, nach dem Bauen:
    Prüfer vergleichen statt der Ansätze.
 3. `/tdd-check claude-whole-r1` aufrufen.
 4. Ausgabe: eine Tabelle pro Test, die Accuracy, die Datei `tdd/check-<zeitstempel>.json` und
-   eine Zeile `n_pass,n_partial,n_fail,n_valid,accuracy`. Diese Werte kommen in `runs.csv`.
-5. Empfehlung: den Check zweimal laufen lassen. Bei Abweichungen die betroffenen Tests selbst im
-   Browser ansehen und entscheiden.
+   eine Zeile `n_pass;n_partial;n_fail;n_valid;accuracy`. Diese Werte kommen in `runs.csv`.
+5. Gewertet wird der **erste** Check, wie im Paper ein einziger Durchlauf des festen Prüfers.
+   Optional (nicht im Paper): ein zweiter Check als Angabe zur Zuverlässigkeit des Prüfers, weil
+   die Harnesses keine Temperatur 0 erlauben. Abweichende Tests kommen in `notes`, die Wertung
+   bleibt beim ersten Check.
 
 Die Tokens des Checks zählen nicht zu den Kosten des Ansatzes.
 
@@ -221,10 +229,17 @@ Die Tokens des Checks zählen nicht zu den Kosten des Ansatzes.
 
 ### 6.2 Tokens ablesen
 
-Gezählt wird nur die Session, in der gebaut wurde. Die vier Werte werden getrennt in `runs.csv`
-eingetragen; das Skript summiert sie:
+Gezählt wird nur die Session, in der gebaut wurde, einschließlich der Test-Subagenten: Im Paper
+gehören Entwicklung und Testen im Loop zu den Bau-Tokens, nur der abschließende Check nicht. Die
+vier Werte werden getrennt in `runs.csv` eingetragen; das Skript summiert sie:
 
 $$\mathrm{Tok} = \text{input} + \text{cache read} + \text{cache write} + \text{output}$$
+
+Abweichung vom Paper: Dort ist Tok „input and output tokens“; im Referenzcode sind das die
+ungecachten Input-Token plus Output, Cache-Reads fallen weg (gecacht wird dort nur der kurze
+System-Prompt). In Claude Code und Codex machen Cache-Reads den Großteil des verarbeiteten
+Kontexts aus, deshalb zählen sie hier mit. Die absoluten Werte sind so nicht mit Tabelle 9 des
+Papers vergleichbar, der Vergleich der Ansätze untereinander bleibt gültig.
 
 | Harness | Wo |
 | --- | --- |
@@ -241,6 +256,10 @@ Deshalb wird pro Agent gegen dessen eigenes Vanilla verglichen; genau das macht 
 **Accuracy** pro Lauf (Gl. 1). Tests mit `error` (Werkzeugfehler) zählen nicht mit:
 
 $$\mathrm{acc} = \frac{N_{\mathrm{pass}} + 0{,}5 \cdot N_{\mathrm{partial}}}{N_{\mathrm{pass}} + N_{\mathrm{partial}} + N_{\mathrm{fail}}} \times 100\,\%$$
+
+Im Paper steht im Nenner $N_{\mathrm{Total}}$. Der Referenzcode (`analysis/metrics.py`) teilt
+durch $N_{\mathrm{valid}}$, also ohne `error`-Tests; diese Variante wird hier verwendet. Ohne
+`error`-Tests sind beide gleich.
 
 **Δ**, der Gewinn gegenüber Vanilla, pro Agent in Prozentpunkten:
 
@@ -259,6 +278,12 @@ $$\mathrm{CostEff} = \frac{\mathrm{acc} - \mathrm{acc}_{\mathrm{Vanilla}}}{(\mat
 Mit n Paaren ist das kleinste mögliche p = 1/2ⁿ (n = 4: 0,0625; n = 5: 0,031). Bei wenigen
 Läufen ist die Studie illustrativ; berichtet werden Δ, Konfidenzintervall und Einzelwerte.
 
+Vorbehalt zur Paarung: Im Paper bildet die **Anwendung** das Paar (20 Apps, jede unter jedem
+Ansatz gebaut). Mit nur einer Anwendung paart das Skript nach Wiederholungsnummer. Die Läufe
+`r1` von Vanilla und `r1` von Whole teilen aber nichts außer der Nummer, die Paarung ist also
+willkürlich. Hauptergebnis sind deshalb Δ und Einzelwerte; p und Konfidenzintervall nur als
+grobe Orientierung.
+
 **Schleifen-Verhalten** aus `tdd-log.jsonl`. Diese Datei schreibt der bauende Agent selbst; sie
 zeigt das Verhalten, nicht die Accuracy:
 
@@ -272,13 +297,38 @@ zeigt das Verhalten, nicht die Accuracy:
 
 ### 6.4 `runs.csv`
 
-Eine Zeile pro Lauf; Vorlage in `templates/runs.csv`.
+Eine Zeile pro Lauf; Vorlage in `templates/runs.csv`. Die Vorlage hat schon 32 Zeilen:
+4 Modelle (`modell1` … `modell4`) × 4 Ansätze × 2 Wiederholungen. Ausgefüllt sind `run_id`,
+`agent`, `approach` und `repeat`; `XXX` und leere Zellen sind Platzhalter.
+
+Vor dem ersten Lauf: die Vorlage ins Projekt kopieren (`cp templates/runs.csv ./runs.csv`) und
+`modell1` … `modell4` in `run_id` und `agent` durch kurze Namen ersetzen (z. B. `sonnet`,
+`gpt`), in jeder Zeile gleich. `XXX` durch die echten Werte ersetzen.
+
+Format:
+
+- Trennzeichen ist das Semikolon `;`. So öffnet ein deutsches Excel oder Numbers die Datei
+  direkt als Tabelle. Beim Speichern als CSV das Semikolon beibehalten.
+- Kommazahlen mit Komma oder Punkt, beides geht: `58,3` oder `58.3`.
+- Token-Zahlen ohne Tausendertrennzeichen: `1234567`, nicht `1.234.567`.
+- Noch nicht gemessene Werte leer lassen oder `XXX` stehen lassen; das Skript ignoriert sie.
+- Die Datei ist keine Markdown-Tabelle; sie wird in Excel/Numbers oder einem Texteditor
+  bearbeitet. Die Markdown-Tabellen erzeugt `tools/metrics.py summary`.
+
+Eine ausgefüllte Zeile im Texteditor:
+
+```text
+sonnet-whole-r1;sonnet;claude-code;claude-sonnet-4-6;default;subagent;whole;1;5;1;0;6;91,7;3000;900000;20000;9000;;;
+```
 
 | Spalte | Inhalt |
 | --- | --- |
 | `run_id` | z. B. `claude-whole-r1` |
 | `agent` | z. B. `claude`, `gpt`, `gemini` |
 | `harness` | `claude-code`, `codex`, `antigravity` |
+| `model` | genaue Modell-ID der Bau-Session, z. B. `claude-sonnet-4-6` |
+| `reasoning` | Reasoning-/Effort-Einstellung der Bau-Session, z. B. `off`, `low`, `high`, `default` |
+| `tester` | `subagent` oder `self`, aus der `done`-Zeile in `tdd/tdd-log.jsonl` (leer bei Vanilla) |
 | `approach` | `vanilla`, `whole`, `incremental`, `agentic` (genau so) |
 | `repeat` | 1, 2, … (bildet die Paare mit Vanilla) |
 | `n_pass`, `n_partial`, `n_fail`, `n_valid`, `accuracy` | aus `tdd-check` |
@@ -298,11 +348,28 @@ Beispielausgabe von `summary` (Testdaten, keine echten Ergebnisse):
 | Übernommen | Angepasst |
 | --- | --- |
 | Workflow-Texte der vier Ansätze; Bau-, Feature- und Reparatur-Prompt | `start_app`, `run_tests`, `stop_app` sind Anweisungen an den Agenten statt eigener Tools |
-| 5 Runden (Whole), 5 Runden pro Feature (Incremental), 25 als Notbremse (Agentic) | Budgets gelten per Anweisung, nicht technisch erzwungen; `tdd-log.jsonl` zeigt, ob sie eingehalten wurden |
-| Whole stoppt erst, wenn alle Tests `pass` sind; keine Reparatur nach der letzten Runde | Der bauende Agent testet selbst; im Paper war das ein separater Tester mit demselben Modell |
+| 5 Runden (Whole), 5 Runden pro Feature (Incremental), 25 als Notbremse (Agentic) | Budgets und der Umfang eines Testlaufs gelten per Anweisung, nicht technisch erzwungen; `tdd-log.jsonl` zeigt, ob sie eingehalten wurden |
+| Keine Reparatur nach der letzten Runde; startet die App nicht, sind alle Tests der Runde `fail` und die Runde zählt | Getestet wird in einem Subagenten ohne Code-Kontext, wo der Harness das kann, sonst vom bauenden Agenten selbst (`tester` in `runs.csv`); im Paper war das ein separater Tester mit demselben Modell |
 | Incremental akzeptiert ab `partial`; Regression = Abfall unter das akzeptierte Niveau | Technischer Rahmen (Node, Express, `server.js`) ersetzt durch `tdd/app.md` |
 | Testregeln: Urteile, Konto-Regel, Selektor-Regeln, Aktionsbudget, `error` zählt nicht | Eigenes Projekt und eigene Tests statt WebGen-Bench |
-| Accuracy-Formel, fester unabhängiger Prüfer, CostEff nur mit Bau-Tokens, Wilcoxon + Bootstrap | Keine einheitliche Temperatur 0 und kein abgeschaltetes Reasoning; die Harnesses erlauben das nicht einheitlich |
+| Leeres Projekt als Ausgangsstand, gleiche Tests für alle Ansätze | Eine Session pro Lauf; im minimalen Agenten des Papers ist jeder Bau- und Reparaturaufruf ein frisches Gespräch. Das verändert das Kostenprofil (RQ4) |
+| Fester unabhängiger Prüfer, CostEff nur mit Bau-Tokens, Wilcoxon + Bootstrap | Keine einheitliche Temperatur 0 und kein abgeschaltetes Reasoning; die Harnesses erlauben das nicht einheitlich |
+
+Wo Paper und Referenzcode sich widersprechen oder der Code etwas anders macht, als das Paper
+schreibt:
+
+| Punkt | Paper | Hier verwendet |
+| --- | --- | --- |
+| Abbruch bei Whole | Algorithm 2: Abbruch, wenn alle Tests `pass` **oder** `partial` sind | Code (`strategies._all_pass`): Abbruch erst, wenn alle echten Urteile `pass` sind; ein `partial` führt zu einer weiteren Reparatur |
+| Nenner der Accuracy | Gl. 1: $N_{\mathrm{Total}}$ | Code: $N_{\mathrm{valid}}$, ohne `error`-Tests (Abschnitt 6.3) |
+| Tokens | input + output | input + cache read + cache write + output (Abschnitt 6.2) |
+| Paarung im Wilcoxon-Test | gleiche Anwendung | gleiche Wiederholung, mit Vorbehalt (Abschnitt 6.3) |
+| Zweiter Check | nicht vorgesehen | optional, nur als Zuverlässigkeitsangabe; gewertet wird der erste (Abschnitt 5) |
+
+Bei einem harness-übergreifenden Vergleich ändern sich Harness und Modell oft gleichzeitig (Claude
+Code/Claude, Codex/GPT, Antigravity/Gemini). Das Paper variiert immer nur eins von beiden. Wo ein
+Harness dasselbe Modell wie ein anderer anbietet, trennt ein solcher Lauf die beiden Einflüsse;
+`model` in `runs.csv` macht das sichtbar.
 
 Bricht ein Agent die Regeln (z. B. 7 statt 5 Runden), zählt der Lauf trotzdem zu seinem Ansatz
 (im Paper „intent-to-treat“). Der Regelbruch wird in `notes` vermerkt.

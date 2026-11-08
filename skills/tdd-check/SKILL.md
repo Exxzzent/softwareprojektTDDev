@@ -43,6 +43,7 @@ building agent claimed.
      "run_id": "claude-whole-r1",
      "checker": "<harness> / <model>",
      "suite": "tdd/oracle-tests.json",
+     "tester": "subagent",
      "tests": [
        {"test_id": "TC-01", "verdict": "pass", "report": ""},
        {"test_id": "TC-02", "verdict": "partial", "report": "Feature: ...\nExpected: ...\nObserved failure: ...\nSteps completed before failure: 3"}
@@ -52,19 +53,27 @@ building agent claimed.
    }
    ```
 
-6. Reply with a table (test, verdict, one-line reason), the accuracy, and this CSV fragment:
+6. Reply with a table (test, verdict, one-line reason), the accuracy, and this fragment for
+   `runs.csv` (semicolon-separated):
 
    ```text
-   n_pass,n_partial,n_fail,n_valid,accuracy
-   1,1,0,2,75.0
+   n_pass;n_partial;n_fail;n_valid;accuracy
+   1;1;0;2;75.0
    ```
 
 ## Test procedure
 
 Use the browser tool of your harness (for example Playwright). Run every test case on its own:
 
-- Start each test from a fresh page at the app URL. If your harness can run a subagent with its
-  own context, run each test case in one, so every test starts with an empty context.
+- **Separate tester.** If your harness can run a subagent, you must run each test case in its own
+  subagent with an empty context. Give it only the test case (`test_id`, `feature`, `steps`,
+  `expected`), the app URL and this test procedure. It returns the verdict and, for
+  `fail`/`partial`, the failure report. Only if your harness has no subagents, run the test
+  yourself. Record which of the two you used in the result file (`"tester": "subagent"` or
+  `"tester": "self"`).
+- Start each test from a fresh page at the app URL.
+- Take every verdict exactly as the test returned it. Never upgrade, downgrade or re-run a genuine
+  verdict; only `error` cases are re-run (see below).
 - At every step read the page's accessibility snapshot (for example Playwright
   `browser_snapshot`). Use a screenshot only to verify visual properties such as colors, styling
   and layout.

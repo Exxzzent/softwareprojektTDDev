@@ -38,7 +38,10 @@ run_tests, repair what fails, and repeat. You have at most 5 test runs.
 
 2. **Test rounds k = 1 … 5.** Before each round write the budget line
    `Test run k of 5; (6 - k) remaining.` Then:
-   1. `start_app`.
+   1. `start_app`. **If the app does not start**, skip `run_tests`: every test of this round is
+      a genuine `fail` with the report `Observed failure: the app did not start: <start error>`.
+      Log one `deploy_failed` line and one `test_eval` line per test, then continue with step 4.
+      The round counts.
    2. `run_tests` over all tests. Log one `test_eval` line per test (see Logging).
    3. `stop_app`.
    4. **Stop if every genuine verdict is `pass`** (`stop_reason: all_pass`). A `partial` does not
@@ -78,8 +81,18 @@ run_tests, repair what fails, and repeat. You have at most 5 test runs.
 
 Use the browser tool of your harness (for example Playwright). Run every test case on its own:
 
-- Start each test from a fresh page at the app URL. If your harness can run a subagent with its
-  own context, run each test case in one, so every test starts with an empty context.
+- **Separate tester.** If your harness can run a subagent, you must run each test case in its own
+  subagent with an empty context. Give it only the test case (`test_id`, `feature`, `steps`,
+  `expected`), the app URL and this test procedure: no source code, no file paths, no account of
+  how you implemented anything. It returns the verdict and, for `fail`/`partial`, the failure
+  report. Only if your harness has no subagents, run the test yourself and judge only what the
+  browser shows, never what the code says. Record which of the two you used in the `done` line
+  (`"tester": "subagent"` or `"tester": "self"`).
+- Start each test from a fresh page at the app URL.
+- During a test run, do not edit any project file (appending to `tdd/tdd-log.jsonl` is fine);
+  finish every test of the run first.
+- Take every verdict exactly as the test returned it. Never upgrade, downgrade or re-run a genuine
+  verdict; only `error` cases are re-run (see below).
 - At every step read the page's accessibility snapshot (for example Playwright
   `browser_snapshot`). Use a screenshot only to verify visual properties such as colors, styling
   and layout.
@@ -134,7 +147,8 @@ earlier lines.
 {"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-01", "verdict": "pass", "report": ""}
 {"event": "repair", "approach": "whole", "round": 1, "tests": ["TC-02", "TC-04"]}
 {"event": "wash", "approach": "whole", "round": 2}
-{"event": "done", "approach": "whole", "rounds_used": 3, "stop_reason": "all_pass"}
+{"event": "deploy_failed", "approach": "whole", "round": 3, "error": "Error: Cannot find module 'express'"}
+{"event": "done", "approach": "whole", "rounds_used": 4, "stop_reason": "all_pass", "tester": "subagent"}
 ```
 
 `verdict` is one of `pass`, `partial`, `fail`, `error`. `report` holds the failure report for

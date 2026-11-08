@@ -48,7 +48,10 @@ For each test `TC-i` in the order of `tdd/tests.json`:
 
 2. **Test rounds k = 1 … 5 for this feature.** Before each round write the status line
    `Feature i of n (TC-i), attempt k of 5; m feature(s) accepted.` Then:
-   1. `start_app`.
+   1. `start_app`. **If the app does not start**, skip `run_tests`: every test of this round
+      (the accepted tests plus TC-i) is a genuine `fail` with the report
+      `Observed failure: the app did not start: <start error>`. Log one `deploy_failed` line and
+      one `test_eval` line per test, then continue with step 4. The round counts.
    2. `run_tests` over **the accepted tests plus TC-i**, nothing else. Log one `test_eval` line per
       test with `phase: "incr:TC-i"`.
    3. `stop_app`.
@@ -93,8 +96,18 @@ For each test `TC-i` in the order of `tdd/tests.json`:
 
 Use the browser tool of your harness (for example Playwright). Run every test case on its own:
 
-- Start each test from a fresh page at the app URL. If your harness can run a subagent with its
-  own context, run each test case in one, so every test starts with an empty context.
+- **Separate tester.** If your harness can run a subagent, you must run each test case in its own
+  subagent with an empty context. Give it only the test case (`test_id`, `feature`, `steps`,
+  `expected`), the app URL and this test procedure: no source code, no file paths, no account of
+  how you implemented anything. It returns the verdict and, for `fail`/`partial`, the failure
+  report. Only if your harness has no subagents, run the test yourself and judge only what the
+  browser shows, never what the code says. Record which of the two you used in the `done` line
+  (`"tester": "subagent"` or `"tester": "self"`).
+- Start each test from a fresh page at the app URL.
+- During a test run, do not edit any project file (appending to `tdd/tdd-log.jsonl` is fine);
+  finish every test of the run first.
+- Take every verdict exactly as the test returned it. Never upgrade, downgrade or re-run a genuine
+  verdict; only `error` cases are re-run (see below).
 - At every step read the page's accessibility snapshot (for example Playwright
   `browser_snapshot`). Use a screenshot only to verify visual properties such as colors, styling
   and layout.
@@ -152,7 +165,8 @@ earlier lines.
 {"event": "feature_abandoned", "approach": "incremental", "test_id": "TC-03"}
 {"event": "feature_excluded", "approach": "incremental", "test_id": "TC-04"}
 {"event": "wash", "approach": "incremental", "round": 1, "phase": "incr:TC-04"}
-{"event": "done", "approach": "incremental", "rounds_used": 9, "stop_reason": "all_features_attempted"}
+{"event": "deploy_failed", "approach": "incremental", "round": 2, "phase": "incr:TC-05", "error": "..."}
+{"event": "done", "approach": "incremental", "rounds_used": 9, "stop_reason": "all_features_attempted", "tester": "subagent"}
 ```
 
 `round` counts per feature (1–5); `rounds_used` in the `done` line is the total number of test
