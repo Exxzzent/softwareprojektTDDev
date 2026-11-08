@@ -141,13 +141,26 @@ def _num(x: str) -> float | None:
 
 
 def read_runs(path: str) -> list[dict]:
-    """runs.csv with `;` (template, Excel in German) or `,` as separator; rows without a
-    `run_id` are skipped. A UTF-8 BOM from Excel is ignored."""
+    """runs.csv with `,` (template) or `;` (Excel in German) as separator; rows without a
+    `run_id` are skipped. A UTF-8 BOM from Excel is ignored.
+
+    In a comma-separated file an unquoted decimal comma (58,3) splits one cell into two and
+    shifts every later column. Such rows have more cells than the header; they are reported
+    and left out instead of being scored with shifted values."""
     text = Path(path).read_text(encoding="utf-8-sig")
     header = text.splitlines()[0] if text else ""
-    delim = ";" if header.count(";") >= header.count(",") else ","
-    rows = csv.DictReader(io.StringIO(text), delimiter=delim)
-    return [r for r in rows if (r.get("run_id") or "").strip()]
+    delim = ";" if header.count(";") > header.count(",") else ","
+    out = []
+    for line_no, r in enumerate(csv.DictReader(io.StringIO(text), delimiter=delim), 2):
+        if not (r.get("run_id") or "").strip():
+            continue
+        if r.get(None):
+            print(f"warning: line {line_no} ({r['run_id']}) has more cells than the header and "
+                  "was skipped. Write decimals with a dot (58.3) or in quotes (\"58,3\").",
+                  file=sys.stderr)
+            continue
+        out.append(r)
+    return out
 
 
 def _tokens(row: dict) -> float | None:

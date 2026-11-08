@@ -206,7 +206,7 @@ Pro Lauf, nach dem Bauen:
    Prüfer vergleichen statt der Ansätze.
 3. `/tdd-check claude-whole-r1` aufrufen.
 4. Ausgabe: eine Tabelle pro Test, die Accuracy, die Datei `tdd/check-<zeitstempel>.json` und
-   eine Zeile `n_pass;n_partial;n_fail;n_valid;accuracy`. Diese Werte kommen in `runs.csv`.
+   eine Zeile `n_pass,n_partial,n_fail,n_valid,accuracy`. Diese Werte kommen in `runs.csv`.
 5. Gewertet wird der **erste** Check, wie im Paper ein einziger Durchlauf des festen Prüfers.
    Optional (nicht im Paper): ein zweiter Check als Angabe zur Zuverlässigkeit des Prüfers, weil
    die Harnesses keine Temperatur 0 erlauben. Abweichende Tests kommen in `notes`, die Wertung
@@ -307,18 +307,22 @@ Vor dem ersten Lauf: die Vorlage ins Projekt kopieren (`cp templates/runs.csv ./
 
 Format:
 
-- Trennzeichen ist das Semikolon `;`. So öffnet ein deutsches Excel oder Numbers die Datei
-  direkt als Tabelle. Beim Speichern als CSV das Semikolon beibehalten.
-- Kommazahlen mit Komma oder Punkt, beides geht: `58,3` oder `58.3`.
+- Trennzeichen ist das Komma `,`. Nur so zeigt GitHub die Datei als Tabelle an.
+- Kommazahlen mit **Punkt**: `58.3`. So gibt `tdd-check` sie auch aus. Ein Komma in einer Zahl
+  trennt sonst die Zelle in zwei. Wer lieber `58,3` schreibt, setzt die Zahl in Anführungszeichen:
+  `"58,3"`. Vergisst man das, meldet `tools/metrics.py` die Zeile und lässt sie weg.
 - Token-Zahlen ohne Tausendertrennzeichen: `1234567`, nicht `1.234.567`.
 - Noch nicht gemessene Werte leer lassen oder `XXX` stehen lassen; das Skript ignoriert sie.
-- Die Datei ist keine Markdown-Tabelle; sie wird in Excel/Numbers oder einem Texteditor
-  bearbeitet. Die Markdown-Tabellen erzeugt `tools/metrics.py summary`.
+- Bearbeiten am einfachsten in einem Texteditor (z. B. VS Code) oder direkt auf GitHub über den
+  Stift-Knopf. Numbers öffnet die Datei direkt als Tabelle. Ein deutsches Excel erwartet
+  Semikolons; dort über *Daten → Aus Text/CSV* mit Trennzeichen Komma importieren. Speichert
+  Excel die Datei mit Semikolons, liest das Skript sie trotzdem, nur die GitHub-Vorschau zeigt
+  dann keine Tabelle mehr.
 
 Eine ausgefüllte Zeile im Texteditor:
 
 ```text
-sonnet-whole-r1;sonnet;claude-code;claude-sonnet-4-6;default;subagent;whole;1;5;1;0;6;91,7;3000;900000;20000;9000;;;
+sonnet-whole-r1,sonnet,claude-code,claude-sonnet-4-6,default,subagent,whole,1,5,1,0,6,91.7,3000,900000,20000,9000,,,
 ```
 
 | Spalte | Inhalt |

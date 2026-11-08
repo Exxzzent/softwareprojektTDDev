@@ -53,12 +53,12 @@ building agent claimed.
    }
    ```
 
-6. Reply with a table (test, verdict, one-line reason), the accuracy, and this fragment for
-   `runs.csv` (semicolon-separated):
+6. Reply with a table (test, verdict, one-line reason), the accuracy, and this CSV fragment for
+   `runs.csv` (commas between cells, a dot as decimal point):
 
    ```text
-   n_pass;n_partial;n_fail;n_valid;accuracy
-   1;1;0;2;75.0
+   n_pass,n_partial,n_fail,n_valid,accuracy
+   1,1,0,2,75.0
    ```
 
 ## Test procedure
