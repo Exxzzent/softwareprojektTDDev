@@ -45,6 +45,30 @@ Was ein Lauf im Projekt erzeugt:
 | `tdd/tdd-log.jsonl` | `tdd-whole`, `tdd-incremental`, `tdd-agentic`, `tdd-vanilla` | jede Testrunde und jedes Urteil des bauenden Agenten |
 | `tdd/check-<zeitstempel>.json` | `tdd-check` | Urteil pro Test und Accuracy |
 
+## 1a. Zwei Repos: was wohin gehört
+
+| Repo | Inhalt |
+| --- | --- |
+| `softwareprojekt.git` | App-Code. Branch `TDDev-origin` = Ausgangsstand (Gerüst, `tdd/`, `.claude/skills/`), Tag `tdd-baseline`; pro Lauf ein Branch `run/<run-id>` |
+| `softwareprojektTDDev.git` (dieses Repo) | Skills, Vorlagen, Skripte und Ergebnisse: `results/runs.csv`, `results/<run-id>/` (Log, Check, Quell-Commit) |
+
+Die Git-Arbeit macht `tools/case.sh`, nicht der Skill: Git-Befehle in der Bau-Session würden
+Tokens kosten und die Messung verfälschen, und die Skills sollen ohne Eingriff laufen.
+
+```bash
+tools/case.sh freeze                 # einmal: tdd/ ausgefüllt → Baseline committen, taggen, pushen
+tools/case.sh start  sonnet-whole-r1 # Branch run/sonnet-whole-r1 ab tdd-baseline
+#   → neue Session im Projekt, /tdd-whole, Tokens ablesen
+tools/case.sh finish sonnet-whole-r1 # Lauf committen + pushen, Log nach results/ kopieren + pushen
+#   → neue Session, /tdd-check sonnet-whole-r1
+tools/case.sh finish sonnet-whole-r1 # Check committen + pushen, Check-Datei nach results/
+#   → Werte in results/runs.csv eintragen
+tools/case.sh csv                    # runs.csv committen + pushen
+```
+
+Projektpfad über `PROJECT=...` änderbar (Standard: `~/Desktop/Uni/3.Semester/Softwareprojekt/App/softwareprojekt`).
+Auswertung: `python3 tools/metrics.py summary results/runs.csv`.
+
 ## 2. Setup (einmal pro Rechner)
 
 ### 2.1 Voraussetzungen
