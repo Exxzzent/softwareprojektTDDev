@@ -47,27 +47,39 @@ Was ein Lauf im Projekt erzeugt:
 
 ## 1a. Zwei Repos: was wohin gehört
 
-| Repo | Inhalt |
-| --- | --- |
-| `softwareprojekt.git` | App-Code. Branch `TDDev-origin` = Ausgangsstand (Gerüst, `tdd/`, `.claude/skills/`), Tag `tdd-baseline`; pro Lauf ein Branch `run/<run-id>` |
-| `softwareprojektTDDev.git` (dieses Repo) | Skills, Vorlagen, Skripte und Ergebnisse: `results/runs.csv`, `results/<run-id>/` (Log, Check, Quell-Commit) |
+| Repo | Inhalt | Sieht der Agent? |
+| --- | --- | --- |
+| `softwareprojekt.git` | App-Gerüst, `tdd/`, `.claude/skills/`, `.agents/skills/`, Settings. Branch `TDDev-origin` = Ausgangsstand, Tag `tdd-baseline`; pro Lauf ein Branch `run/<run-id>` | ja, das ist sein Projekt |
+| `softwareprojektTDDev.git` (dieses Repo) | Skill-Quellen, Vorlagen, `tools/case.sh`, `tools/metrics.py`, Ergebnisse unter `results/` | nein, nur du |
 
-Die Git-Arbeit macht `tools/case.sh`, nicht der Skill: Git-Befehle in der Bau-Session würden
-Tokens kosten und die Messung verfälschen, und die Skills sollen ohne Eingriff laufen.
+Die Skills lesen und schreiben nur Dateien in `tdd/` des Projekts (`requirement.md`, `tests.json`,
+`app.md` lesen; `tdd-log.jsonl` bzw. `check-*.json` schreiben). Vorlagen und Skripte braucht der
+Agent nie; sie bleiben deshalb aus dem Ausgangsstand heraus. Die Git-Arbeit macht `tools/case.sh`,
+nicht der Skill: Git-Befehle in der Bau-Session würden Tokens kosten und die Messung verfälschen.
 
 ```bash
-tools/case.sh freeze                 # einmal: tdd/ ausgefüllt → Baseline committen, taggen, pushen
-tools/case.sh start  sonnet-whole-r1 # Branch run/sonnet-whole-r1 ab tdd-baseline
-#   → neue Session im Projekt, /tdd-whole, Tokens ablesen
-tools/case.sh finish sonnet-whole-r1 # Lauf committen + pushen, Log nach results/ kopieren + pushen
-#   → neue Session, /tdd-check sonnet-whole-r1
-tools/case.sh finish sonnet-whole-r1 # Check committen + pushen, Check-Datei nach results/
-#   → Werte in results/runs.csv eintragen
-tools/case.sh csv                    # runs.csv committen + pushen
+C=~/Desktop/Code/Skills/softwareprojektTDDev/tools/case.sh
+$C freeze                          # einmal: tdd/ ausgefüllt → committen, Tag tdd-baseline, pushen
+$C branches 2 sonnet opus gpt gemini   # einmal: 4 × 4 Ansätze × 2 Wdh. = 32 Branches + Zeilen in runs.csv
+$C csv                             # runs.csv pushen
+
+# pro Lauf
+$C start  sonnet-whole-r1          # auf run/sonnet-whole-r1, index.db und Caches löschen
+#   → neue Session im Projekt, /tdd-whole, am Ende /usage ablesen
+$C finish sonnet-whole-r1          # Code + Log committen und pushen, Log nach results/, tester in runs.csv
+$C check  sonnet-whole-r1          # index.db und Caches löschen
+#   → neue Session (immer gleiches Prüfer-Modell), /tdd-check sonnet-whole-r1
+$C finish sonnet-whole-r1          # Check committen und pushen, Check nach results/, Werte in runs.csv
+#   → von Hand in results/runs.csv: harness, model, reasoning, tok_*
+$C csv
 ```
 
-Projektpfad über `PROJECT=...` änderbar (Standard: `~/Desktop/Uni/3.Semester/Softwareprojekt/App/softwareprojekt`).
-Auswertung: `python3 tools/metrics.py summary results/runs.csv`.
+- `start` verweigert einen Branch, der schon Commits nach `tdd-baseline` hat, und läuft nur bei
+  sauberem Arbeitsbaum.
+- `finish` trägt in `runs.csv` nur leere Felder ein und nimmt immer den **ersten** Check.
+- Agent-Namen nur aus Kleinbuchstaben, Ziffern und Punkt (z. B. `gpt5.1`), ohne Bindestrich.
+- Projektpfad über `PROJECT=...` änderbar.
+- Auswertung: `python3 tools/metrics.py summary results/runs.csv`.
 
 ## 2. Setup (einmal pro Rechner)
 
@@ -325,9 +337,8 @@ Eine Zeile pro Lauf; Vorlage in `templates/runs.csv`. Die Vorlage hat schon 32 Z
 4 Modelle (`modell1` … `modell4`) × 4 Ansätze × 2 Wiederholungen. Ausgefüllt sind `run_id`,
 `agent`, `approach` und `repeat`; `XXX` und leere Zellen sind Platzhalter.
 
-Vor dem ersten Lauf: die Vorlage ins Projekt kopieren (`cp templates/runs.csv ./runs.csv`) und
-`modell1` … `modell4` in `run_id` und `agent` durch kurze Namen ersetzen (z. B. `sonnet`,
-`gpt`), in jeder Zeile gleich. `XXX` durch die echten Werte ersetzen.
+Die Tabelle liegt in `results/runs.csv` in diesem Repo. `case.sh branches` ersetzt die
+Platzhalter `modell1` … `modell4` durch die echten Agent-Namen; `XXX` durch die echten Werte ersetzen.
 
 Format:
 
