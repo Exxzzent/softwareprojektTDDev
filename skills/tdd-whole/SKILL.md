@@ -122,7 +122,9 @@ Verdict rules:
 - Stay on the application under test: it lives at the URL you started on. If a link leads to an
   unreachable address or a different host/port, that is a genuine navigation defect of the app —
   record it as evidence toward "fail", navigate back to the starting URL, and continue checking
-  what remains. Never guess other ports.
+  what remains. Never guess other ports. Exception: when a test step names an auxiliary URL
+  listed in `tdd/app.md` (for example the mock server console), open it as that step says and
+  return to the app URL afterwards.
 
 Errors: a `blocked` test, a browser crash, or a tool failure that is not the app's fault is
 re-run once. If it fails the same way again, its verdict is `error`: it is excluded from scoring

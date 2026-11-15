@@ -257,42 +257,6 @@ body{overflow-x:hidden}
 <body>
 <div class="wrap">
 
-<!-- Log-in-Maske -->
-<section id="v-login" class="auth" hidden>
-  <form class="card" id="f-login" autocomplete="off">
-    <div>
-      <h1>Gartenbahn</h1>
-      <p class="card-desc">Melde dich an, um die Bahnen zu steuern.</p>
-    </div>
-    <div class="stack">
-      <div class="field"><label class="label" for="li-user">Benutzername</label><input class="input" id="li-user" type="text" placeholder="max.mustermann"></div>
-      <div class="field"><label class="label" for="li-pw">Passwort</label><input class="input" id="li-pw" type="password"></div>
-      <button class="btn btn-default btn-block" type="submit">Anmelden</button>
-      <button class="btn btn-outline btn-block" type="button" id="b-guest">Als Gast anmelden</button>
-    </div>
-    <p class="center">Noch kein Account? <button class="btn btn-link" type="button" id="b-new">Account erstellen</button></p>
-    <div class="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>Wichtig: „Als Gast anmelden“. Anmelden, Passwort und Account sind optional.</span></div>
-  </form>
-</section>
-
-<!-- Account erstellen -->
-<section id="v-account" class="auth" hidden>
-  <form class="card" id="f-account" autocomplete="off">
-    <div>
-      <h1>Account erstellen</h1>
-      <p class="card-desc">Lege einen Benutzer für die Gartenbahn an.</p>
-    </div>
-    <div class="stack">
-      <div class="field"><label class="label" for="ac-user">Benutzername</label><input class="input" id="ac-user" type="text"></div>
-      <div class="field"><label class="label" for="ac-pw">Passwort</label><input class="input" id="ac-pw" type="password"></div>
-      <div class="field"><label class="label" for="ac-mail">E-Mail-Adresse</label><input class="input" id="ac-mail" type="email" placeholder="name@beispiel.de"></div>
-      <button class="btn btn-default btn-block" type="submit">Account erstellen</button>
-      <button class="btn btn-outline btn-block" type="button" id="b-back">Zurück</button>
-    </div>
-    <div class="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>Alles optional. „Zurück“ führt zur Log-in-Maske.</span></div>
-  </form>
-</section>
-
 <!-- Dashboard -->
 <section id="v-app" hidden>
   <header class="top">
@@ -305,7 +269,6 @@ body{overflow-x:hidden}
     <section class="card" aria-label="Gartenbahn-Ansicht">
       <div class="card-header">
         <div><h2 class="card-title">Gartenbahn-Ansicht</h2><p class="card-desc">Strecke, Weichen und aktuelle Standorte.</p></div>
-        <span class="badge badge-secondary">Optional, nur wenn Zeit übrig</span>
       </div>
       <div class="map-body" id="map"></div>
     </section>
@@ -327,10 +290,9 @@ const ST = {
 const KEYS = Object.keys(ST);
 const defaults = () => [
   {id:1,name:'Bahn 1',aktiv:false,route:['H1','H2','H3'],at:'H1'},
-  {id:2,name:'Bahn 2',aktiv:false,route:['H4','H1'],     at:'H4'},
-  {id:3,name:'Bahn 3',aktiv:false,route:['H3','H2','H4'],at:'H3'}
+  {id:2,name:'Bahn 2',aktiv:false,route:['H4','H1'],     at:'H4'}
 ];
-let trains = defaults(), sel = 1, running = false, user = 'Gast';
+let trains = defaults(), sel = 1, running = false;
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const get = id => trains.find(t => t.id === id);
@@ -341,10 +303,7 @@ function toast(msg){
   const t = $('toast'); $('toast-msg').textContent = msg; t.classList.add('show');
   clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('show'), 2400);
 }
-function show(v){
-  for (const id of ['login','account','app']) $('v-'+id).hidden = id !== v;
-  if (v === 'app') renderAll();
-}
+function show(){ $('v-app').hidden = false; renderAll(); }
 
 /* Haltestellen-Liste: im gestoppten Zustand bearbeitbar, während der Fahrt gesperrt */
 function routeList(route){
@@ -404,7 +363,7 @@ document.addEventListener('click', e => {
   const a = b.dataset.act, r = get(sel).route;
   if (a === 'sel'){ sel = +b.dataset.id; renderSlot(); }
   else if (a === 'rm' && !running){ r.splice(+b.dataset.i,1); renderSlot(); }
-  else if (a === 'add' && !running){ if (r.length >= 6) return toast('Maximal 6 Haltestellen'); r.push(KEYS.find(k => !r.includes(k)) || 'H1'); renderSlot(); }
+  else if (a === 'add' && !running){ r.push(KEYS.find(k => k !== r[r.length-1]) || KEYS[0]); renderSlot(); } /* beliebig viele, auch doppelte Haltestellen */
   else if (a === 'start'){
     if (!trains.some(t => t.route.length)) return toast('Bitte mindestens eine Haltestelle wählen');
     running = true;
@@ -418,12 +377,8 @@ document.addEventListener('change', e => {
   get(sel).route[+s.dataset.i] = s.value;
 });
 
-$('b-reset').onclick = () => { if (running) return; trains = defaults(); sel = 1; renderAll(); toast('Alle Strecken zurückgesetzt'); };
-$('b-guest').onclick = () => { user = 'Gast'; show('app'); };
-$('b-new').onclick = () => show('account');
-$('b-back').onclick = () => show('login');
-$('f-login').onsubmit = e => { e.preventDefault(); user = $('li-user').value.trim() || 'Gast'; show('app'); };
-$('f-account').onsubmit = e => { e.preventDefault(); user = $('ac-user').value.trim() || 'Gast'; show('app'); toast('Account erstellt'); };
+/* Frontend-Aktion: entfernt alle Haltestellen aller Bahnen (nur im gestoppten Zustand) */
+$('b-reset').onclick = () => { if (running) return; trains.forEach(t => t.route = []); renderAll(); toast('Alle Strecken zurückgesetzt'); };
 
 /* Aktive Bahnen rücken alle paar Sekunden zur nächsten Haltestelle (nur Demo) */
 setInterval(() => {
@@ -433,7 +388,7 @@ setInterval(() => {
   if (moved && !$('v-app').hidden){ renderStatus(); renderMap(); }
 }, 4000);
 
-show('app');
+show();
 </script>
 </body>
 </html>
