@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Gartenbahn Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap">
+<style>
+/* shadcn/ui-Stil (Zinc-Palette): neutrale Flächen, feine Rahmen, dezente Schatten, Radius 0.625rem */
+:root{
+  --font:"Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --radius:10px;
+  --background:#ffffff; --foreground:#09090b;
+  --card:#ffffff; --card-foreground:#09090b;
+  --muted:#f4f4f5; --muted-foreground:#71717a;
+  --accent:#f4f4f5; --accent-foreground:#18181b;
+  --primary:#18181b; --primary-foreground:#fafafa;
+  --secondary:#f4f4f5; --secondary-foreground:#18181b;
+  --destructive:#dc2626; --destructive-foreground:#ffffff;
+  --border:#e4e4e7; --input:#e4e4e7; --ring:#a1a1aa;
+  --success:#16a34a;
+  --chart-1:#18181b; --chart-2:#a1a1aa; --track:#d4d4d8; --map:#fafafa;
+  --shadow-xs:0 1px 2px 0 rgb(0 0 0 / .05);
+  --shadow-sm:0 1px 3px 0 rgb(0 0 0 / .08),0 1px 2px -1px rgb(0 0 0 / .08);
+  --shadow-lg:0 10px 15px -3px rgb(0 0 0 / .1),0 4px 6px -4px rgb(0 0 0 / .1);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --background:#09090b; --foreground:#fafafa;
+  --card:#111113; --card-foreground:#fafafa;
+  --muted:#27272a; --muted-foreground:#a1a1aa;
+  --accent:#27272a; --accent-foreground:#fafafa;
+  --primary:#fafafa; --primary-foreground:#18181b;
+  --secondary:#27272a; --secondary-foreground:#fafafa;
+  --destructive:#ef4444; --destructive-foreground:#ffffff;
+  --border:#27272a; --input:#3f3f46; --ring:#71717a;
+  --success:#22c55e;
+  --chart-1:#fafafa; --chart-2:#52525b; --track:#3f3f46; --map:#0c0c0e;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --background:#09090b; --foreground:#fafafa;
+  --card:#111113; --card-foreground:#fafafa;
+  --muted:#27272a; --muted-foreground:#a1a1aa;
+  --accent:#27272a; --accent-foreground:#fafafa;
+  --primary:#fafafa; --primary-foreground:#18181b;
+  --secondary:#27272a; --secondary-foreground:#fafafa;
+  --destructive:#ef4444; --destructive-foreground:#ffffff;
+  --border:#27272a; --input:#3f3f46; --ring:#71717a;
+  --success:#22c55e;
+  --chart-1:#fafafa; --chart-2:#52525b; --track:#3f3f46; --map:#0c0c0e;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--background);color:var(--foreground);font:14px/1.5 var(--font);-webkit-font-smoothing:antialiased;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-top:max(16px,env(safe-area-inset-top,0px));padding-bottom:max(16px,env(safe-area-inset-bottom,0px))}
+h1,h2,h3{margin:0;text-wrap:balance}
+button,input,select{font:inherit;color:inherit}
+.wrap{max-width:1280px;margin:0 auto}
+
+/* Button */
+.btn{height:36px;padding:0 16px;border:1px solid transparent;border-radius:calc(var(--radius) - 2px);font-size:14px;font-weight:500;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;cursor:pointer;
+  transition:background-color .15s,color .15s,border-color .15s,box-shadow .15s;outline:none}
+.btn:focus-visible,.icon-btn:focus-visible,.tab:focus-visible,.input:focus-visible,.select:focus-visible{border-color:var(--ring);box-shadow:0 0 0 3px color-mix(in srgb,var(--ring) 50%,transparent)}
+.btn svg{width:16px;height:16px;flex:none}
+.btn-default{background:var(--primary);color:var(--primary-foreground);box-shadow:var(--shadow-xs)}
+.btn-default:hover{background:color-mix(in srgb,var(--primary) 90%,transparent)}
+.btn-outline{background:var(--background);border-color:var(--border);box-shadow:var(--shadow-xs)}
+.btn-outline:hover{background:var(--accent);color:var(--accent-foreground)}
+.btn-secondary{background:var(--secondary);color:var(--secondary-foreground)}
+.btn-secondary:hover{background:color-mix(in srgb,var(--secondary) 80%,var(--foreground) 6%)}
+.btn-destructive{background:var(--destructive);color:var(--destructive-foreground);box-shadow:var(--shadow-xs)}
+.btn-destructive:hover{background:color-mix(in srgb,var(--destructive) 90%,transparent)}
+.btn-ghost{background:transparent}
+.btn-ghost:hover{background:var(--accent);color:var(--accent-foreground)}
+.btn-link{background:none;padding:0;height:auto;text-decoration:underline;text-underline-offset:4px;color:var(--foreground)}
+.btn-dashed{border-style:dashed;align-self:flex-start}
+.btn-lg{height:40px;padding:0 24px}
+.btn-sm{height:32px;padding:0 12px;font-size:13px}
+.btn-block{width:100%}
+.btn:disabled{opacity:.5;pointer-events:none}
+.icon-btn{width:36px;height:36px;flex:none;border:1px solid var(--border);border-radius:calc(var(--radius) - 2px);background:var(--background);
+  color:var(--muted-foreground);box-shadow:var(--shadow-xs);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;outline:none}
+.icon-btn:hover{background:var(--accent);color:var(--foreground)}
+.icon-btn.ghost{border-color:transparent;box-shadow:none;background:transparent}
+
+/* Input, Label, Select */
+.field{display:flex;flex-direction:column;gap:8px}
+.label{font-size:14px;font-weight:500;line-height:1}
+.input,.select{height:36px;width:100%;min-width:0;border:1px solid var(--input);border-radius:calc(var(--radius) - 2px);
+  background:transparent;padding:0 12px;font-size:14px;box-shadow:var(--shadow-xs);outline:none;transition:border-color .15s,box-shadow .15s}
+.input::placeholder{color:var(--muted-foreground)}
+.select{appearance:none;-webkit-appearance:none;padding-right:36px;cursor:pointer;background-color:var(--background);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center}
+.select option{background:var(--card);color:var(--foreground)}
+
+/* Feste Positionen im Control Panel (kein Springen beim Start/Stop) */
+.panel-head{flex-wrap:nowrap!important}
+.badge.state{width:92px;justify-content:center;flex:none}
+.icon-btn.locked{visibility:hidden}
+#slot .btn-dashed{min-width:232px;justify-content:flex-start}
+.select:disabled{background-image:none}
+
+/* Badge */
+.badge{display:inline-flex;align-items:center;gap:6px;border:1px solid transparent;border-radius:calc(var(--radius) - 4px);
+  padding:2px 8px;font-size:12px;font-weight:500;white-space:nowrap;line-height:1.4}
+.badge-outline{border-color:var(--border);color:var(--foreground)}
+.badge-secondary{background:var(--secondary);color:var(--secondary-foreground)}
+.badge .d{width:6px;height:6px;border-radius:50%}
+.d.on{background:var(--success)} .d.off{background:var(--destructive)}
+
+/* Card */
+.card{background:var(--card);color:var(--card-foreground);border:1px solid var(--border);border-radius:var(--radius);
+  box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:20px;padding:24px;min-width:0}
+.card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.card-title{font-size:16px;font-weight:600;line-height:1.3}
+.card-desc{font-size:14px;color:var(--muted-foreground);margin-top:4px}
+.separator{height:1px;background:var(--border);border:0;margin:0}
+
+/* Alert */
+.alert{display:flex;gap:10px;border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;font-size:13px;color:var(--muted-foreground)}
+.alert svg{width:16px;height:16px;flex:none;margin-top:2px;color:var(--foreground)}
+
+/* Auth */
+.auth{min-height:calc(100dvh - 32px);display:grid;place-items:center}
+.auth .card{width:100%;max-width:400px}
+.auth h1{font-size:22px;font-weight:600;letter-spacing:-.01em}
+.stack{display:flex;flex-direction:column;gap:16px}
+.center{text-align:center;font-size:14px;color:var(--muted-foreground)}
+
+/* App */
+.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:4px 0 16px;border-bottom:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:32px;height:32px;border-radius:calc(var(--radius) - 2px);background:var(--primary);color:var(--primary-foreground);display:grid;place-items:center}
+.logo svg{width:18px;height:18px}
+.top h1{font-size:18px;font-weight:600;letter-spacing:-.01em}
+.who{display:flex;flex-wrap:wrap;align-items:center;gap:12px;color:var(--muted-foreground)}
+.avatar{width:32px;height:32px;border-radius:50%;background:var(--muted);color:var(--foreground);display:grid;place-items:center;font-size:12px;font-weight:600}
+.layout{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(0,1fr);gap:16px;margin-top:16px;align-items:stretch}
+@media (max-width:900px){.layout{grid-template-columns:minmax(0,1fr)}}
+.map-body{flex:1;min-height:400px;background:var(--map);border:1px solid var(--border);border-radius:calc(var(--radius) - 2px);display:grid;place-items:center;padding:8px;
+  background-image:radial-gradient(var(--border) 1px,transparent 1px);background-size:20px 20px}
+.map-body svg{width:100%;max-width:640px;height:auto}
+.track{fill:none;stroke:var(--track);stroke-width:8;stroke-linecap:round}
+.st{fill:var(--card);stroke:var(--foreground);stroke-width:2.5}
+.sw{fill:var(--card);stroke:var(--muted-foreground);stroke-width:2}
+.svgt{font:500 13px var(--font);fill:var(--muted-foreground)}
+.tr{fill:var(--chart-1)} .tr.off{fill:var(--chart-2)}
+.trt{font:600 12px var(--font);fill:var(--primary-foreground);text-anchor:middle}
+.tr.off + .trt{fill:var(--foreground)}
+.right{display:flex;flex-direction:column;gap:16px;min-width:0}
+#slot{flex:1}
+
+/* Tabs (Bahnauswahl) */
+.tabs{display:flex;gap:2px;background:var(--muted);border-radius:var(--radius);padding:3px}
+.tab{flex:1;height:30px;border:1px solid transparent;border-radius:calc(var(--radius) - 3px);background:transparent;
+  color:var(--muted-foreground);font-size:14px;font-weight:500;cursor:pointer;outline:none;transition:color .15s,background .15s}
+.tab:hover{color:var(--foreground)}
+.tab[aria-pressed="true"]{background:var(--background);color:var(--foreground);box-shadow:var(--shadow-sm)}
+:root[data-theme="dark"] .tab[aria-pressed="true"]{background:var(--input)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tab[aria-pressed="true"]{background:var(--input)}}
+
+.list{display:flex;flex-direction:column;gap:8px}
+.line{display:flex;gap:8px;align-items:center}
+.idx{width:22px;flex:none;font-size:12px;font-weight:500;color:var(--muted-foreground);text-align:right;font-variant-numeric:tabular-nums}
+.grow{flex:1}
+.section{display:flex;flex-direction:column;gap:10px}
+.foot{display:flex;gap:8px}
+.foot .btn{flex:1}
+
+/* Status-Tabelle */
+.rows{display:flex;flex-direction:column;border:1px solid var(--border);border-radius:calc(var(--radius) - 2px);overflow:hidden}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:12px;border-bottom:1px solid var(--border)}
+.row:last-child{border-bottom:0}
+.select:disabled{opacity:.6;cursor:not-allowed;background-image:none;padding-right:12px}
+.rowtxt{flex:1 1 140px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.rowtxt strong{font-weight:500;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.rowtxt span{font-size:13px;color:var(--muted-foreground)}
+.actions{display:flex;gap:6px}
+.statfoot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px}
+
+/* Toast (Sonner-Stil) */
+.toast{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));
+  background:var(--card);color:var(--foreground);border:1px solid var(--border);box-shadow:var(--shadow-lg);
+  padding:14px 16px;border-radius:var(--radius);font-size:14px;font-weight:500;width:min(356px,calc(100% - 32px));
+  display:flex;align-items:center;gap:10px;opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .2s,transform .2s}
+.toast svg{width:16px;height:16px;flex:none}
+.toast.show{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+
+/* ---------- Responsive: Tablet & Handy ---------- */
+body{overflow-x:hidden}
+.map-body svg{max-height:70vh}
+
+/* Touch-Geräte: größere Trefferflächen (mind. 44px) */
+@media (pointer:coarse){
+  .btn,.btn-sm{height:44px}
+  .btn-link{height:auto;min-height:44px}
+  .icon-btn{width:44px;height:44px}
+  .input,.select{height:44px}
+  .tab{height:38px}
+}
+
+/* Tablet: einspaltig, Gartenbahn-Ansicht oben, Bedienung darunter */
+@media (max-width:900px){
+  .map-body{min-height:320px}
+}
+
+/* Handy */
+@media (max-width:640px){
+  body{padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:max(12px,env(safe-area-inset-right,0px));
+    padding-top:max(12px,env(safe-area-inset-top,0px))}
+  .input,.select{font-size:16px} /* verhindert Auto-Zoom in iOS */
+  .right{display:flex;flex-direction:column;gap:12px;align-items:stretch}
+  .layout{gap:12px;margin-top:12px}
+  .card{padding:16px;gap:16px}
+  .auth{min-height:calc(100dvh - 24px);align-items:start;padding-top:8vh}
+  .auth .card{padding:20px}
+
+  /* Kopfzeile kompakt */
+  .top{padding-bottom:12px;flex-wrap:nowrap}
+  .top h1{font-size:16px}
+
+  /* Kartenkopf mit Badge untereinander */
+  .card-header{flex-wrap:wrap}
+
+  /* Bahnauswahl horizontal scrollbar, falls viele Bahnen */
+  .tabs{overflow-x:auto;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{flex:1 0 auto;padding:0 14px}
+
+  /* Statuszeilen: Text oben, Buttons volle Breite darunter */
+  .row{flex-direction:column;align-items:stretch;gap:10px}
+  .rowtxt{flex:none}
+  .actions{width:100%}
+  .actions .btn{flex:1}
+  .statfoot .btn{flex:1}
+
+  /* Start-Button bleibt beim Scrollen erreichbar */
+  #slot [data-act="start"],#slot [data-act="stop"]{position:sticky;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:2;box-shadow:var(--shadow-lg)}
+
+  .map-body{min-height:0;padding:4px;background-size:16px 16px}
+  .svgt{font-size:19px}
+  .trt{font-size:15px}
+
+  /* Toast über volle Breite unten */
+  .toast{left:12px;right:12px;width:auto;bottom:calc(12px + env(safe-area-inset-bottom,0px))}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- Log-in-Maske -->
+<section id="v-login" class="auth" hidden>
+  <form class="card" id="f-login" autocomplete="off">
+    <div>
+      <h1>Gartenbahn</h1>
+      <p class="card-desc">Melde dich an, um die Bahnen zu steuern.</p>
+    </div>
+    <div class="stack">
+      <div class="field"><label class="label" for="li-user">Benutzername</label><input class="input" id="li-user" type="text" placeholder="max.mustermann"></div>
+      <div class="field"><label class="label" for="li-pw">Passwort</label><input class="input" id="li-pw" type="password"></div>
+      <button class="btn btn-default btn-block" type="submit">Anmelden</button>
+      <button class="btn btn-outline btn-block" type="button" id="b-guest">Als Gast anmelden</button>
+    </div>
+    <p class="center">Noch kein Account? <button class="btn btn-link" type="button" id="b-new">Account erstellen</button></p>
+    <div class="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>Wichtig: „Als Gast anmelden“. Anmelden, Passwort und Account sind optional.</span></div>
+  </form>
+</section>
+
+<!-- Account erstellen -->
+<section id="v-account" class="auth" hidden>
+  <form class="card" id="f-account" autocomplete="off">
+    <div>
+      <h1>Account erstellen</h1>
+      <p class="card-desc">Lege einen Benutzer für die Gartenbahn an.</p>
+    </div>
+    <div class="stack">
+      <div class="field"><label class="label" for="ac-user">Benutzername</label><input class="input" id="ac-user" type="text"></div>
+      <div class="field"><label class="label" for="ac-pw">Passwort</label><input class="input" id="ac-pw" type="password"></div>
+      <div class="field"><label class="label" for="ac-mail">E-Mail-Adresse</label><input class="input" id="ac-mail" type="email" placeholder="name@beispiel.de"></div>
+      <button class="btn btn-default btn-block" type="submit">Account erstellen</button>
+      <button class="btn btn-outline btn-block" type="button" id="b-back">Zurück</button>
+    </div>
+    <div class="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>Alles optional. „Zurück“ führt zur Log-in-Maske.</span></div>
+  </form>
+</section>
+
+<!-- Dashboard -->
+<section id="v-app" hidden>
+  <header class="top">
+    <div class="brand">
+      <div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="13" rx="2"/><path d="M4 11h16M12 3v8M8 19l-2 3M16 19l2 3"/><circle cx="8" cy="15" r="0.5"/><circle cx="16" cy="15" r="0.5"/></svg></div>
+      <h1>Gartenbahn</h1>
+    </div>
+  </header>
+  <div class="layout">
+    <section class="card" aria-label="Gartenbahn-Ansicht">
+      <div class="card-header">
+        <div><h2 class="card-title">Gartenbahn-Ansicht</h2><p class="card-desc">Strecke, Weichen und aktuelle Standorte.</p></div>
+        <span class="badge badge-secondary">Optional, nur wenn Zeit übrig</span>
+      </div>
+      <div class="map-body" id="map"></div>
+    </section>
+    <div class="right">
+      <section class="card" id="slot" aria-label="Control Panel"></section>
+      <button class="btn btn-outline btn-block" id="b-reset" type="button">Alle Strecken zurücksetzen</button>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg><span id="toast-msg"></span></div>
+
+<script>
+const ST = {
+  H1:{n:'Haltestelle 1',x:210,y:90}, H2:{n:'Haltestelle 2',x:540,y:250},
+  H3:{n:'Haltestelle 3',x:330,y:330}, H4:{n:'Haltestelle 4',x:60,y:250}
+};
+const KEYS = Object.keys(ST);
+const defaults = () => [
+  {id:1,name:'Bahn 1',aktiv:false,route:['H1','H2','H3'],at:'H1'},
+  {id:2,name:'Bahn 2',aktiv:false,route:['H4','H1'],     at:'H4'},
+  {id:3,name:'Bahn 3',aktiv:false,route:['H3','H2','H4'],at:'H3'}
+];
+let trains = defaults(), sel = 1, running = false, user = 'Gast';
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const get = id => trains.find(t => t.id === id);
+const X = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>';
+const LOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+
+function toast(msg){
+  const t = $('toast'); $('toast-msg').textContent = msg; t.classList.add('show');
+  clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('show'), 2400);
+}
+function show(v){
+  for (const id of ['login','account','app']) $('v-'+id).hidden = id !== v;
+  if (v === 'app') renderAll();
+}
+
+/* Haltestellen-Liste: im gestoppten Zustand bearbeitbar, während der Fahrt gesperrt */
+function routeList(route){
+  if (!route.length) return '<p class="card-desc" style="margin:0">Noch keine Haltestelle gewählt.</p>';
+  return '<div class="list">' + route.map((k,i) =>
+    `<div class="line"><span class="idx">${i+1}.</span><select class="select" aria-label="Haltestelle ${i+1}" data-i="${i}"${running?' disabled':''}>` +
+    KEYS.map(s => `<option value="${s}"${s===k?' selected':''}>${ST[s].n}</option>`).join('') +
+    `</select><button class="icon-btn${running?' locked':''}" type="button" aria-label="Haltestelle ${i+1} entfernen" data-act="rm" data-i="${i}"${running?' disabled tabindex="-1" aria-hidden="true"':''}>${X}</button></div>`
+  ).join('') + '</div>';
+}
+const plus = () => running
+  ? `<button class="btn btn-outline btn-dashed btn-sm" type="button" disabled>${LOCK}Während der Fahrt gesperrt</button>`
+  : `<button class="btn btn-outline btn-dashed btn-sm" type="button" data-act="add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Haltestelle hinzufügen</button>`;
+
+function renderSlot(){
+  const t = get(sel);
+  $('slot').innerHTML =
+    '<div class="card-header panel-head"><div><h2 class="card-title">Control Panel</h2><p class="card-desc">Strecken festlegen und alle Bahnen starten.</p></div>' +
+    `<span class="badge badge-outline state"><span class="d ${running?'on':'off'}"></span>${running?'In Fahrt':'Gestoppt'}</span></div>` +
+    '<div class="tabs" role="group" aria-label="Bahn auswählen">' +
+    trains.map(x => `<button class="tab" type="button" data-act="sel" data-id="${x.id}" aria-pressed="${x.id===sel}">${esc(x.name)}</button>`).join('') + '</div>' +
+    '<div class="section"><div class="label">Haltestellen</div>' + routeList(t.route) +
+    plus() + '</div>' +
+    '<div class="grow"></div>' +
+    (running
+      ? '<button class="btn btn-destructive btn-lg btn-block" type="button" data-act="stop"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="1.5"/></svg>Stop</button>'
+      : '<button class="btn btn-default btn-lg btn-block" type="button" data-act="start"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg>Start</button>');
+}
+function renderStatus(){ $('b-reset').disabled = running; }
+function renderMap(){
+  const per = {};
+  const marks = trains.map(t => {
+    const k = per[t.at] = (per[t.at]||0) + 1, s = ST[t.at], y = s.y - 40 - (k-1)*26;
+    return `<rect class="tr${t.aktiv?'':' off'}" x="${s.x-35}" y="${y}" width="70" height="22" rx="6"/><text class="trt" x="${s.x}" y="${y+15}">${esc(t.name)}</text>`;
+  }).join('');
+  $('map').innerHTML =
+    '<svg viewBox="0 0 600 500" role="img" aria-label="Skizze der Gartenbahn mit Strecke, Weichen, Haltestellen und Bahnen">' +
+    '<path class="track" d="M130,90 H470 Q540,90 540,160 V340 Q540,410 470,410 H130 Q60,410 60,340 V160 Q60,90 130,90 Z"/>' +
+    '<path class="track" d="M190,410 L250,330 H410 L470,410"/>' +
+    '<rect class="sw" x="178" y="398" width="24" height="24" rx="3" transform="rotate(45 190 410)"/>' +
+    '<rect class="sw" x="458" y="398" width="24" height="24" rx="3" transform="rotate(45 470 410)"/>' +
+    KEYS.map(k => `<circle class="st" cx="${ST[k].x}" cy="${ST[k].y}" r="11"/>`).join('') +
+    `<text class="svgt" x="210" y="122" text-anchor="middle">Haltestelle 1</text>` +
+    `<text class="svgt" x="500" y="278" text-anchor="end">Haltestelle 2</text>` +
+    `<text class="svgt" x="330" y="362" text-anchor="middle">Haltestelle 3</text>` +
+    `<text class="svgt" x="86" y="278">Haltestelle 4</text>` +
+    '<text class="svgt" x="190" y="452" text-anchor="middle">Weiche</text><text class="svgt" x="470" y="452" text-anchor="middle">Weiche</text>' +
+    marks + '</svg>';
+}
+function renderAll(){
+  renderSlot(); renderStatus(); renderMap();
+}
+
+/* Aktionen */
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const a = b.dataset.act, r = get(sel).route;
+  if (a === 'sel'){ sel = +b.dataset.id; renderSlot(); }
+  else if (a === 'rm' && !running){ r.splice(+b.dataset.i,1); renderSlot(); }
+  else if (a === 'add' && !running){ if (r.length >= 6) return toast('Maximal 6 Haltestellen'); r.push(KEYS.find(k => !r.includes(k)) || 'H1'); renderSlot(); }
+  else if (a === 'start'){
+    if (!trains.some(t => t.route.length)) return toast('Bitte mindestens eine Haltestelle wählen');
+    running = true;
+    trains.forEach(t => { t.aktiv = t.route.length > 0; if (t.aktiv && !t.route.includes(t.at)) t.at = t.route[0]; });
+    renderAll();
+  }
+  else if (a === 'stop'){ running = false; trains.forEach(t => t.aktiv = false); renderAll(); }
+});
+document.addEventListener('change', e => {
+  const s = e.target.closest('select[data-i]'); if (!s || running) return;
+  get(sel).route[+s.dataset.i] = s.value;
+});
+
+$('b-reset').onclick = () => { if (running) return; trains = defaults(); sel = 1; renderAll(); toast('Alle Strecken zurückgesetzt'); };
+$('b-guest').onclick = () => { user = 'Gast'; show('app'); };
+$('b-new').onclick = () => show('account');
+$('b-back').onclick = () => show('login');
+$('f-login').onsubmit = e => { e.preventDefault(); user = $('li-user').value.trim() || 'Gast'; show('app'); };
+$('f-account').onsubmit = e => { e.preventDefault(); user = $('ac-user').value.trim() || 'Gast'; show('app'); toast('Account erstellt'); };
+
+/* Aktive Bahnen rücken alle paar Sekunden zur nächsten Haltestelle (nur Demo) */
+setInterval(() => {
+  let moved = false;
+  if (!running) return;
+  trains.forEach(t => { if (t.aktiv && t.route.length > 1){ t.at = t.route[(Math.max(0,t.route.indexOf(t.at)) + 1) % t.route.length]; moved = true; } });
+  if (moved && !$('v-app').hidden){ renderStatus(); renderMap(); }
+}, 4000);
+
+show('app');
+</script>
+</body>
+</html>

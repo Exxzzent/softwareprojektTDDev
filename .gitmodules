@@ -1,0 +1,3 @@
+[submodule "references/ise-server"]
+	path = references/ise-server
+	url = https://github.com/Exxzzent/ise-server.git
