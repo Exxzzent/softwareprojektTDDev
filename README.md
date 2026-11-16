@@ -59,29 +59,58 @@ nicht der Skill: Git-Befehle in der Bau-Session würden Tokens kosten und die Me
 
 ```bash
 C=~/Desktop/Code/Skills/softwareprojektTDDev/tools/case.sh
-$C freeze                          # einmal: tdd/ ausgefüllt → committen, Tag tdd-baseline, pushen
-$C branches 2 sonnet opus gpt gemini   # einmal: 4 × 4 Ansätze × 2 Wdh. = 32 Branches + Zeilen in runs.csv
-$C csv                             # runs.csv pushen
+A=~/Desktop/Code/Skills/softwareprojektTDDev/tools/agent.sh
+$A setup                           # einmal: isolierte Profile anlegen (Abschnitt 2.0)
+$A login claude; $A login codex    # einmal: in den isolierten Profilen anmelden
+$A doctor                          # einmal: Smoke-Test aller Agenten (Skills, Subagent, Playwright)
+$C freeze                          # einmal: Baseline committen, Tag tdd-baseline, pushen
+$C branches 2 opus5.5 fable5.2 sonnet5.5 gpt6.1sol gpt6.1terra gemini3.8flash   # einmal
 
 # pro Lauf
-$C start  sonnet-whole-r1          # auf run/sonnet-whole-r1, index.db und Caches löschen
-#   → neue Session im Projekt, /tdd-whole, am Ende /usage ablesen
-$C finish sonnet-whole-r1          # Code + Log committen und pushen, Log nach results/, tester in runs.csv
-$C check  sonnet-whole-r1          # index.db und Caches löschen
-#   → neue Session (immer gleiches Prüfer-Modell), /tdd-check sonnet-whole-r1
-$C finish sonnet-whole-r1          # Check committen und pushen, Check nach results/, Werte in runs.csv
-#   → von Hand in results/runs.csv: harness, model, reasoning, tok_*
+$C start  opus5.5-whole-r1         # auf run/opus5.5-whole-r1, Arbeitsbaum leeren, bun install
+$A run    opus5.5-whole-r1         # Bau-Session startet mit /tdd-whole; warten, dann Session beenden
+$C finish opus5.5-whole-r1         # Code + Log pushen, Tokens aus den Transkripten in runs.csv
+$C check  opus5.5-whole-r1         # Arbeitsbaum leeren, bun install
+$A check  opus5.5-whole-r1         # Check-Session (fester Prüfer) startet mit /tdd-check
+$C finish opus5.5-whole-r1         # Check pushen, Accuracy in runs.csv
 $C csv
 ```
 
 - `start` verweigert einen Branch, der schon Commits nach `tdd-baseline` hat, und läuft nur bei
-  sauberem Arbeitsbaum.
+  sauberem Arbeitsbaum. `start` und `check` löschen alles, was nicht im Git liegt
+  (`git clean -fdx`: `node_modules`, gebautes CSS, DB, Playwright-Reste), setzen das Submodul
+  `references/ise-server` zurück und installieren die Dependencies frisch aus dem Lockfile.
+  So erbt kein Lauf etwas vom vorherigen.
+- `finish` direkt nach dem Bauen, vor `check`: nur dann zählt `tools/tokens.py` ausschließlich
+  die Bau-Session (inklusive Test-Subagenten). `check` verlangt einen sauberen Baum und erzwingt
+  das.
 - `finish` trägt in `runs.csv` nur leere Felder ein und nimmt immer den **ersten** Check.
 - Agent-Namen nur aus Kleinbuchstaben, Ziffern und Punkt (z. B. `gpt5.1`), ohne Bindestrich.
 - Projektpfad über `PROJECT=...` änderbar.
 - Auswertung: `python3 tools/metrics.py summary results/runs.csv`.
 
 ## 2. Setup (einmal pro Rechner)
+
+### 2.0 Isolierte Profile (`tools/agent.sh`)
+
+Damit nur die Case-Study-Skills und Playwright auf den Agenten wirken, laufen alle Sessions über
+`tools/agent.sh`, nie über die Desktop-Apps (die bringen eigene Tools, Konnektoren und Skills mit).
+
+| Harness | Isolation |
+| --- | --- |
+| Claude Code | eigenes `CLAUDE_CONFIG_DIR=~/.tdd-case/claude` (keine Plugins, Hooks, User-Skills, Memory, claude.ai-Konnektoren), `--strict-mcp-config --mcp-config .mcp.json` (nur Playwright), `--model`, `--effort`, `--dangerously-skip-permissions`; gesperrt: Websuche/WebFetch und Account-Tools (Artifact, Cron, Workflow, RemoteTrigger …, Liste `CLAUDE_DENY` in `agent.sh`) |
+| Codex | eigenes `CODEX_HOME=~/.tdd-case/codex` (Memories, Plugins, Hooks aus; Skills aus `~/.agents/skills` einzeln abgeschaltet; `multi_agent` an), Apps/Konnektoren, Browser-Use, Computer-Use, Bildgenerierung, Goals und Websuche aus; `approval_policy = never`, `sandbox_mode = danger-full-access`; Playwright aus `.codex/config.toml` des Projekts |
+| Antigravity (`agy`) | kein eigenes Profilverzeichnis: `setup` schaltet global das Plugin `modern-web-guidance-plugin` und den MCP-Server `xcodebuild` ab und trägt Playwright ein. Rückgängig: `agy plugin enable modern-web-guidance-plugin`, `agy mcp enable xcodebuild`, `agy mcp remove playwright`. Antigravitys eigenes Gedächtnis (Knowledge/Implicit) lässt sich nicht abschalten; Restrisiko |
+
+Agenten, Modell-IDs und Reasoning stehen in `harness/agents.tsv` (alle `medium`). Playwright MCP
+ist überall auf dieselbe Version fest eingestellt (`@playwright/mcp@0.0.85 --isolated`: frisches
+Browserprofil pro Server, keine Cookies zwischen Läufen). Prüfer für alle Checks: `CHECKER`
+(Standard `opus5.5`).
+
+`agent.sh run` schreibt `results/<run-id>/launch-run.txt` (Harness-Version, Modell, Startzeit,
+Commit). `--dangerously-skip-permissions` bzw. `danger-full-access` sind nötig, damit die Läufe
+ohne Rückfragen durchlaufen wie der Agent im Paper; der Agent hat damit vollen Zugriff auf den
+Rechner.
 
 ### 2.1 Voraussetzungen
 
@@ -135,8 +164,8 @@ Falls Playwright meldet, dass ein Browser fehlt:
 npx playwright install chromium
 ```
 
-Für Vanilla-Läufe Playwright abschalten, damit der Agent sicher nicht testet (Claude Code:
-`/mcp` → `playwright` → disable).
+Vanilla-Läufe startet `agent.sh run` automatisch ohne Playwright (wie im Paper: keine
+Test-Tools).
 
 ## 3. Projekt vorbereiten (einmal pro Case Study)
 
@@ -279,7 +308,8 @@ Papers vergleichbar, der Vergleich der Ansätze untereinander bleibt gültig.
 
 | Harness | Wo |
 | --- | --- |
-| Claude Code (interaktiv) | am Ende der Session `/usage` (Alias `/cost`): Abschnitt *Session*, pro Modell input, output, cache read, cache write; alle Modelle addieren |
+| Claude Code, Codex über `agent.sh` | automatisch: `case.sh finish` ruft `tools/tokens.py` auf, das alle Modellaufrufe (Haupt-Agent und Subagenten) seit `launch-run.txt` aus den Transkripten im isolierten Profil summiert → `results/<run-id>/tokens.json` und `runs.csv` (inkl. `turns`, `minutes`) |
+| Claude Code (interaktiv, von Hand) | am Ende der Session `/usage` (Alias `/cost`): Abschnitt *Session*, pro Modell input, output, cache read, cache write; alle Modelle addieren |
 | Claude Code (headless) | `claude -p "/tdd-whole" --output-format json > build.json`; Werte aus `modelUsage` (enthält Subagents, `usage` nicht). Ob der Slash-Aufruf im `-p`-Modus startet, vorher testen. |
 | Codex | Token-Anzeige am Session-Ende bzw. `codex exec --json`. Bei OpenAI sind gecachte Token meist im Input enthalten: dann `tok_input = input − cached` und `tok_cache_read = cached`. In der installierten Version prüfen. |
 | Antigravity | nicht verifiziert. Ohne Token-Anzeige bleiben die Spalten leer; das Skript rechnet dann nur Accuracy. |

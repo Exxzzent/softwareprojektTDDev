@@ -5,8 +5,8 @@
 #
 #   case.sh freeze                         Baseline einfrieren: committen, Tag tdd-baseline, pushen
 #   case.sh branches <wdh> <agent>...      alle Lauf-Branches anlegen + pushen, Zeilen in runs.csv
-#   case.sh start  <run-id>                auf run/<run-id> wechseln (bzw. anlegen), DB/Caches löschen
-#   case.sh check  <run-id>                vor dem Check: DB/Caches löschen, Branch prüfen
+#   case.sh start  <run-id>                auf run/<run-id> wechseln (bzw. anlegen), Arbeitsbaum leeren
+#   case.sh check  <run-id>                vor dem Check: Arbeitsbaum leeren, Branch prüfen
 #   case.sh finish <run-id>                committen + pushen, Ergebnisse nach results/, runs.csv füllen
 #   case.sh csv                            results/runs.csv committen + pushen
 set -euo pipefail
@@ -25,14 +25,19 @@ t() { git -C "$TDDEV" "$@"; }
 [ "$TDDEV" != "$PROJECT" ] || die "case.sh läuft im Projekt-Repo. Aus dem TDDev-Klon starten: ~/Desktop/Code/Skills/softwareprojektTDDev/tools/case.sh"
 [ -d "$PROJECT/.git" ] || die "kein Git-Repo unter PROJECT=$PROJECT"
 
-# Lokale Laufzeit-Reste, die gitignored sind und sonst über Branches hinweg liegen bleiben.
+# Alles, was nicht im Git liegt (node_modules, gebautes CSS, DB, Playwright-Reste), wird entfernt,
+# damit kein Lauf etwas vom vorherigen erbt. Danach Submodul zurücksetzen und Dependencies
+# frisch aus dem Lockfile des Branches installieren, damit jeder Lauf gleich startet.
 clean_runtime() {
-  rm -f "$PROJECT"/index.db "$PROJECT"/index.db-*
-  rm -rf "$PROJECT"/.tanstack "$PROJECT"/.nitro "$PROJECT"/.output "$PROJECT"/.playwright-mcp
+  p clean -fdxq
+  p submodule update --init --recursive -q
+  p submodule foreach -q --recursive 'git reset -q --hard && git clean -fdxq'
+  (cd "$PROJECT" && bun install ${1:---frozen-lockfile} >/dev/null)
 }
+need_submodule() { ! p submodule status --recursive | grep -q '^-' || die "Submodul references/ise-server fehlt ('git submodule update --init')"; }
 
 need_tag() { p rev-parse -q --verify "refs/tags/$TAG" >/dev/null || die "Tag $TAG fehlt, zuerst 'case.sh freeze'"; }
-need_clean() { [ -z "$(p status --porcelain)" ] || die "Projekt hat uncommittete Änderungen (erst 'case.sh finish <run-id>')"; }
+need_clean() { [ -z "$(p status --porcelain --ignore-submodules=untracked)" ] || die "Projekt hat uncommittete Änderungen (erst 'case.sh finish <run-id>')"; }
 
 cmd="${1:-}"; run="${2:-}"
 
@@ -44,6 +49,7 @@ case "$cmd" in
     grep -q "'Test Item' is shown as completed" "$PROJECT/tdd/tests.json" && die "tdd/tests.json enthält noch die Beispiel-Tests"
     python3 -c "import json,sys; json.load(open(sys.argv[1]))" "$PROJECT/tdd/tests.json" || die "tdd/tests.json ist kein gültiges JSON"
     p rev-parse -q --verify "refs/tags/$TAG" >/dev/null && die "Tag $TAG existiert schon (Baseline ist bereits eingefroren)"
+    need_submodule
     p add -A
     p diff --cached --quiet || p commit -m "TDD case study baseline"
     p tag "$TAG"
@@ -66,9 +72,12 @@ case "$cmd" in
       done; done
     done
     p push -u origin "${refs[@]}"
-    python3 - "$CSV" "$APPROACHES" "$reps" "$@" <<'EOF'
+    python3 - "$CSV" "$APPROACHES" "$reps" "$TDDEV/harness/agents.tsv" "$@" <<'EOF'
 import csv, sys
-path, approaches, reps, agents = sys.argv[1], sys.argv[2].split(), int(sys.argv[3]), sys.argv[4:]
+path, approaches, reps, spec, agents = sys.argv[1], sys.argv[2].split(), int(sys.argv[3]), sys.argv[4], sys.argv[5:]
+table = {l.split("\t")[0]: l.rstrip("\n").split("\t")[1:] for l in open(spec) if l.strip() and not l.startswith("#")}
+missing = [a for a in agents if a not in table]
+if missing: sys.exit(f"Fehler: {missing} fehlen in harness/agents.tsv")
 with open(path, newline="") as f:
     rows = list(csv.DictReader(f)); f.seek(0); header = next(csv.reader(f))
 rows = [r for r in rows if not r["agent"].startswith("modell")]   # Platzhalter der Vorlage
@@ -79,7 +88,8 @@ for a in agents:
             rid = f"{a}-{ap}-r{n}"
             if rid not in have:
                 row = dict.fromkeys(header, "")
-                row.update(run_id=rid, agent=a, approach=ap, repeat=str(n))
+                h, m, r = table[a]
+                row.update(run_id=rid, agent=a, harness=h, model=m, reasoning=r, approach=ap, repeat=str(n))
                 rows.append(row)
 with open(path, "w", newline="") as f:
     w = csv.DictWriter(f, fieldnames=header, lineterminator="\n"); w.writeheader(); w.writerows(rows)
@@ -99,15 +109,15 @@ EOF
       p switch -c "$b" "$TAG"
     fi
     clean_runtime
-    echo "Auf $b (= $TAG), DB und Caches gelöscht. Jetzt neue Session im Projekt öffnen und den Skill aufrufen."
+    echo "Auf $b (= $TAG), Arbeitsbaum geleert und Dependencies installiert. Jetzt: tools/agent.sh run $run"
     ;;
 
   check)
     [ -n "$run" ] || die "Aufruf: case.sh check <run-id>"
     [ "$(p branch --show-current)" = "run/$run" ] || die "Projekt ist nicht auf run/$run"
     need_clean
-    clean_runtime
-    echo "Bereit für den Check: neue Session, dann /tdd-check $run"
+    clean_runtime " "
+    echo "Bereit für den Check: tools/agent.sh check $run"
     ;;
 
   finish)
@@ -127,9 +137,15 @@ EOF
     done
     printf 'branch: run/%s\ncommit: %s\nrepo: %s\n' "$run" "$(p rev-parse HEAD)" "$(p remote get-url origin)" > "$dest/source.txt"
     # 3) runs.csv: tester aus dem Log, Werte aus dem ERSTEN Check (der zählt); Vorhandenes bleibt
-    python3 - "$CSV" "$run" "$dest" <<'EOF'
+    tok="{}"
+    if [ -f "$dest/launch-run.txt" ] && [ ! -f "$dest/tokens.json" ]; then
+      CLAUDE_CONFIG_DIR="${CASE_HOME:-$HOME/.tdd-case}/claude" CODEX_HOME="${CASE_HOME:-$HOME/.tdd-case}/codex" \
+        python3 "$TDDEV/tools/tokens.py" "$dest/launch-run.txt" "$PROJECT" > "$dest/tokens.json" || echo "{}" > "$dest/tokens.json"
+    fi
+    [ -f "$dest/tokens.json" ] && tok="$(cat "$dest/tokens.json")"
+    python3 - "$CSV" "$run" "$dest" "$tok" <<'EOF'
 import csv, glob, json, os, sys
-path, run, dest = sys.argv[1:]
+path, run, dest, tok = sys.argv[1:]
 with open(path, newline="") as f:
     rows = list(csv.DictReader(f)); f.seek(0); header = next(csv.reader(f))
 row = next((r for r in rows if r["run_id"] == run), None)
@@ -147,6 +163,8 @@ if os.path.exists(log) and empty("tester"):
         except ValueError: continue
         if e.get("event") == "done" and e.get("tester"): row["tester"] = e["tester"]
     if row["tester"]: filled.append("tester")
+for k, v in json.loads(tok or "{}").items():
+    if k in row and empty(k): row[k] = str(v); filled.append(k)
 checks = sorted(glob.glob(os.path.join(dest, "check-*.json")))
 if checks:
     c = json.load(open(checks[0]))
@@ -161,7 +179,7 @@ EOF
     t diff --cached --quiet || t commit -q -m "results $run"
     t push -q
     echo "Fertig: run/$run gepusht, Ergebnisse in results/$run/ gepusht."
-    echo "Von Hand in results/runs.csv: harness, model, reasoning, tok_* (aus /usage), dann 'case.sh csv'."
+    echo "Tokens: aus den Transkripten (results/$run/tokens.json). Nur bei Antigravity tok_* von Hand eintragen, dann 'case.sh csv'."
     ;;
 
   csv)

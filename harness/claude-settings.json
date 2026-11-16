@@ -1,0 +1,9 @@
+{
+  "effortLevel": "medium",
+  "autoMemoryEnabled": false,
+  "disableAllHooks": true,
+  "env": {
+    "ENABLE_CLAUDEAI_MCP_SERVERS": "false",
+    "DISABLE_AUTOUPDATER": "1"
+  }
+}

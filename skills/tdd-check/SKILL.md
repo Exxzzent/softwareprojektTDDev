@@ -40,7 +40,7 @@ building agent claimed.
 
    ```json
    {
-     "run_id": "claude-whole-r1",
+     "run_id": "<run-id>",
      "checker": "<harness> / <model>",
      "suite": "tdd/oracle-tests.json",
      "tester": "subagent",

@@ -1,0 +1,7 @@
+# agent	harness	model	reasoning
+opus5.5	claude	claude-opus-5-5	medium
+fable5.2	claude	claude-fable-5-2	medium
+sonnet5.5	claude	claude-sonnet-5-5	medium
+gpt6.1sol	codex	gpt-6.1-sol	medium
+gpt6.1terra	codex	gpt-6.1-terra	medium
+gemini3.8flash	antigravity	gemini-3.8-flash-medium	medium

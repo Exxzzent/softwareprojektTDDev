@@ -1,0 +1,25 @@
+# Isoliertes Codex-Profil für die Case Study (CODEX_HOME=~/.tdd-case/codex).
+# tools/agent.sh setup hängt Projekt-Trust und das Abschalten der Skills aus ~/.agents/skills an.
+model_reasoning_effort = "medium"
+approval_policy = "never"
+sandbox_mode = "danger-full-access"
+check_for_update_on_startup = false
+web_search = "disabled"
+
+[features]
+memories = false
+plugins = false
+hooks = false
+multi_agent = true
+apps = false
+browser_use = false
+browser_use_external = false
+in_app_browser = false
+computer_use = false
+image_generation = false
+goals = false
+guardian_approval = false
+
+[memories]
+generate_memories = false
+use_memories = false
