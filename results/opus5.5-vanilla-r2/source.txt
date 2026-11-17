@@ -1,3 +1,3 @@
 branch: run/opus5.5-vanilla-r2
-commit: 79fb3c9a6e3d9983f9c7dde2865eae5283b81bc8
+commit: 5693bc972cd1e232b092f95d5b021c518cea9f98
 repo: https://github.com/Exxzzent/softwareprojekt.git
