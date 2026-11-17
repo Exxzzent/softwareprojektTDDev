@@ -146,8 +146,9 @@ button,input,select{font:inherit;color:inherit}
 @media (max-width:900px){.layout{grid-template-columns:minmax(0,1fr)}}
 .map-body{flex:1;min-height:400px;background:var(--map);border:1px solid var(--border);border-radius:calc(var(--radius) - 2px);display:grid;place-items:center;padding:8px;
   background-image:radial-gradient(var(--border) 1px,transparent 1px);background-size:20px 20px}
-.map-body svg{width:100%;max-width:640px;height:auto}
-.track{fill:none;stroke:var(--track);stroke-width:8;stroke-linecap:round}
+.map-body svg{width:100%;max-width:800px;height:auto}
+.track{fill:none;stroke:var(--track);stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
+.buffer{fill:none;stroke:var(--foreground);stroke-width:6;stroke-linecap:round}
 .st{fill:var(--card);stroke:var(--foreground);stroke-width:2.5}
 .sw{fill:var(--card);stroke:var(--muted-foreground);stroke-width:2}
 .svgt{font:500 13px var(--font);fill:var(--muted-foreground)}
@@ -284,8 +285,8 @@ body{overflow-x:hidden}
 
 <script>
 const ST = {
-  H1:{n:'Haltestelle 1',x:210,y:90}, H2:{n:'Haltestelle 2',x:540,y:250},
-  H3:{n:'Haltestelle 3',x:330,y:330}, H4:{n:'Haltestelle 4',x:60,y:250}
+  H1:{n:'Haltestelle 1',x:320,y:70},  H2:{n:'Haltestelle 2',x:740,y:180},
+  H3:{n:'Haltestelle 3',x:400,y:290}, H4:{n:'Haltestelle 4',x:60,y:180}
 };
 const KEYS = Object.keys(ST);
 const defaults = () => [
@@ -340,17 +341,26 @@ function renderMap(){
     return `<rect class="tr${t.aktiv?'':' off'}" x="${s.x-35}" y="${y}" width="70" height="22" rx="6"/><text class="trt" x="${s.x}" y="${y+15}">${esc(t.name)}</text>`;
   }).join('');
   $('map').innerHTML =
-    '<svg viewBox="0 0 600 500" role="img" aria-label="Skizze der Gartenbahn mit Strecke, Weichen, Haltestellen und Bahnen">' +
-    '<path class="track" d="M130,90 H470 Q540,90 540,160 V340 Q540,410 470,410 H130 Q60,410 60,340 V160 Q60,90 130,90 Z"/>' +
-    '<path class="track" d="M190,410 L250,330 H410 L470,410"/>' +
-    '<rect class="sw" x="178" y="398" width="24" height="24" rx="3" transform="rotate(45 190 410)"/>' +
-    '<rect class="sw" x="458" y="398" width="24" height="24" rx="3" transform="rotate(45 470 410)"/>' +
+    '<svg viewBox="0 0 800 400" role="img" aria-label="Skizze der Gartenbahn mit Strecke, Weichen, Haltestellen und Bahnen">' +
+    /* Hauptstrecke: Oval mit langen Geraden */
+    '<path class="track" d="M170,70 H630 A110,110 0 0 1 630,290 H170 A110,110 0 0 1 170,70 Z"/>' +
+    /* Ausweichstrecke außen an der vorderen Geraden (Weiche 1 -> Weiche 2 -> Weiche 3) */
+    '<path class="track" d="M250,290 L300,340 H500 L550,290"/>' +
+    /* Kalibrierpunkt: Stumpfgleis, zweigt an Weiche 2 nach außen ab und endet am Prellbock */
+    '<path class="track" d="M500,340 H760"/>' +
+    '<path class="buffer" d="M766,324 V356"/>' +
+    '<rect class="sw" x="238" y="278" width="24" height="24" rx="3" transform="rotate(45 250 290)"/>' +
+    '<rect class="sw" x="488" y="328" width="24" height="24" rx="3" transform="rotate(45 500 340)"/>' +
+    '<rect class="sw" x="538" y="278" width="24" height="24" rx="3" transform="rotate(45 550 290)"/>' +
     KEYS.map(k => `<circle class="st" cx="${ST[k].x}" cy="${ST[k].y}" r="11"/>`).join('') +
-    `<text class="svgt" x="210" y="122" text-anchor="middle">Haltestelle 1</text>` +
-    `<text class="svgt" x="500" y="278" text-anchor="end">Haltestelle 2</text>` +
-    `<text class="svgt" x="330" y="362" text-anchor="middle">Haltestelle 3</text>` +
-    `<text class="svgt" x="86" y="278">Haltestelle 4</text>` +
-    '<text class="svgt" x="190" y="452" text-anchor="middle">Weiche</text><text class="svgt" x="470" y="452" text-anchor="middle">Weiche</text>' +
+    `<text class="svgt" x="320" y="102" text-anchor="middle">Haltestelle 1</text>` +
+    `<text class="svgt" x="712" y="185" text-anchor="end">Haltestelle 2</text>` +
+    `<text class="svgt" x="400" y="270" text-anchor="middle">Haltestelle 3</text>` +
+    `<text class="svgt" x="88" y="185">Haltestelle 4</text>` +
+    '<text class="svgt" x="236" y="330" text-anchor="end">Weiche</text>' +
+    '<text class="svgt" x="500" y="378" text-anchor="middle">Weiche</text>' +
+    '<text class="svgt" x="566" y="330">Weiche</text>' +
+    '<text class="svgt" x="700" y="378" text-anchor="middle">Kalibrierpunkt</text>' +
     marks + '</svg>';
 }
 function renderAll(){
