@@ -122,6 +122,11 @@ case "$cmd" in
     [[ "$run" =~ ^([a-z0-9.]+)-(vanilla|whole|incremental|agentic)-r[0-9]+$ ]] || die "run-id '$run' hat nicht die Form <agent>-<ansatz>-r<n>"
     agent="${BASH_REMATCH[1]}"; approach="${BASH_REMATCH[2]}"
     need_branch "$run"
+    # Jeder Bau startet exakt auf dem Ausgangsstand, ohne Reste eines abgebrochenen Laufs.
+    [ "$(git -C "$PROJECT" rev-parse HEAD)" = "$(git -C "$PROJECT" rev-parse tdd-baseline^{commit})" ] \
+      || die "run/$run ist nicht mehr auf tdd-baseline (Lauf schon gemacht?)"
+    [ -z "$(git -C "$PROJECT" status --porcelain --ignore-submodules=untracked)" ] \
+      || die "Projekt hat Änderungen (abgebrochener Lauf?). Neu aufsetzen: git -C \"$PROJECT\" reset --hard && tools/case.sh start $run"
     write_launch "$run" run "$agent"
     launch "$agent" "tdd-$approach"
     ;;
