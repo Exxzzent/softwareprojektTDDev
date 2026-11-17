@@ -1,5 +1,5 @@
 run_id,agent,harness,model,reasoning,tester,approach,repeat,n_pass,n_partial,n_fail,n_valid,accuracy,tok_input,tok_cache_read,tok_cache_write,tok_output,turns,minutes,notes
-opus5.5-vanilla-r1,opus5.5,claude,claude-opus-5-5,medium,,vanilla,1,,,,,,58,3886081,199479,143674,29,23.6,
+opus5.5-vanilla-r1,opus5.5,claude,claude-opus-5-5,medium,,vanilla,1,34,1,1,36,95.8,58,3886081,199479,143674,29,23.6,
 opus5.5-vanilla-r2,opus5.5,claude,claude-opus-5-5,medium,,vanilla,2,,,,,,,,,,,,
 opus5.5-whole-r1,opus5.5,claude,claude-opus-5-5,medium,,whole,1,,,,,,,,,,,,
 opus5.5-whole-r2,opus5.5,claude,claude-opus-5-5,medium,,whole,2,,,,,,,,,,,,
