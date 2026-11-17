@@ -1,7 +1,7 @@
 run_id,agent,harness,model,reasoning,tester,approach,repeat,n_pass,n_partial,n_fail,n_valid,accuracy,tok_input,tok_cache_read,tok_cache_write,tok_output,turns,minutes,notes
 opus5.5-vanilla-r1,opus5.5,claude,claude-opus-5-5,medium,,vanilla,1,34,1,1,36,95.8,58,3886081,199479,143674,29,23.6,
 opus5.5-vanilla-r2,opus5.5,claude,claude-opus-5-5,medium,,vanilla,2,34,0,2,36,94.4,50,2918916,170116,117357,25,18.8,
-opus5.5-whole-r1,opus5.5,claude,claude-opus-5-5,medium,subagent,whole,1,,,,,,3790,187887948,3320241,622129,1737,173.9,R3 nach TC-09 abgebrochen: src/index.tsx waehrend des Testlaufs geaendert (Skill-Verstoss; vom Agent selbst erkannt; Runde als verbraucht gezaehlt); Agent rief SendFeedback auf (Fehlerbericht an Anthropic)
+opus5.5-whole-r1,opus5.5,claude,claude-opus-5-5,medium,subagent,whole,1,34,2,0,36,97.2,3790,187887948,3320241,622129,1737,173.9,R3 nach TC-09 abgebrochen: src/index.tsx waehrend des Testlaufs geaendert (Skill-Verstoss; vom Agent selbst erkannt; Runde als verbraucht gezaehlt); Agent rief SendFeedback auf (Fehlerbericht an Anthropic)
 opus5.5-whole-r2,opus5.5,claude,claude-opus-5-5,medium,,whole,2,,,,,,,,,,,,
 opus5.5-incremental-r1,opus5.5,claude,claude-opus-5-5,medium,,incremental,1,,,,,,,,,,,,
 opus5.5-incremental-r2,opus5.5,claude,claude-opus-5-5,medium,,incremental,2,,,,,,,,,,,,

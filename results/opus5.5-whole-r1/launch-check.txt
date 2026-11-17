@@ -1,0 +1,9 @@
+kind: check
+agent: opus5.5
+harness: claude
+model: claude-opus-5-5
+reasoning: medium
+version: 2.1.322 (Claude Code)
+started_utc: 2026-11-17T17:31:22Z
+branch: run/opus5.5-whole-r1
+commit: 294458f0ea12771f2e4990ea5df75647c59af490
