@@ -1,3 +1,3 @@
 branch: run/sonnet5.5-vanilla-r1
-commit: 018a5d7da4302fd9815567c2d8fc95c5705bc2e0
+commit: ebfa2f1abd682d30c6dff9709f86d2a758e1abe9
 repo: https://github.com/Exxzzent/softwareprojekt.git
