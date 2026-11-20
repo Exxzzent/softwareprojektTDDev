@@ -5,7 +5,7 @@ opus5.5-whole-r1,opus5.5,claude,claude-opus-5-5,medium,subagent,whole,1,34,2,0,3
 opus5.5-whole-r2,opus5.5,claude,claude-opus-5-5,medium,subagent,whole,2,34,2,0,36,97.2,3980,179333132,2926697,558983,1838,167.7,
 opus5.5-incremental-r1,opus5.5,claude,claude-opus-5-5,medium,subagent,incremental,1,35,1,0,36,98.6,25050,1313308851,17259174,2703984,11503,781.6,"1. Versuch (Start 2026-11-17T21:36Z) verworfen: Playwright-MCP-Verbindung bei Feature 18/36 abgebrochen (ca. 20 offene Tabs im Testbrowser); neu gestartet | 2. Versuch gueltig (36/36 Features: 33 pass, 3 partial; 51 Testrunden, 15 Reparaturen, 1018 Tester-Subagenten, ca. 13 h). Regelverstoss: in Runde 1 von Feature TC-32 Projektdateien waehrend des Testlaufs geaendert (App neu gestartet; Runde abgebrochen, nur TC-01..09 geloggt; vom Agent selbst gemeldet). Ausserdem: Playwright-Interna im npm-Cache gelesen, um veraltete Snapshots zu verstehen; Tester legten snap*.yml im Projektwurzelverzeichnis ab; TC-25 in der letzten Runde nur mit 2 von 4 Screenshots bestanden (Aktionsbudget aufgebraucht)"
 opus5.5-incremental-r2,opus5.5,claude,claude-opus-5-5,medium,subagent,incremental,2,36,0,0,36,100.0,21894,1316691948,27984388,2685045,9875,846.0,
-opus5.5-agentic-r1,opus5.5,claude,claude-opus-5-5,medium,subagent,agentic,1,,,,,,5314,210851972,3810872,626894,2470,209.9,
+opus5.5-agentic-r1,opus5.5,claude,claude-opus-5-5,medium,subagent,agentic,1,35,0,1,36,97.2,5314,210851972,3810872,626894,2470,209.9,
 opus5.5-agentic-r2,opus5.5,claude,claude-opus-5-5,medium,,agentic,2,,,,,,,,,,,,
 fable5.2-vanilla-r1,fable5.2,claude,claude-fable-5-2,medium,,vanilla,1,,,,,,,,,,,,
 fable5.2-vanilla-r2,fable5.2,claude,claude-fable-5-2,medium,,vanilla,2,,,,,,,,,,,,
