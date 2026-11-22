@@ -24,7 +24,7 @@
       "Open the app",
       "Take a screenshot of the track graphic in the card 'Gartenbahn-Ansicht'"
     ],
-    "expected": "The preview shows an oval main loop, a siding below the bottom straight between two switches, a third switch on the siding from which a dead-end spur leads to the right and ends at a buffer stop labelled 'Kalibrierpunkt', and the four labelled stops 'Haltestelle 1' (top straight), 'Haltestelle 2' (right curve), 'Haltestelle 3' (bottom straight) and 'Haltestelle 4' (left curve)"
+    "expected": "The preview shows an oval main loop; a siding that leaves the bottom straight at a switch on the left, runs as a straight section parallel below the bottom straight and returns to it at a switch on the right; a third switch at the right end of the straight section of the siding, from which a dead-end spur continues straight to the right at the same height as the siding (it does not branch off downwards to a lower level) and ends beyond the right end of the loop at a buffer stop labelled 'Kalibrierpunkt'; and the four labelled stops 'Haltestelle 1' (top straight), 'Haltestelle 2' (right curve), 'Haltestelle 3' (bottom straight) and 'Haltestelle 4' (left curve)"
   },
   {
     "test_id": "TC-04",
@@ -39,6 +39,7 @@
     "test_id": "TC-05",
     "feature": "Controls are locked until the first setup is completed",
     "steps": [
+      "Work strictly sequentially in this test: send only one browser tool call per message and wait for its result before you send the next one (never several clicks, selections, waits, snapshots or screenshots in parallel)",
       "Open the app",
       "Without confirming anything in the calibration dialog, try to click the Start button",
       "Try to click 'Haltestelle hinzufügen'",
@@ -50,10 +51,11 @@
     "test_id": "TC-06",
     "feature": "Confirming the first train starts its calibration",
     "steps": [
+      "Work strictly sequentially in this test: send only one browser tool call per message and wait for its result before you send the next one (never several clicks, selections, waits, snapshots or screenshots in parallel)",
       "Open the app",
       "In the calibration dialog, click the button that confirms that the first train is on the calibration point",
-      "Wait 25 seconds, then take a new accessibility snapshot",
-      "Read the calibration dialog"
+      "Wait 25 seconds; when the wait has finished, take a new accessibility snapshot",
+      "Read the calibration dialog in this new snapshot"
     ],
     "expected": "The dialog now asks the user to place the second train ('Bahn 2') on the calibration point"
   },
@@ -61,6 +63,7 @@
     "test_id": "TC-07",
     "feature": "A second frontend shows the current setup step",
     "steps": [
+      "Work strictly sequentially in this test: send only one browser tool call per message and wait for its result before you send the next one (never several clicks, selections, waits, snapshots or screenshots in parallel)",
       "Open the app",
       "Open the app URL in a second browser tab",
       "Read the calibration dialog in the second tab"
@@ -71,13 +74,14 @@
     "test_id": "TC-08",
     "feature": "Completing the setup in one frontend completes it in all frontends",
     "steps": [
+      "Work strictly sequentially in this test: send only one browser tool call per message and wait for its result before you send the next one (never several clicks, selections, waits, snapshots or screenshots in parallel)",
       "Open the app",
       "Open the app URL in a second browser tab",
       "In the second tab, click the button that confirms that the second train is on the calibration point",
-      "Wait 25 seconds, then take a new accessibility snapshot",
+      "Wait 25 seconds; when the wait has finished, take a new accessibility snapshot",
       "Read the page in the second tab",
       "Switch to the first tab without reloading it",
-      "Read the page in the first tab",
+      "Take a new accessibility snapshot and read the page in the first tab",
       "Take a screenshot of the track graphic in the first tab"
     ],
     "expected": "In both tabs the calibration dialog is gone and the Start button is enabled, and the track graphic shows markers for both 'Bahn 1' and 'Bahn 2'"
@@ -104,6 +108,7 @@
     "test_id": "TC-11",
     "feature": "Visual style follows the UI specification",
     "steps": [
+      "Work strictly sequentially in this test: send only one browser tool call per message and wait for its result before you send the next one (never several clicks, selections, waits, snapshots or screenshots in parallel)",
       "Open the app",
       "If the status badge shows 'In Fahrt', click the Stop button",
       "Take a screenshot of the page"
@@ -114,6 +119,7 @@
     "test_id": "TC-12",
     "feature": "Responsive layout",
     "steps": [
+      "Work strictly sequentially in this test: send only one browser tool call per message and wait for its result before you send the next one (never several clicks, selections, waits, snapshots or screenshots in parallel)",
       "Open the app",
       "Resize the browser window to 800 pixels width and 900 pixels height",
       "Take a screenshot of the page",
@@ -126,6 +132,7 @@
     "test_id": "TC-13",
     "feature": "Live status of each train",
     "steps": [
+      "Work strictly sequentially in this test: send only one browser tool call per message and wait for its result before you send the next one (never several clicks, selections, waits, snapshots or screenshots in parallel)",
       "Open the app",
       "If the status badge shows 'In Fahrt', click the Stop button",
       "Select 'Bahn 1' and read its status",
@@ -137,14 +144,17 @@
     "test_id": "TC-14",
     "feature": "Edit the stops of a train",
     "steps": [
+      "Work strictly sequentially in this test: send only one browser tool call per message and wait for its result before you send the next one (never several clicks, selections, waits, snapshots or screenshots in parallel)",
       "Open the app",
       "If the status badge shows 'In Fahrt', click the Stop button",
       "Click 'Alle Strecken zurücksetzen'",
       "Select 'Bahn 1'",
-      "Click 'Haltestelle hinzufügen' three times",
-      "Set the first stop to 'Haltestelle 1', the second stop to 'Haltestelle 2' and the third stop to 'Haltestelle 3'",
+      "Click 'Haltestelle hinzufügen' three times, one click at a time",
+      "Set the first stop to 'Haltestelle 1'",
+      "Set the second stop to 'Haltestelle 2'",
+      "Set the third stop to 'Haltestelle 3'",
       "Click the remove button of the second stop",
-      "Read the stop list of 'Bahn 1'"
+      "Take a new accessibility snapshot and read the stop list of 'Bahn 1'"
     ],
     "expected": "The stop selection offers exactly the four stops 'Haltestelle 1' to 'Haltestelle 4'; after removing, exactly 'Haltestelle 1' and 'Haltestelle 3' remain, numbered 1 and 2 in this order"
   },
@@ -152,16 +162,17 @@
     "test_id": "TC-15",
     "feature": "Any number of stops, the same stop several times, one list per train",
     "steps": [
+      "Work strictly sequentially in this test: send only one browser tool call per message and wait for its result before you send the next one (never several clicks, selections, waits, snapshots or screenshots in parallel)",
       "Open the app",
       "If the status badge shows 'In Fahrt', click the Stop button",
       "Click 'Alle Strecken zurücksetzen'",
       "Select 'Bahn 2'",
-      "Click 'Haltestelle hinzufügen' four times",
-      "Click 'Haltestelle hinzufügen' four more times",
-      "Set stop 1 and stop 3 to 'Haltestelle 4'",
+      "Click 'Haltestelle hinzufügen' eight times, one click at a time",
+      "Set stop 1 to 'Haltestelle 4'",
+      "Set stop 3 to 'Haltestelle 4'",
       "Select 'Bahn 1' and click 'Haltestelle hinzufügen' once",
       "Read the stop list of 'Bahn 1'",
-      "Select 'Bahn 2' and read its stop list"
+      "Select 'Bahn 2' and read its stop list in a new accessibility snapshot"
     ],
     "expected": "'Bahn 2' lists all 8 stops without an error or limit message, and its stops 1 and 3 both show 'Haltestelle 4'; 'Bahn 1' has exactly 1 stop, the stops of 'Bahn 2' do not appear in its list"
   },
@@ -169,6 +180,7 @@
     "test_id": "TC-16",
     "feature": "Reset all routes removes all stops",
     "steps": [
+      "Work strictly sequentially in this test: send only one browser tool call per message and wait for its result before you send the next one (never several clicks, selections, waits, snapshots or screenshots in parallel)",
       "Open the app",
       "If the status badge shows 'In Fahrt', click the Stop button",
       "Select 'Bahn 1' and click 'Haltestelle hinzufügen'",
@@ -183,6 +195,7 @@
     "test_id": "TC-17",
     "feature": "Start without any stop is refused",
     "steps": [
+      "Work strictly sequentially in this test: send only one browser tool call per message and wait for its result before you send the next one (never several clicks, selections, waits, snapshots or screenshots in parallel)",
       "Open the app",
       "If the status badge shows 'In Fahrt', click the Stop button",
       "Click 'Alle Strecken zurücksetzen'",
@@ -195,14 +208,13 @@
     "test_id": "TC-18",
     "feature": "Start locks the editing",
     "steps": [
+      "Work strictly sequentially in this test: send only one browser tool call per message and wait for its result before you send the next one (never several clicks, selections, waits, snapshots or screenshots in parallel)",
       "Open the app",
       "If the status badge shows 'In Fahrt', click the Stop button",
-      "Click 'Alle Strecken zurücksetzen'",
-      "Select 'Bahn 1' and click 'Haltestelle hinzufügen' twice",
-      "Set the first stop of 'Bahn 1' to 'Haltestelle 2' and the second stop to 'Haltestelle 4'",
-      "Select 'Bahn 2' and click 'Haltestelle hinzufügen' twice",
-      "Set the first stop of 'Bahn 2' to 'Haltestelle 4' and the second stop to 'Haltestelle 2'",
+      "Select 'Bahn 1' and make sure that its stop list is exactly 1. 'Haltestelle 2', 2. 'Haltestelle 4': add, change or remove stops only if necessary, one change at a time",
+      "Select 'Bahn 2' and make sure that its stop list is exactly 1. 'Haltestelle 4', 2. 'Haltestelle 2': add, change or remove stops only if necessary, one change at a time",
       "Click the Start button",
+      "Take a new accessibility snapshot and read the status badge and the buttons of the control panel",
       "Try to change the first stop of 'Bahn 1'",
       "Try to click 'Haltestelle hinzufügen'",
       "Try to click 'Alle Strecken zurücksetzen'"
@@ -213,15 +225,13 @@
     "test_id": "TC-19",
     "feature": "Start makes the locomotives drive",
     "steps": [
+      "Work strictly sequentially in this test: send only one browser tool call per message and wait for its result before you send the next one (never several clicks, selections, waits, snapshots or screenshots in parallel)",
       "Open the app",
       "If the status badge shows 'In Fahrt', click the Stop button",
-      "Click 'Alle Strecken zurücksetzen'",
-      "Select 'Bahn 1' and click 'Haltestelle hinzufügen' twice",
-      "Set the first stop of 'Bahn 1' to 'Haltestelle 2' and the second stop to 'Haltestelle 4'",
-      "Select 'Bahn 2' and click 'Haltestelle hinzufügen' twice",
-      "Set the first stop of 'Bahn 2' to 'Haltestelle 4' and the second stop to 'Haltestelle 2'",
+      "Select 'Bahn 1' and make sure that its stop list is exactly 1. 'Haltestelle 2', 2. 'Haltestelle 4': add, change or remove stops only if necessary, one change at a time",
+      "Select 'Bahn 2' and make sure that its stop list is exactly 1. 'Haltestelle 4', 2. 'Haltestelle 2': add, change or remove stops only if necessary, one change at a time",
       "Click the Start button",
-      "Wait 15 seconds, then take a new accessibility snapshot",
+      "Wait 15 seconds",
       "Open the mock server console at http://localhost:3031",
       "Read the columns 'Speed (0-255)' and 'Applied speed changes (oldest first)' of 'Bahn 1' and 'Bahn 2'"
     ],
@@ -231,18 +241,14 @@
     "test_id": "TC-20",
     "feature": "Train positions move live in the preview",
     "steps": [
+      "Work strictly sequentially in this test: send only one browser tool call per message and wait for its result before you send the next one (never several clicks, selections, waits, snapshots or screenshots in parallel)",
       "Open the app",
       "If the status badge shows 'In Fahrt', click the Stop button",
-      "Click 'Alle Strecken zurücksetzen'",
-      "Select 'Bahn 1' and click 'Haltestelle hinzufügen' twice",
-      "Set the first stop of 'Bahn 1' to 'Haltestelle 2' and the second stop to 'Haltestelle 4'",
-      "Select 'Bahn 2' and click 'Haltestelle hinzufügen' twice",
-      "Set the first stop of 'Bahn 2' to 'Haltestelle 4' and the second stop to 'Haltestelle 2'",
+      "Select 'Bahn 1' and make sure that its stop list is exactly 1. 'Haltestelle 2', 2. 'Haltestelle 4': add, change or remove stops only if necessary, one change at a time",
+      "Select 'Bahn 2' and make sure that its stop list is exactly 1. 'Haltestelle 4', 2. 'Haltestelle 2': add, change or remove stops only if necessary, one change at a time",
       "Click the Start button",
-      "Wait 5 seconds, then take a new accessibility snapshot",
-      "Take a screenshot of the track graphic",
-      "Wait 3 seconds, then take a new accessibility snapshot",
-      "Take another screenshot of the track graphic without reloading the page"
+      "Wait 5 seconds; when the wait has finished, take a new screenshot of the track graphic",
+      "Wait 3 seconds; when the wait has finished, take a new screenshot of the track graphic"
     ],
     "expected": "At least one train marker is at a clearly different place on the track in the second screenshot"
   },
@@ -250,36 +256,34 @@
     "test_id": "TC-21",
     "feature": "The trains run around the loop in opposite directions",
     "steps": [
+      "Work strictly sequentially in this test: send only one browser tool call per message and wait for its result before you send the next one (never several clicks, selections, waits, snapshots or screenshots in parallel)",
       "Open the app",
       "If the status badge shows 'In Fahrt', click the Stop button",
-      "Click 'Alle Strecken zurücksetzen'",
-      "Select 'Bahn 1' and click 'Haltestelle hinzufügen' twice",
-      "Set the first stop of 'Bahn 1' to 'Haltestelle 2' and the second stop to 'Haltestelle 4'",
-      "Select 'Bahn 2' and click 'Haltestelle hinzufügen' twice",
-      "Set the first stop of 'Bahn 2' to 'Haltestelle 4' and the second stop to 'Haltestelle 2'",
+      "Select 'Bahn 1' and make sure that its stop list is exactly 1. 'Haltestelle 2', 2. 'Haltestelle 4': add, change or remove stops only if necessary, one change at a time",
+      "Select 'Bahn 2' and make sure that its stop list is exactly 1. 'Haltestelle 4', 2. 'Haltestelle 2': add, change or remove stops only if necessary, one change at a time",
       "Click the Start button",
-      "Wait 10 seconds, then take a screenshot of the track graphic",
-      "Wait 3 seconds, then take a new screenshot of the track graphic",
-      "Wait 3 seconds, then take a new screenshot of the track graphic"
+      "Wait 10 seconds; when the wait has finished, take a new screenshot of the track graphic",
+      "Wait 5 seconds; when the wait has finished, take a new screenshot of the track graphic",
+      "Wait 5 seconds; when the wait has finished, take a new screenshot of the track graphic",
+      "Wait 5 seconds; when the wait has finished, take a new screenshot of the track graphic",
+      "Wait 5 seconds; when the wait has finished, take a new screenshot of the track graphic"
     ],
-    "expected": "Comparing consecutive screenshots, the marker of 'Bahn 1' moves clockwise along the main loop (on the top straight from left to right, on the right curve downwards, on the bottom straight from right to left, on the left curve upwards) and the marker of 'Bahn 2' moves counter-clockwise, apart from phases in which a train stands still, evades to the siding or drives to or from the calibration point; the two trains do not circle the loop in the same sense"
+    "expected": "Comparing consecutive screenshots, the marker of 'Bahn 1' moves clockwise along the main loop (on the top straight from left to right, on the right curve downwards, on the bottom straight from right to left, on the left curve upwards) and the marker of 'Bahn 2' moves counter-clockwise; phases in which a train stands still, evades to the siding or drives to or from the calibration point do not count, and it is sufficient that each train is seen moving in its own sense in at least one pair of consecutive screenshots; the two trains do not circle the loop in the same sense"
   },
   {
     "test_id": "TC-22",
     "feature": "Switches are set while driving",
     "steps": [
+      "Work strictly sequentially in this test: send only one browser tool call per message and wait for its result before you send the next one (never several clicks, selections, waits, snapshots or screenshots in parallel)",
       "Open the mock server console at http://localhost:3031",
       "Read the column 'Applied switch changes (oldest first)' of 'Weichen'",
       "Open the app",
       "If the status badge shows 'In Fahrt', click the Stop button",
-      "Click 'Alle Strecken zurücksetzen'",
-      "Select 'Bahn 1' and click 'Haltestelle hinzufügen' twice",
-      "Set the first stop of 'Bahn 1' to 'Haltestelle 2' and the second stop to 'Haltestelle 4'",
-      "Select 'Bahn 2' and click 'Haltestelle hinzufügen' twice",
-      "Set the first stop of 'Bahn 2' to 'Haltestelle 4' and the second stop to 'Haltestelle 2'",
+      "Select 'Bahn 1' and make sure that its stop list is exactly 1. 'Haltestelle 2', 2. 'Haltestelle 4': add, change or remove stops only if necessary, one change at a time",
+      "Select 'Bahn 2' and make sure that its stop list is exactly 1. 'Haltestelle 4', 2. 'Haltestelle 2': add, change or remove stops only if necessary, one change at a time",
       "Click the Start button",
-      "Wait 30 seconds, then take a new accessibility snapshot",
-      "Wait 30 seconds, then take a new accessibility snapshot",
+      "Wait 30 seconds",
+      "Wait 30 seconds",
       "Open the mock server console at http://localhost:3031",
       "Read the column 'Applied switch changes (oldest first)' of 'Weichen' again"
     ],
@@ -289,17 +293,16 @@
     "test_id": "TC-23",
     "feature": "Head-on meeting: one train evades to the siding",
     "steps": [
+      "Work strictly sequentially in this test: send only one browser tool call per message and wait for its result before you send the next one (never several clicks, selections, waits, snapshots or screenshots in parallel)",
       "Open the app",
       "If the status badge shows 'In Fahrt', click the Stop button",
-      "Click 'Alle Strecken zurücksetzen'",
-      "Select 'Bahn 1' and click 'Haltestelle hinzufügen' twice",
-      "Set the first stop of 'Bahn 1' to 'Haltestelle 2' and the second stop to 'Haltestelle 4'",
-      "Select 'Bahn 2' and click 'Haltestelle hinzufügen' twice",
-      "Set the first stop of 'Bahn 2' to 'Haltestelle 4' and the second stop to 'Haltestelle 2'",
+      "Select 'Bahn 1' and make sure that its stop list is exactly 1. 'Haltestelle 2', 2. 'Haltestelle 4': add, change or remove stops only if necessary, one change at a time",
+      "Select 'Bahn 2' and make sure that its stop list is exactly 1. 'Haltestelle 4', 2. 'Haltestelle 2': add, change or remove stops only if necessary, one change at a time",
       "Click the Start button",
-      "Wait 45 seconds, then take a new accessibility snapshot",
-      "Wait 45 seconds, then take a new accessibility snapshot",
-      "Read the entries of the 'Betriebsprotokoll' that are newer than the most recent entry 'Start'"
+      "Wait 30 seconds",
+      "Wait 30 seconds",
+      "Wait 30 seconds",
+      "Take a new accessibility snapshot and read the entries of the 'Betriebsprotokoll' that are newer than the most recent entry 'Start'"
     ],
     "expected": "Since the last 'Start' the log contains at least one entry '<train> weicht aus' and, later, an entry '<train> wartet auf dem Ausweichgleis' for the same train: when the trains met head-on, one of them drove back to the siding"
   },
@@ -307,18 +310,17 @@
     "test_id": "TC-24",
     "feature": "After a meeting both trains continue (no deadlock)",
     "steps": [
+      "Work strictly sequentially in this test: send only one browser tool call per message and wait for its result before you send the next one (never several clicks, selections, waits, snapshots or screenshots in parallel)",
       "Open the app",
       "If the status badge shows 'In Fahrt', click the Stop button",
-      "Click 'Alle Strecken zurücksetzen'",
-      "Select 'Bahn 1' and click 'Haltestelle hinzufügen' twice",
-      "Set the first stop of 'Bahn 1' to 'Haltestelle 2' and the second stop to 'Haltestelle 4'",
-      "Select 'Bahn 2' and click 'Haltestelle hinzufügen' twice",
-      "Set the first stop of 'Bahn 2' to 'Haltestelle 4' and the second stop to 'Haltestelle 2'",
+      "Select 'Bahn 1' and make sure that its stop list is exactly 1. 'Haltestelle 2', 2. 'Haltestelle 4': add, change or remove stops only if necessary, one change at a time",
+      "Select 'Bahn 2' and make sure that its stop list is exactly 1. 'Haltestelle 4', 2. 'Haltestelle 2': add, change or remove stops only if necessary, one change at a time",
       "Click the Start button",
-      "Wait 45 seconds, then take a new accessibility snapshot",
-      "Wait 45 seconds, then take a new accessibility snapshot",
-      "Wait 45 seconds, then take a new accessibility snapshot",
-      "Read the entries of the 'Betriebsprotokoll' that are newer than the most recent entry 'Start'"
+      "Wait 30 seconds",
+      "Wait 30 seconds",
+      "Wait 30 seconds",
+      "Wait 30 seconds",
+      "Take a new accessibility snapshot and read the entries of the 'Betriebsprotokoll' that are newer than the most recent entry 'Start'"
     ],
     "expected": "Since the last 'Start' the log contains an entry '<train> wartet auf dem Ausweichgleis', later '<train> fährt weiter' for the same train, and after that further entries '… erreicht …' for both 'Bahn 1' and 'Bahn 2': the trains passed each other and both keep reaching their stops"
   },
@@ -326,17 +328,15 @@
     "test_id": "TC-25",
     "feature": "Trains never occupy the same place",
     "steps": [
+      "Work strictly sequentially in this test: send only one browser tool call per message and wait for its result before you send the next one (never several clicks, selections, waits, snapshots or screenshots in parallel)",
       "Open the app",
       "If the status badge shows 'In Fahrt', click the Stop button",
-      "Click 'Alle Strecken zurücksetzen'",
-      "Select 'Bahn 1' and click 'Haltestelle hinzufügen' twice",
-      "Set the first stop of 'Bahn 1' to 'Haltestelle 2' and the second stop to 'Haltestelle 4'",
-      "Select 'Bahn 2' and click 'Haltestelle hinzufügen' twice",
-      "Set the first stop of 'Bahn 2' to 'Haltestelle 4' and the second stop to 'Haltestelle 2'",
+      "Select 'Bahn 1' and make sure that its stop list is exactly 1. 'Haltestelle 2', 2. 'Haltestelle 4': add, change or remove stops only if necessary, one change at a time",
+      "Select 'Bahn 2' and make sure that its stop list is exactly 1. 'Haltestelle 4', 2. 'Haltestelle 2': add, change or remove stops only if necessary, one change at a time",
       "Click the Start button",
-      "Wait 8 seconds, then take a new screenshot of the track graphic",
-      "Wait 8 seconds, then take a new screenshot of the track graphic",
-      "Wait 8 seconds, then take a new screenshot of the track graphic"
+      "Wait 8 seconds; when the wait has finished, take a new screenshot of the track graphic",
+      "Wait 8 seconds; when the wait has finished, take a new screenshot of the track graphic",
+      "Wait 8 seconds; when the wait has finished, take a new screenshot of the track graphic"
     ],
     "expected": "In none of the screenshots do the markers of 'Bahn 1' and 'Bahn 2' overlap or stand on the same track section; one train waits or evades while the other passes"
   },
@@ -344,19 +344,18 @@
     "test_id": "TC-26",
     "feature": "Stops are driven in a loop",
     "steps": [
+      "Work strictly sequentially in this test: send only one browser tool call per message and wait for its result before you send the next one (never several clicks, selections, waits, snapshots or screenshots in parallel)",
       "Open the app",
       "If the status badge shows 'In Fahrt', click the Stop button",
-      "Click 'Alle Strecken zurücksetzen'",
-      "Select 'Bahn 1' and click 'Haltestelle hinzufügen' twice",
-      "Set the first stop of 'Bahn 1' to 'Haltestelle 2' and the second stop to 'Haltestelle 4'",
-      "Select 'Bahn 2' and click 'Haltestelle hinzufügen' twice",
-      "Set the first stop of 'Bahn 2' to 'Haltestelle 4' and the second stop to 'Haltestelle 2'",
+      "Select 'Bahn 1' and make sure that its stop list is exactly 1. 'Haltestelle 2', 2. 'Haltestelle 4': add, change or remove stops only if necessary, one change at a time",
+      "Select 'Bahn 2' and make sure that its stop list is exactly 1. 'Haltestelle 4', 2. 'Haltestelle 2': add, change or remove stops only if necessary, one change at a time",
       "Click the Start button",
-      "Wait 45 seconds, then take a new accessibility snapshot",
-      "Wait 45 seconds, then take a new accessibility snapshot",
-      "Wait 45 seconds, then take a new accessibility snapshot",
-      "Wait 45 seconds, then take a new accessibility snapshot",
-      "Read the entries of the 'Betriebsprotokoll' that are newer than the most recent entry 'Start'"
+      "Wait 30 seconds",
+      "Wait 30 seconds",
+      "Wait 30 seconds",
+      "Wait 30 seconds",
+      "Wait 30 seconds",
+      "Take a new accessibility snapshot and read the entries of the 'Betriebsprotokoll' that are newer than the most recent entry 'Start'"
     ],
     "expected": "Since the last 'Start' the log contains 'Bahn 1 erreicht Haltestelle 2', later 'Bahn 1 erreicht Haltestelle 4' and later again 'Bahn 1 erreicht Haltestelle 2' (other entries in between are allowed): after its last stop the train starts again with its first stop"
   },
@@ -364,18 +363,17 @@
     "test_id": "TC-27",
     "feature": "Recalibration during operation",
     "steps": [
+      "Work strictly sequentially in this test: send only one browser tool call per message and wait for its result before you send the next one (never several clicks, selections, waits, snapshots or screenshots in parallel)",
       "Open the app",
       "If the status badge shows 'In Fahrt', click the Stop button",
-      "Click 'Alle Strecken zurücksetzen'",
-      "Select 'Bahn 1' and click 'Haltestelle hinzufügen' twice",
-      "Set the first stop of 'Bahn 1' to 'Haltestelle 2' and the second stop to 'Haltestelle 4'",
-      "Select 'Bahn 2' and click 'Haltestelle hinzufügen' twice",
-      "Set the first stop of 'Bahn 2' to 'Haltestelle 4' and the second stop to 'Haltestelle 2'",
+      "Select 'Bahn 1' and make sure that its stop list is exactly 1. 'Haltestelle 2', 2. 'Haltestelle 4': add, change or remove stops only if necessary, one change at a time",
+      "Select 'Bahn 2' and make sure that its stop list is exactly 1. 'Haltestelle 4', 2. 'Haltestelle 2': add, change or remove stops only if necessary, one change at a time",
       "Click the Start button",
-      "Wait 45 seconds, then take a new accessibility snapshot",
-      "Wait 45 seconds, then take a new accessibility snapshot",
-      "Wait 45 seconds, then take a new accessibility snapshot",
-      "Read the entries of the 'Betriebsprotokoll' that are newer than the most recent entry 'Start'",
+      "Wait 30 seconds",
+      "Wait 30 seconds",
+      "Wait 30 seconds",
+      "Wait 30 seconds",
+      "Take a new accessibility snapshot and read the entries of the 'Betriebsprotokoll' that are newer than the most recent entry 'Start'",
       "Open the mock server console at http://localhost:3031",
       "Read the column 'Applied speed changes (oldest first)' of 'Bahn 1' and 'Bahn 2'"
     ],
@@ -385,15 +383,16 @@
     "test_id": "TC-28",
     "feature": "The operation log shows Start and Stop",
     "steps": [
+      "Work strictly sequentially in this test: send only one browser tool call per message and wait for its result before you send the next one (never several clicks, selections, waits, snapshots or screenshots in parallel)",
       "Open the app",
       "If the status badge shows 'In Fahrt', click the Stop button",
-      "Click 'Alle Strecken zurücksetzen'",
-      "Select 'Bahn 1' and click 'Haltestelle hinzufügen' once",
+      "Select 'Bahn 1' and make sure that its stop list is exactly 1. 'Haltestelle 2', 2. 'Haltestelle 4': add, change or remove stops only if necessary, one change at a time",
+      "Select 'Bahn 2' and make sure that its stop list is exactly 1. 'Haltestelle 4', 2. 'Haltestelle 2': add, change or remove stops only if necessary, one change at a time",
       "Click the Start button",
-      "Read the newest entries of the 'Betriebsprotokoll'",
-      "Wait 5 seconds, then take a new accessibility snapshot",
+      "Take a new accessibility snapshot and read the newest entries of the 'Betriebsprotokoll'",
+      "Wait 5 seconds",
       "Click the Stop button",
-      "Read the newest entries of the 'Betriebsprotokoll'"
+      "Take a new accessibility snapshot and read the newest entries of the 'Betriebsprotokoll'"
     ],
     "expected": "After Start the log shows a new entry 'Start', and after Stop the newest entry, at the top of the log, is 'Stop'; every entry shows a time of day"
   },
@@ -401,18 +400,16 @@
     "test_id": "TC-29",
     "feature": "Stop unlocks the editing",
     "steps": [
+      "Work strictly sequentially in this test: send only one browser tool call per message and wait for its result before you send the next one (never several clicks, selections, waits, snapshots or screenshots in parallel)",
       "Open the app",
       "If the status badge shows 'In Fahrt', click the Stop button",
-      "Click 'Alle Strecken zurücksetzen'",
-      "Select 'Bahn 1' and click 'Haltestelle hinzufügen' twice",
-      "Set the first stop of 'Bahn 1' to 'Haltestelle 2' and the second stop to 'Haltestelle 4'",
-      "Select 'Bahn 2' and click 'Haltestelle hinzufügen' twice",
-      "Set the first stop of 'Bahn 2' to 'Haltestelle 4' and the second stop to 'Haltestelle 2'",
+      "Select 'Bahn 1' and make sure that its stop list is exactly 1. 'Haltestelle 2', 2. 'Haltestelle 4': add, change or remove stops only if necessary, one change at a time",
+      "Select 'Bahn 2' and make sure that its stop list is exactly 1. 'Haltestelle 4', 2. 'Haltestelle 2': add, change or remove stops only if necessary, one change at a time",
       "Click the Start button",
-      "Wait 5 seconds, then take a new accessibility snapshot",
+      "Wait 5 seconds",
       "Click the Stop button",
       "Select 'Bahn 1' and click 'Haltestelle hinzufügen'",
-      "Read the status badge and the stop list of 'Bahn 1'"
+      "Take a new accessibility snapshot and read the status badge and the stop list of 'Bahn 1'"
     ],
     "expected": "The status badge shows 'Gestoppt', the Start button is shown again, and 'Bahn 1' now has 3 stops"
   },
@@ -420,17 +417,15 @@
     "test_id": "TC-30",
     "feature": "Stop halts all locomotives",
     "steps": [
+      "Work strictly sequentially in this test: send only one browser tool call per message and wait for its result before you send the next one (never several clicks, selections, waits, snapshots or screenshots in parallel)",
       "Open the app",
       "If the status badge shows 'In Fahrt', click the Stop button",
-      "Click 'Alle Strecken zurücksetzen'",
-      "Select 'Bahn 1' and click 'Haltestelle hinzufügen' twice",
-      "Set the first stop of 'Bahn 1' to 'Haltestelle 2' and the second stop to 'Haltestelle 4'",
-      "Select 'Bahn 2' and click 'Haltestelle hinzufügen' twice",
-      "Set the first stop of 'Bahn 2' to 'Haltestelle 4' and the second stop to 'Haltestelle 2'",
+      "Select 'Bahn 1' and make sure that its stop list is exactly 1. 'Haltestelle 2', 2. 'Haltestelle 4': add, change or remove stops only if necessary, one change at a time",
+      "Select 'Bahn 2' and make sure that its stop list is exactly 1. 'Haltestelle 4', 2. 'Haltestelle 2': add, change or remove stops only if necessary, one change at a time",
       "Click the Start button",
-      "Wait 10 seconds, then take a new accessibility snapshot",
+      "Wait 10 seconds",
       "Click the Stop button",
-      "Wait 3 seconds, then take a new accessibility snapshot",
+      "Wait 3 seconds",
       "Open the mock server console at http://localhost:3031",
       "Read the column 'Speed (0-255)' of 'Bahn 1' and 'Bahn 2'"
     ],
@@ -440,21 +435,19 @@
     "test_id": "TC-31",
     "feature": "Operation can be started again after a Stop",
     "steps": [
+      "Work strictly sequentially in this test: send only one browser tool call per message and wait for its result before you send the next one (never several clicks, selections, waits, snapshots or screenshots in parallel)",
       "Open the app",
       "If the status badge shows 'In Fahrt', click the Stop button",
-      "Click 'Alle Strecken zurücksetzen'",
-      "Select 'Bahn 1' and click 'Haltestelle hinzufügen' twice",
-      "Set the first stop of 'Bahn 1' to 'Haltestelle 2' and the second stop to 'Haltestelle 4'",
-      "Select 'Bahn 2' and click 'Haltestelle hinzufügen' twice",
-      "Set the first stop of 'Bahn 2' to 'Haltestelle 4' and the second stop to 'Haltestelle 2'",
+      "Select 'Bahn 1' and make sure that its stop list is exactly 1. 'Haltestelle 2', 2. 'Haltestelle 4': add, change or remove stops only if necessary, one change at a time",
+      "Select 'Bahn 2' and make sure that its stop list is exactly 1. 'Haltestelle 4', 2. 'Haltestelle 2': add, change or remove stops only if necessary, one change at a time",
       "Click the Start button",
-      "Wait 20 seconds, then take a new accessibility snapshot",
+      "Wait 20 seconds",
       "Click the Stop button",
-      "Wait 3 seconds, then take a new accessibility snapshot",
+      "Wait 3 seconds",
       "Click the Start button",
-      "Wait 30 seconds, then take a new accessibility snapshot",
-      "Wait 30 seconds, then take a new accessibility snapshot",
-      "Read the entries of the 'Betriebsprotokoll' that are newer than the most recent entry 'Start'"
+      "Wait 30 seconds",
+      "Wait 30 seconds",
+      "Take a new accessibility snapshot and read the entries of the 'Betriebsprotokoll' that are newer than the most recent entry 'Start'"
     ],
     "expected": "The log shows, from old to new, 'Start', 'Stop' and 'Start' again, and after the second 'Start' at least one new entry '<train> erreicht <stop>': after a Stop the operation starts again and the trains continue to reach their stops"
   },
@@ -462,12 +455,13 @@
     "test_id": "TC-32",
     "feature": "Unreachable switch server: switches turn red and an error message is shown",
     "steps": [
+      "Work strictly sequentially in this test: send only one browser tool call per message and wait for its result before you send the next one (never several clicks, selections, waits, snapshots or screenshots in parallel)",
       "Open the app",
       "If the status badge shows 'In Fahrt', click the Stop button",
       "Open the mock server console at http://localhost:3031",
       "Click 'Take Weichen offline'",
       "Open the app URL again",
-      "Wait 10 seconds, then take a new accessibility snapshot",
+      "Wait 10 seconds; when the wait has finished, take a new accessibility snapshot",
       "Take a screenshot of the track graphic",
       "Read the messages on the page",
       "Open the mock server console at http://localhost:3031",
@@ -479,15 +473,16 @@
     "test_id": "TC-33",
     "feature": "Switch server becomes reachable again",
     "steps": [
+      "Work strictly sequentially in this test: send only one browser tool call per message and wait for its result before you send the next one (never several clicks, selections, waits, snapshots or screenshots in parallel)",
       "Open the app",
       "If the status badge shows 'In Fahrt', click the Stop button",
       "Open the mock server console at http://localhost:3031",
       "Click 'Take Weichen offline'",
       "Open the app URL again",
-      "Wait 10 seconds, then take a new accessibility snapshot",
+      "Wait 10 seconds; when the wait has finished, take a new accessibility snapshot",
       "Open the mock server console at http://localhost:3031",
       "Click 'Bring Weichen online'",
-      "Wait 15 seconds, then take a new accessibility snapshot",
+      "Wait 15 seconds; when the wait has finished, take a new accessibility snapshot",
       "Read 'Connected clients' of 'Weichen'",
       "Open the app URL again",
       "Take a screenshot of the track graphic and read the messages on the page"
@@ -498,12 +493,13 @@
     "test_id": "TC-34",
     "feature": "Unreachable locomotive server: train hidden, disconnected and an error message is shown",
     "steps": [
+      "Work strictly sequentially in this test: send only one browser tool call per message and wait for its result before you send the next one (never several clicks, selections, waits, snapshots or screenshots in parallel)",
       "Open the app",
       "If the status badge shows 'In Fahrt', click the Stop button",
       "Open the mock server console at http://localhost:3031",
       "Click 'Take Bahn 2 offline'",
       "Open the app URL again",
-      "Wait 10 seconds, then take a new accessibility snapshot",
+      "Wait 10 seconds; when the wait has finished, take a new accessibility snapshot",
       "Take a screenshot of the track graphic",
       "Read the messages on the page",
       "Select 'Bahn 2' and read its status",
@@ -516,15 +512,16 @@
     "test_id": "TC-35",
     "feature": "Locomotive server becomes reachable again",
     "steps": [
+      "Work strictly sequentially in this test: send only one browser tool call per message and wait for its result before you send the next one (never several clicks, selections, waits, snapshots or screenshots in parallel)",
       "Open the app",
       "If the status badge shows 'In Fahrt', click the Stop button",
       "Open the mock server console at http://localhost:3031",
       "Click 'Take Bahn 2 offline'",
       "Open the app URL again",
-      "Wait 10 seconds, then take a new accessibility snapshot",
+      "Wait 10 seconds; when the wait has finished, take a new accessibility snapshot",
       "Open the mock server console at http://localhost:3031",
       "Click 'Bring Bahn 2 online'",
-      "Wait 15 seconds, then take a new accessibility snapshot",
+      "Wait 15 seconds; when the wait has finished, take a new accessibility snapshot",
       "Read 'Connected clients' of 'Bahn 2'",
       "Open the app URL again",
       "Select 'Bahn 2' and read its status"

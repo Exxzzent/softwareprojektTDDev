@@ -2,8 +2,8 @@
 
 # Project Introduction
 
-Please implement a web application that automatically controls a physical garden railway (layout:
-see the [reference photo](../references/gartenbahn-aufbau.jpg)). For each of the two trains the
+Please implement a web application that automatically controls a physical garden railway (track
+layout: see WORLD-06). For each of the two trains the
 user defines a sequence of stops and starts operation. A control algorithm in the backend then
 drives the trains to their stops via the existing hardware servers (Locomotive Server, Switch
 Server), sets the switches and resolves conflicts when both trains need the same track section.
@@ -22,8 +22,8 @@ Conventions of this document:
   of stops of all trains defined by the user; *reserve* = block a block for one train so that no
   other train may enter it.
 - *Clockwise* and *counter-clockwise* describe the sense of travel around the main loop as seen
-  from above, in the orientation of the reference photo and of the track graphic (the front
-  straight with the siding is at the bottom). Clockwise means: on the back straight (top) from
+  from above, in the orientation defined in WORLD-06, which is also the orientation of the track
+  graphic (the front straight with the siding is at the bottom). Clockwise means: on the back straight (top) from
   left to right, on the right curve downwards, on the front straight (bottom) from right to left,
   on the left curve upwards.
 
@@ -51,22 +51,40 @@ German: `Welt-Informationen`.
 - **WORLD-05** All track lengths, train speeds and calibration values must be defined only in the
   configuration file, so that they can be measured and corrected by hand on the hardware after
   code generation without changing program logic.
-- **WORLD-06** The track layout is based on the physical layout in the
-  [reference photo](../references/gartenbahn-aufbau.jpg) and must be modelled and drawn in the
-  same orientation (seen from above, front straight at the bottom): an elongated oval main loop
-  with long straight sides (back straight at the top, front straight at the bottom, one curve on
-  the left and one on the right). Along the front straight, a siding runs on the outside of the
-  loop (below the front straight), between two switches on the main line: "Weiche 1" at the left
-  end and "Weiche 3" at the right end of the siding. A third switch, "Weiche 2", lies on the
-  siding near its right end; from it a dead-end spur leads to the right, away from the loop
-  (outwards, not into the loop), and ends at a buffer stop. This spur is the calibration point.
+- **WORLD-06** The track layout is the physical layout shown in the
+  [reference photo](../references/gartenbahn-aufbau.jpg). It must be modelled, and drawn in the
+  track graphic, as seen from above with the front straight at the bottom. All position words in
+  this document (top, bottom, left, right, above, below) refer to this view. The layout consists
+  of exactly the following parts:
+  - **Main loop:** a closed, elongated oval. It consists of the back straight (top), the right
+    curve, the front straight (bottom) and the left curve. The two straights are horizontal,
+    parallel and equally long, and each of them is clearly longer than the oval is high. Each
+    curve is a half circle that joins the ends of the two straights on its side.
+  - **Siding:** a second track on the outside of the loop, below the front straight. It begins at
+    "Weiche 1" and ends at "Weiche 3". Both switches lie on the front straight, "Weiche 1" in its
+    left third and "Weiche 3" in its right third. From "Weiche 1" the siding runs a short piece
+    diagonally down to the right, then as a straight horizontal section parallel to the front
+    straight, then a short piece diagonally up to the right into "Weiche 3". The part of the front
+    straight between "Weiche 1" and "Weiche 3" is the next-to-siding track.
+  - **"Weiche 2":** lies on the siding at the right end of its horizontal section, exactly at the
+    point where the siding bends upwards towards "Weiche 3".
+  - **Spur (calibration point):** a dead-end track that begins at "Weiche 2" and continues the
+    horizontal section of the siding in a straight line to the right, at the same height as that
+    section. It does not branch off downwards. It passes below the right curve without touching
+    it, extends a little beyond the rightmost point of the loop and ends there at a buffer stop.
+    The spur lies outside the loop.
+
+  From top to bottom the layout therefore has exactly three horizontal track levels: the back
+  straight, the front straight and, below it, one level that is shared by the horizontal section
+  of the siding and the spur. There is no track below this third level.
   - **WORLD-06.1** The spur can only be entered from the siding coming from "Weiche 1" (moving
     from left to right, i.e. in the counter-clockwise sense) and can only be left in the opposite
     sense. A train coming from "Weiche 3" cannot enter the spur.
-  - **WORLD-06.2** The track has exactly four stops: "Haltestelle 1" in the middle of the back
-    straight, "Haltestelle 2" on the right curve, "Haltestelle 3" on the front straight (it is
-    the next-to-siding track between "Weiche 1" and "Weiche 3") and "Haltestelle 4" on the left
-    curve. In clockwise order the stops are 1, 2, 3, 4.
+  - **WORLD-06.2** The track has exactly four stops: "Haltestelle 1" on the back straight,
+    "Haltestelle 2" at the rightmost point of the right curve, "Haltestelle 3" in the middle of
+    the next-to-siding track (the front straight between "Weiche 1" and "Weiche 3") and
+    "Haltestelle 4" at the leftmost point of the left curve. In clockwise order the stops are
+    1, 2, 3, 4.
 - **WORLD-07** The track must be divided into sections (blocks).
   - **WORLD-07.1** The length (in cm) must be definable for each block individually.
   - **WORLD-07.2** Every block must have exactly one of the following block types: *track*,
@@ -496,7 +514,6 @@ Reference files in the repository:
 
 | Reference | Path |
 | --- | --- |
-| Reference photo of the physical layout | [`references/gartenbahn-aufbau.jpg`](../references/gartenbahn-aufbau.jpg) |
 | ISE servers (Locomotive, Switch, Railroad) as git submodule | [`references/ise-server`](../references/ise-server) |
 | Mock servers of the test environment and protocol summary | [`tdd/mock-servers/README.md`](mock-servers/README.md) |
 
