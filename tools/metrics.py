@@ -219,7 +219,22 @@ def wilcoxon_greater(deltas: list[float]) -> float | None:
 
 
 def cmd_summary(path: str) -> None:
-    rows = read_runs(path)
+    """One block per task (column `task`: t1, t2, ...; rows without it count as t1). Every
+    approach is compared with the vanilla runs of the same agent on the same task."""
+    all_rows = read_runs(path)
+    tasks = sorted({(r.get("task") or "t1").strip() or "t1" for r in all_rows})
+    for task in tasks:
+        if len(tasks) > 1 or task != "t1":
+            print(f"# Task {task}\n")
+        _summary([r for r in all_rows if ((r.get("task") or "t1").strip() or "t1") == task])
+        print()
+    print("Note: with n pairs the smallest possible one-sided Wilcoxon p is 1/2^n "
+          "(n=4: 0.0625, n=5: 0.031). Few pairs = illustrative, not significant.\n"
+          "Pairing by `repeat` is arbitrary when all runs build the same application (the paper "
+          "pairs by application); report mean delta and single values, p only as orientation.")
+
+
+def _summary(rows: list[dict]) -> None:
     groups: dict[tuple[str, str], list[dict]] = defaultdict(list)
     for r in rows:
         groups[(r["agent"].strip(), r["approach"].strip().lower())].append(r)
@@ -263,10 +278,6 @@ def cmd_summary(path: str) -> None:
         p = wilcoxon_greater(deltas)
         print(f"| {agent} | {appr} | {len(deltas)} | {sum(deltas) / len(deltas):.1f} "
               f"| [{ci[0]}, {ci[1]}] | {p:.3f} |")
-    print("\nNote: with n pairs the smallest possible one-sided Wilcoxon p is 1/2^n "
-          "(n=4: 0.0625, n=5: 0.031). Few pairs = illustrative, not significant.\n"
-          "Pairing by `repeat` is arbitrary when all runs build the same application (the paper "
-          "pairs by application); report mean delta and single values, p only as orientation.")
 
 
 def main() -> None:

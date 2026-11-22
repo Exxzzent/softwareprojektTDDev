@@ -9,12 +9,14 @@
 #   case.sh check  <run-id>                vor dem Check: Arbeitsbaum leeren, Branch prüfen
 #   case.sh finish <run-id>                committen + pushen, Ergebnisse nach results/, runs.csv füllen
 #   case.sh csv                            results/runs.csv committen + pushen
+#
+# Zwei Aufgabenstellungen (tasks/): t1 = Folgefahrt mit Mockup, t2 = Gegenverkehr ohne Mockup.
+# Die Aufgabe steckt in der run-id: "opus5.5-whole-r1" ist t1, "t2-opus5.5-whole-r1" ist t2.
+# Jede Aufgabe hat ihren eigenen Ausgangsstand (Branch + Tag) und ihren eigenen Projekt-Klon.
+# Befehle ohne run-id (freeze, branches) nehmen die Aufgabe aus TASK (Standard t1): TASK=t2 case.sh branches 2 opus5.5
 set -euo pipefail
 
 TDDEV="$(cd "$(dirname "$0")/.." && pwd)"
-PROJECT="${PROJECT:-$HOME/Desktop/Uni/3.Semester/Softwareprojekt/App/softwareprojekt}"
-BASE_BRANCH="${BASE_BRANCH:-TDDev-origin}"
-TAG="tdd-baseline"
 APPROACHES="vanilla whole incremental agentic"
 CSV="$TDDEV/results/runs.csv"
 
@@ -22,8 +24,29 @@ die() { echo "Fehler: $*" >&2; exit 1; }
 p() { git -C "$PROJECT" "$@"; }
 t() { git -C "$TDDEV" "$@"; }
 
-[ "$TDDEV" != "$PROJECT" ] || die "case.sh läuft im Projekt-Repo. Aus dem TDDev-Klon starten: ~/Desktop/Code/Skills/softwareprojektTDDev/tools/case.sh"
-[ -d "$PROJECT/.git" ] || die "kein Git-Repo unter PROJECT=$PROJECT"
+# Aufgabe einer run-id: Präfix "t<n>-", sonst t1.
+task_of() { if [[ "$1" =~ ^(t[0-9]+)- ]]; then echo "${BASH_REMATCH[1]}"; else echo t1; fi; }
+
+# Setzt TASK, PROJECT, BASE_BRANCH und TAG für eine Aufgabe.
+#   t1: Klon $PROJECT,    Branch TDDev-origin,    Tag tdd-baseline      (unverändert)
+#   t2: Klon $PROJECT_T2, Branch TDDev-origin-t2, Tag tdd-baseline-t2
+use_task() {
+  TASK="$1"
+  [[ "$TASK" =~ ^t[0-9]+$ ]] || die "unbekannte Aufgabe '$TASK' (t1, t2, ...)"
+  if [ "$TASK" = t1 ]; then
+    PROJECT="${PROJECT:-$HOME/Desktop/Uni/3.Semester/Softwareprojekt/App/softwareprojekt}"
+    BASE_BRANCH="${BASE_BRANCH:-TDDev-origin}"
+    TAG="tdd-baseline"
+  else
+    local up; up="$(echo "$TASK" | tr a-z A-Z)"
+    local var="PROJECT_$up"
+    PROJECT="${!var:-$HOME/Desktop/Uni/3.Semester/Softwareprojekt/App-$up/softwareprojekt}"
+    BASE_BRANCH="TDDev-origin-$TASK"
+    TAG="tdd-baseline-$TASK"
+  fi
+  [ "$TDDEV" != "$PROJECT" ] || die "case.sh läuft im Projekt-Repo. Aus dem TDDev-Klon starten: ~/Desktop/Code/Skills/softwareprojektTDDev/tools/case.sh"
+  [ -d "$PROJECT/.git" ] || die "kein Git-Repo unter $PROJECT (Aufgabe $TASK)"
+}
 
 # Alles, was nicht im Git liegt (node_modules, gebautes CSS, DB, Playwright-Reste), wird entfernt,
 # damit kein Lauf etwas vom vorherigen erbt. Danach Submodul zurücksetzen und Dependencies
@@ -40,6 +63,11 @@ need_tag() { p rev-parse -q --verify "refs/tags/$TAG" >/dev/null || die "Tag $TA
 need_clean() { [ -z "$(p status --porcelain --ignore-submodules=untracked)" ] || die "Projekt hat uncommittete Änderungen (erst 'case.sh finish <run-id>')"; }
 
 cmd="${1:-}"; run="${2:-}"
+
+case "$cmd" in
+  start|check|finish) [ -n "$run" ] && use_task "$(task_of "$run")" ;;
+  freeze|branches) use_task "${TASK:-t1}" ;;
+esac
 
 case "$cmd" in
   freeze)
@@ -62,19 +90,21 @@ case "$cmd" in
     reps="${2:-}"; shift 2 || true
     [[ "$reps" =~ ^[1-9][0-9]*$ ]] && [ $# -gt 0 ] || die "Aufruf: case.sh branches <wiederholungen> <agent>...   z. B. branches 2 sonnet opus gpt gemini"
     need_tag
+    prefix=""; [ "$TASK" = t1 ] || prefix="$TASK-"
     refs=()
     for a in "$@"; do
       [[ "$a" =~ ^[a-z0-9.]+$ ]] || die "Agent-Name '$a': nur Kleinbuchstaben, Ziffern, Punkt (kein Bindestrich)"
       for ap in $APPROACHES; do for r in $(seq 1 "$reps"); do
-        b="run/$a-$ap-r$r"
+        b="run/$prefix$a-$ap-r$r"
         p rev-parse -q --verify "refs/heads/$b" >/dev/null || p branch "$b" "$TAG"
         refs+=("$b")
       done; done
     done
     p push -u origin "${refs[@]}"
-    python3 - "$CSV" "$APPROACHES" "$reps" "$TDDEV/harness/agents.tsv" "$@" <<'EOF'
+    python3 - "$CSV" "$APPROACHES" "$reps" "$TDDEV/harness/agents.tsv" "$TASK" "$@" <<'EOF'
 import csv, sys
-path, approaches, reps, spec, agents = sys.argv[1], sys.argv[2].split(), int(sys.argv[3]), sys.argv[4], sys.argv[5:]
+path, approaches, reps, spec, task, agents = sys.argv[1], sys.argv[2].split(), int(sys.argv[3]), sys.argv[4], sys.argv[5], sys.argv[6:]
+prefix = "" if task == "t1" else task + "-"
 table = {l.split("\t")[0]: l.rstrip("\n").split("\t")[1:] for l in open(spec) if l.strip() and not l.startswith("#")}
 missing = [a for a in agents if a not in table]
 if missing: sys.exit(f"Fehler: {missing} fehlen in harness/agents.tsv")
@@ -85,11 +115,12 @@ have = {r["run_id"] for r in rows}
 for a in agents:
     for ap in approaches:
         for n in range(1, reps + 1):
-            rid = f"{a}-{ap}-r{n}"
+            rid = f"{prefix}{a}-{ap}-r{n}"
             if rid not in have:
                 row = dict.fromkeys(header, "")
-                h, m, r = table[a]
+                h, m, r = table[a][:3]
                 row.update(run_id=rid, agent=a, harness=h, model=m, reasoning=r, approach=ap, repeat=str(n))
+                if "task" in row: row["task"] = task
                 rows.append(row)
 with open(path, "w", newline="") as f:
     w = csv.DictWriter(f, fieldnames=header, lineterminator="\n"); w.writeheader(); w.writerows(rows)
@@ -114,8 +145,19 @@ EOF
 
   check)
     [ -n "$run" ] || die "Aufruf: case.sh check <run-id>"
-    [ "$(p branch --show-current)" = "run/$run" ] || die "Projekt ist nicht auf run/$run"
-    need_clean
+    b="run/$run"
+    if [ "$(p branch --show-current)" != "$b" ]; then
+      # Lauf wurde auf einem anderen Rechner gebaut (oder ein anderer Branch ist ausgecheckt): holen.
+      need_clean
+      p fetch -q origin "+refs/heads/$b:refs/remotes/origin/$b" || die "run/$run nicht auf origin gefunden"
+      if p rev-parse -q --verify "refs/heads/$b" >/dev/null; then
+        p switch -q "$b"; p merge -q --ff-only "origin/$b"
+      else
+        p switch -q -c "$b" --track "origin/$b"
+      fi
+    fi
+    need_clean; need_tag
+    [ -n "$(p rev-list "$TAG..$b")" ] || die "$b hat noch keine Commits nach $TAG (erst bauen, dann 'case.sh finish $run')"
     clean_runtime " "
     echo "Bereit für den Check: tools/agent.sh check $run"
     ;;
@@ -130,7 +172,9 @@ EOF
     else p commit -q -m "run $run"
     fi
     p push -q -u origin "run/$run"
-    # 2) TDDev: Ergebnisse nach results/<run-id>/ kopieren
+    # 2) TDDev: Ergebnisse nach results/<run-id>/ kopieren. Vorher den Stand von origin holen,
+    #    damit zwei Rechner (z. B. Mac und Linux) in dieselbe Tabelle schreiben können.
+    t pull -q --rebase --autostash || echo "Hinweis: 'git pull --rebase' im TDDev-Repo fehlgeschlagen (offline?), es geht mit dem lokalen Stand weiter."
     dest="$TDDEV/results/$run"; mkdir -p "$dest"
     for f in "$PROJECT"/tdd/tdd-log.jsonl "$PROJECT"/tdd/check-*.json; do
       [ -f "$f" ] && cp "$f" "$dest/"
@@ -141,19 +185,26 @@ EOF
     if [ -f "$dest/launch-run.txt" ] && [ ! -f "$dest/tokens.json" ]; then
       CLAUDE_CONFIG_DIR="${CASE_HOME:-$HOME/.tdd-case}/claude" CODEX_HOME="${CASE_HOME:-$HOME/.tdd-case}/codex" \
         python3 "$TDDEV/tools/tokens.py" "$dest/launch-run.txt" "$PROJECT" > "$dest/tokens.json" || echo "{}" > "$dest/tokens.json"
+      # Keine Transkripte gefunden (falscher Rechner, falsches Profil): nichts eintragen statt 0 Tokens.
+      if [ "$(tr -d '[:space:]' < "$dest/tokens.json")" = "{}" ]; then
+        rm -f "$dest/tokens.json"
+        echo "WARNUNG: keine Transkripte der Bau-Session gefunden, tok_* bleiben leer. 'finish' auf dem Rechner ausführen, auf dem gebaut wurde."
+      fi
     fi
     [ -f "$dest/tokens.json" ] && tok="$(cat "$dest/tokens.json")"
-    python3 - "$CSV" "$run" "$dest" "$tok" <<'EOF'
+    python3 - "$CSV" "$run" "$dest" "$tok" "$TASK" <<'EOF'
 import csv, glob, json, os, sys
-path, run, dest, tok = sys.argv[1:]
+path, run, dest, tok, task = sys.argv[1:]
 with open(path, newline="") as f:
     rows = list(csv.DictReader(f)); f.seek(0); header = next(csv.reader(f))
 row = next((r for r in rows if r["run_id"] == run), None)
 if row is None:
     row = dict.fromkeys(header, ""); parts = run.split("-")
+    if task != "t1" and parts[0] == task: parts = parts[1:]
     if len(parts) == 3 and parts[2].startswith("r"):
         row.update(agent=parts[0], approach=parts[1], repeat=parts[2][1:])
     row["run_id"] = run; rows.append(row)
+if "task" in row and not row["task"]: row["task"] = task
 empty = lambda k: row.get(k, "") in ("", "XXX")
 filled = []
 log = os.path.join(dest, "tdd-log.jsonl")
@@ -191,5 +242,5 @@ EOF
     ;;
 
   *)
-    sed -n '2,11p' "$0"; exit 1 ;;
+    sed -n '2,16p' "$0"; exit 1 ;;
 esac

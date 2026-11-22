@@ -1,0 +1,501 @@
+[
+  {
+    "test_id": "TC-01",
+    "feature": "Backend connects to all mock servers at startup",
+    "steps": [
+      "Open the mock server console at http://localhost:3031",
+      "Read the columns 'Status' and 'Connected clients' of 'Bahn 1', 'Bahn 2' and 'Weichen'"
+    ],
+    "expected": "'Bahn 1', 'Bahn 2' and 'Weichen' are all 'Online' and each has at least 1 connected client"
+  },
+  {
+    "test_id": "TC-02",
+    "feature": "Page structure follows the UI mockup",
+    "steps": [
+      "Open the app",
+      "Read the page structure"
+    ],
+    "expected": "The page has a header with the title 'Gartenbahn', a card 'Gartenbahn-Ansicht' with a track graphic, a card 'Control Panel' with a train selection, a stop list, a Start button and a status badge, and a button 'Alle Strecken zurücksetzen'; there is no login or account form"
+  },
+  {
+    "test_id": "TC-03",
+    "feature": "Visual style follows the UI mockup",
+    "steps": [
+      "Open the app",
+      "Take a screenshot of the page"
+    ],
+    "expected": "The page uses the neutral shadcn/ui-like style of the mockup: light background, white cards with thin grey borders and rounded corners, a dark primary button and segmented train tabs"
+  },
+  {
+    "test_id": "TC-04",
+    "feature": "Track graphic in the preview",
+    "steps": [
+      "Open the app",
+      "Take a screenshot of the track graphic in the card 'Gartenbahn-Ansicht'"
+    ],
+    "expected": "The preview shows a drawn track layout with an outer loop, a siding next to the main line, switches where tracks branch, labelled stops and a dead-end calibration point"
+  },
+  {
+    "test_id": "TC-05",
+    "feature": "Exactly two trains",
+    "steps": [
+      "Open the app",
+      "Read the train selection in the control panel"
+    ],
+    "expected": "Exactly two trains can be selected: 'Bahn 1' and 'Bahn 2'"
+  },
+  {
+    "test_id": "TC-06",
+    "feature": "First setup asks for the first train",
+    "steps": [
+      "Open the app",
+      "Read the page without clicking anything"
+    ],
+    "expected": "A popup or dialog asks the user to place the first train ('Bahn 1') on the calibration point and offers a button to confirm this"
+  },
+  {
+    "test_id": "TC-07",
+    "feature": "First setup shows the switch hint",
+    "steps": [
+      "Open the app",
+      "Read the page without clicking anything"
+    ],
+    "expected": "The page shows a hint that the user should check whether the switches are set correctly"
+  },
+  {
+    "test_id": "TC-08",
+    "feature": "Controls are locked until the first setup is completed",
+    "steps": [
+      "Open the app",
+      "Without confirming anything in the calibration dialog, try to click the Start button",
+      "Try to click 'Haltestelle hinzufügen'",
+      "Read the status badge and the stop list"
+    ],
+    "expected": "The Start button is disabled or cannot be reached, no stop can be added, and the status badge still shows 'Gestoppt'"
+  },
+  {
+    "test_id": "TC-09",
+    "feature": "Confirming the first train starts its calibration",
+    "steps": [
+      "Open the app",
+      "In the calibration dialog, click the button that confirms that the first train is on the calibration point",
+      "Wait 20 seconds, then take a new accessibility snapshot",
+      "Read the calibration dialog"
+    ],
+    "expected": "The dialog now asks the user to place the second train ('Bahn 2') on the calibration point"
+  },
+  {
+    "test_id": "TC-10",
+    "feature": "A second frontend shows the current setup step",
+    "steps": [
+      "Open the app",
+      "Open the app URL in a second browser tab",
+      "Read the calibration dialog in the second tab"
+    ],
+    "expected": "The second tab directly shows the current step, i.e. the request to place the second train ('Bahn 2') on the calibration point, not the request for the first train"
+  },
+  {
+    "test_id": "TC-11",
+    "feature": "Completing the setup in one frontend completes it in all frontends",
+    "steps": [
+      "Open the app",
+      "Open the app URL in a second browser tab",
+      "In the second tab, click the button that confirms that the second train is on the calibration point",
+      "Wait 20 seconds, then take a new accessibility snapshot",
+      "Read the page in the second tab",
+      "Switch to the first tab without reloading it",
+      "Read the page in the first tab"
+    ],
+    "expected": "In both tabs the calibration dialog is gone and the Start button is enabled"
+  },
+  {
+    "test_id": "TC-12",
+    "feature": "Both trains are shown after the setup",
+    "steps": [
+      "Open the app",
+      "Take a screenshot of the track graphic"
+    ],
+    "expected": "Markers for both 'Bahn 1' and 'Bahn 2' are shown on the track"
+  },
+  {
+    "test_id": "TC-13",
+    "feature": "Calibration uses the slow calibration speed",
+    "steps": [
+      "Open the mock server console at http://localhost:3031",
+      "Read the column 'Applied speed changes (oldest first)' of 'Bahn 1' and 'Bahn 2'"
+    ],
+    "expected": "For both trains the history contains a low speed greater than 0 (the calibration speed) that is later followed by speed 0"
+  },
+  {
+    "test_id": "TC-14",
+    "feature": "The first train waits at the calibration waiting point",
+    "steps": [
+      "Open the mock server console at http://localhost:3031",
+      "Read the column 'Applied speed changes (oldest first)' and the column 'Speed (0-255)' of 'Bahn 1'"
+    ],
+    "expected": "After the calibration speed, the history of 'Bahn 1' contains a higher speed (the drive to the calibration waiting point) and then speed 0; the current speed of 'Bahn 1' is 0"
+  },
+  {
+    "test_id": "TC-15",
+    "feature": "The second train stays at the calibration point",
+    "steps": [
+      "Open the mock server console at http://localhost:3031",
+      "Read the column 'Applied speed changes (oldest first)' and the column 'Speed (0-255)' of 'Bahn 2'"
+    ],
+    "expected": "The history of 'Bahn 2' contains only the calibration speed and speed 0 (no higher speed), and its current speed is 0"
+  },
+  {
+    "test_id": "TC-16",
+    "feature": "Live status of each train",
+    "steps": [
+      "Open the app",
+      "If the status badge shows 'In Fahrt', click the Stop button",
+      "Select 'Bahn 1' and read its status",
+      "Select 'Bahn 2' and read its status"
+    ],
+    "expected": "For each train the app shows that a connection to the train exists and shows its current speed (0 while the trains are stopped)"
+  },
+  {
+    "test_id": "TC-17",
+    "feature": "Edit the stops of a train",
+    "steps": [
+      "Open the app",
+      "If the status badge shows 'In Fahrt', click the Stop button",
+      "Click 'Alle Strecken zurücksetzen'",
+      "Select 'Bahn 1'",
+      "Click 'Haltestelle hinzufügen' three times",
+      "Set the first stop to the first option, the second stop to the second option and the third stop to the third option of the stop selection",
+      "Click the remove button of the second stop",
+      "Read the stop list of 'Bahn 1'"
+    ],
+    "expected": "The stop selection offers the stops of the track layout; after removing, exactly the stops chosen first and third remain, numbered 1 and 2 in this order"
+  },
+  {
+    "test_id": "TC-18",
+    "feature": "Any number of stops, the same stop several times",
+    "steps": [
+      "Open the app",
+      "If the status badge shows 'In Fahrt', click the Stop button",
+      "Click 'Alle Strecken zurücksetzen'",
+      "Select 'Bahn 2'",
+      "Click 'Haltestelle hinzufügen' four times",
+      "Click 'Haltestelle hinzufügen' four more times",
+      "Set stop 1 and stop 3 to the same stop",
+      "Read the stop list of 'Bahn 2'"
+    ],
+    "expected": "All 8 stops are listed for 'Bahn 2' without an error or limit message, and stop 1 and stop 3 show the same stop"
+  },
+  {
+    "test_id": "TC-19",
+    "feature": "Each train has its own stop list",
+    "steps": [
+      "Open the app",
+      "If the status badge shows 'In Fahrt', click the Stop button",
+      "Click 'Alle Strecken zurücksetzen'",
+      "Select 'Bahn 1' and click 'Haltestelle hinzufügen' once",
+      "Select 'Bahn 2' and click 'Haltestelle hinzufügen' twice",
+      "Select 'Bahn 1' and read its stop list"
+    ],
+    "expected": "'Bahn 1' has exactly 1 stop; the 2 stops added for 'Bahn 2' do not appear in the list of 'Bahn 1'"
+  },
+  {
+    "test_id": "TC-20",
+    "feature": "Reset all routes removes all stops",
+    "steps": [
+      "Open the app",
+      "If the status badge shows 'In Fahrt', click the Stop button",
+      "Select 'Bahn 1' and click 'Haltestelle hinzufügen'",
+      "Select 'Bahn 2' and click 'Haltestelle hinzufügen'",
+      "Click 'Alle Strecken zurücksetzen'",
+      "Select 'Bahn 1' and read its stop list",
+      "Select 'Bahn 2' and read its stop list"
+    ],
+    "expected": "Both trains have no stops anymore"
+  },
+  {
+    "test_id": "TC-21",
+    "feature": "Start locks the editing",
+    "steps": [
+      "Open the app",
+      "If the status badge shows 'In Fahrt', click the Stop button",
+      "Click 'Alle Strecken zurücksetzen'",
+      "Select 'Bahn 1' and click 'Haltestelle hinzufügen' twice",
+      "If both stops of 'Bahn 1' show the same stop, set the second one to a different stop; call the two stops A and B",
+      "Select 'Bahn 2' and click 'Haltestelle hinzufügen' twice",
+      "If both stops of 'Bahn 2' show the same stop, set the second one to a different stop",
+      "Click the Start button",
+      "Try to change the first stop of 'Bahn 1'",
+      "Try to click 'Haltestelle hinzufügen'",
+      "Try to click 'Alle Strecken zurücksetzen'"
+    ],
+    "expected": "The status badge shows 'In Fahrt', a Stop button is shown instead of the Start button, the stops cannot be changed, added or removed, and 'Alle Strecken zurücksetzen' is disabled"
+  },
+  {
+    "test_id": "TC-22",
+    "feature": "Start makes the locomotives drive",
+    "steps": [
+      "Open the app",
+      "If the status badge shows 'In Fahrt', click the Stop button",
+      "Click 'Alle Strecken zurücksetzen'",
+      "Select 'Bahn 1' and click 'Haltestelle hinzufügen' twice",
+      "If both stops of 'Bahn 1' show the same stop, set the second one to a different stop; call the two stops A and B",
+      "Select 'Bahn 2' and click 'Haltestelle hinzufügen' twice",
+      "If both stops of 'Bahn 2' show the same stop, set the second one to a different stop",
+      "Click the Start button",
+      "Wait 15 seconds, then take a new accessibility snapshot",
+      "Open the mock server console at http://localhost:3031",
+      "Read the columns 'Speed (0-255)' and 'Applied speed changes (oldest first)' of 'Bahn 1' and 'Bahn 2'"
+    ],
+    "expected": "Both histories contain entries with a speed higher than the calibration speed (the train's normal speed), forward or backward; at least one train currently has a speed greater than 0; apart from the calibration speed, each train uses only one non-zero speed value"
+  },
+  {
+    "test_id": "TC-23",
+    "feature": "Train positions move live in the preview",
+    "steps": [
+      "Open the app",
+      "If the status badge shows 'In Fahrt', click the Stop button",
+      "Click 'Alle Strecken zurücksetzen'",
+      "Select 'Bahn 1' and click 'Haltestelle hinzufügen' twice",
+      "If both stops of 'Bahn 1' show the same stop, set the second one to a different stop; call the two stops A and B",
+      "Select 'Bahn 2' and click 'Haltestelle hinzufügen' twice",
+      "If both stops of 'Bahn 2' show the same stop, set the second one to a different stop",
+      "Click the Start button",
+      "Wait 5 seconds, then take a new accessibility snapshot",
+      "Take a screenshot of the track graphic",
+      "Wait 3 seconds, then take a new accessibility snapshot",
+      "Take another screenshot of the track graphic without reloading the page"
+    ],
+    "expected": "At least one train marker is at a clearly different place on the track in the second screenshot"
+  },
+  {
+    "test_id": "TC-24",
+    "feature": "Switches are set while driving",
+    "steps": [
+      "Open the mock server console at http://localhost:3031",
+      "Read the column 'Applied switch changes (oldest first)' of 'Weichen'",
+      "Open the app",
+      "If the status badge shows 'In Fahrt', click the Stop button",
+      "Click 'Alle Strecken zurücksetzen'",
+      "Select 'Bahn 1' and click 'Haltestelle hinzufügen' twice",
+      "If both stops of 'Bahn 1' show the same stop, set the second one to a different stop; call the two stops A and B",
+      "Select 'Bahn 2' and click 'Haltestelle hinzufügen' twice",
+      "Set the first stop of 'Bahn 2' to B and the second stop of 'Bahn 2' to A",
+      "Click the Start button",
+      "Wait 30 seconds, then take a new accessibility snapshot",
+      "Wait 30 seconds, then take a new accessibility snapshot",
+      "Open the mock server console at http://localhost:3031",
+      "Read the column 'Applied switch changes (oldest first)' of 'Weichen' again"
+    ],
+    "expected": "After Start, new switch changes have been added to the history of 'Weichen', i.e. the app has set switches via the Switch Server while the trains were driving"
+  },
+  {
+    "test_id": "TC-25",
+    "feature": "Trains never occupy the same place",
+    "steps": [
+      "Open the app",
+      "If the status badge shows 'In Fahrt', click the Stop button",
+      "Click 'Alle Strecken zurücksetzen'",
+      "Select 'Bahn 1' and click 'Haltestelle hinzufügen' twice",
+      "If both stops of 'Bahn 1' show the same stop, set the second one to a different stop; call the two stops A and B",
+      "Select 'Bahn 2' and click 'Haltestelle hinzufügen' twice",
+      "Set the first stop of 'Bahn 2' to B and the second stop of 'Bahn 2' to A",
+      "Click the Start button",
+      "Wait 8 seconds, then take a new screenshot of the track graphic",
+      "Wait 8 seconds, then take a new screenshot of the track graphic",
+      "Wait 8 seconds, then take a new screenshot of the track graphic",
+      "Wait 8 seconds, then take a new screenshot of the track graphic"
+    ],
+    "expected": "In none of the screenshots do the markers of 'Bahn 1' and 'Bahn 2' overlap or stand on the same track section; one train waits or evades while the other passes"
+  },
+  {
+    "test_id": "TC-26",
+    "feature": "Stops are driven in a loop",
+    "steps": [
+      "Open the app",
+      "If the status badge shows 'In Fahrt', click the Stop button",
+      "Click 'Alle Strecken zurücksetzen'",
+      "Select 'Bahn 1' and click 'Haltestelle hinzufügen' twice",
+      "If both stops of 'Bahn 1' show the same stop, set the second one to a different stop; call the two stops A and B",
+      "Select 'Bahn 2' and click 'Haltestelle hinzufügen' twice",
+      "Set the first stop of 'Bahn 2' to A and the second stop of 'Bahn 2' to B",
+      "Click the Start button",
+      "Take a screenshot of the track graphic",
+      "Wait 25 seconds, then take a new screenshot of the track graphic",
+      "Wait 25 seconds, then take a new screenshot of the track graphic",
+      "Wait 25 seconds, then take a new screenshot of the track graphic",
+      "Wait 25 seconds, then take a new screenshot of the track graphic"
+    ],
+    "expected": "'Bahn 1' is seen at stop A, later at stop B and later again at stop A (a detour to the calibration point in between is allowed); it does not stay at stop B"
+  },
+  {
+    "test_id": "TC-27",
+    "feature": "Recalibration during operation",
+    "steps": [
+      "Open the app",
+      "If the status badge shows 'In Fahrt', click the Stop button",
+      "Click 'Alle Strecken zurücksetzen'",
+      "Select 'Bahn 1' and click 'Haltestelle hinzufügen' twice",
+      "If both stops of 'Bahn 1' show the same stop, set the second one to a different stop; call the two stops A and B",
+      "Select 'Bahn 2' and click 'Haltestelle hinzufügen' twice",
+      "If both stops of 'Bahn 2' show the same stop, set the second one to a different stop",
+      "Click the Start button",
+      "Open the mock server console at http://localhost:3031",
+      "Wait 40 seconds, then take a new accessibility snapshot",
+      "Wait 40 seconds, then take a new accessibility snapshot",
+      "Wait 40 seconds, then take a new accessibility snapshot",
+      "Read the column 'Applied speed changes (oldest first)' of 'Bahn 1' and 'Bahn 2'"
+    ],
+    "expected": "For at least one train the history shows, after entries with its normal speed, a new entry with the low calibration speed, followed later by its normal speed again: the train was recalibrated at the calibration point during operation and then continued driving"
+  },
+  {
+    "test_id": "TC-28",
+    "feature": "Stop unlocks the editing",
+    "steps": [
+      "Open the app",
+      "If the status badge shows 'In Fahrt', click the Stop button",
+      "Click 'Alle Strecken zurücksetzen'",
+      "Select 'Bahn 1' and click 'Haltestelle hinzufügen' twice",
+      "If both stops of 'Bahn 1' show the same stop, set the second one to a different stop; call the two stops A and B",
+      "Select 'Bahn 2' and click 'Haltestelle hinzufügen' twice",
+      "If both stops of 'Bahn 2' show the same stop, set the second one to a different stop",
+      "Click the Start button",
+      "Wait 5 seconds, then take a new accessibility snapshot",
+      "Click the Stop button",
+      "Select 'Bahn 1' and click 'Haltestelle hinzufügen'",
+      "Read the status badge and the stop list of 'Bahn 1'"
+    ],
+    "expected": "The status badge shows 'Gestoppt', the Start button is shown again, and 'Bahn 1' now has 3 stops"
+  },
+  {
+    "test_id": "TC-29",
+    "feature": "Stop halts all locomotives",
+    "steps": [
+      "Open the app",
+      "If the status badge shows 'In Fahrt', click the Stop button",
+      "Click 'Alle Strecken zurücksetzen'",
+      "Select 'Bahn 1' and click 'Haltestelle hinzufügen' twice",
+      "If both stops of 'Bahn 1' show the same stop, set the second one to a different stop; call the two stops A and B",
+      "Select 'Bahn 2' and click 'Haltestelle hinzufügen' twice",
+      "If both stops of 'Bahn 2' show the same stop, set the second one to a different stop",
+      "Click the Start button",
+      "Wait 10 seconds, then take a new accessibility snapshot",
+      "Click the Stop button",
+      "Wait 3 seconds, then take a new accessibility snapshot",
+      "Open the mock server console at http://localhost:3031",
+      "Read the column 'Speed (0-255)' of 'Bahn 1' and 'Bahn 2'"
+    ],
+    "expected": "The speed of both 'Bahn 1' and 'Bahn 2' is 0"
+  },
+  {
+    "test_id": "TC-30",
+    "feature": "Unreachable switch server: switches turn red",
+    "steps": [
+      "Open the app",
+      "If the status badge shows 'In Fahrt', click the Stop button",
+      "Open the mock server console at http://localhost:3031",
+      "Click 'Take Weichen offline'",
+      "Open the app URL again",
+      "Wait 10 seconds, then take a new accessibility snapshot",
+      "Take a screenshot of the track graphic",
+      "Open the mock server console at http://localhost:3031",
+      "Click 'Bring Weichen online'"
+    ],
+    "expected": "In the screenshot the switches of the track graphic are highlighted in red"
+  },
+  {
+    "test_id": "TC-31",
+    "feature": "Unreachable switch server: error message",
+    "steps": [
+      "Open the app",
+      "If the status badge shows 'In Fahrt', click the Stop button",
+      "Open the mock server console at http://localhost:3031",
+      "Click 'Take Weichen offline'",
+      "Open the app URL again",
+      "Wait 10 seconds, then take a new accessibility snapshot",
+      "Read the messages on the page",
+      "Open the mock server console at http://localhost:3031",
+      "Click 'Bring Weichen online'"
+    ],
+    "expected": "The page shows an error message that the server 'Weichen' cannot be reached"
+  },
+  {
+    "test_id": "TC-32",
+    "feature": "Switch server becomes reachable again",
+    "steps": [
+      "Open the app",
+      "If the status badge shows 'In Fahrt', click the Stop button",
+      "Open the mock server console at http://localhost:3031",
+      "Click 'Take Weichen offline'",
+      "Open the app URL again",
+      "Wait 10 seconds, then take a new accessibility snapshot",
+      "Open the mock server console at http://localhost:3031",
+      "Click 'Bring Weichen online'",
+      "Wait 15 seconds, then take a new accessibility snapshot",
+      "Read 'Connected clients' of 'Weichen'",
+      "Open the app URL again",
+      "Take a screenshot of the track graphic and read the messages on the page"
+    ],
+    "expected": "The mock console shows at least 1 connected client for 'Weichen'; in the app the switches are no longer red and there is no error message about 'Weichen'"
+  },
+  {
+    "test_id": "TC-33",
+    "feature": "Unreachable locomotive server: train hidden and disconnected",
+    "steps": [
+      "Open the app",
+      "If the status badge shows 'In Fahrt', click the Stop button",
+      "Open the mock server console at http://localhost:3031",
+      "Click 'Take Bahn 2 offline'",
+      "Open the app URL again",
+      "Wait 10 seconds, then take a new accessibility snapshot",
+      "Take a screenshot of the track graphic",
+      "Select 'Bahn 2' and read its status",
+      "Open the mock server console at http://localhost:3031",
+      "Click 'Bring Bahn 2 online'"
+    ],
+    "expected": "'Bahn 2' is not shown in the track graphic, and its status shows that there is no connection to the train"
+  },
+  {
+    "test_id": "TC-34",
+    "feature": "Unreachable locomotive server: error message",
+    "steps": [
+      "Open the app",
+      "If the status badge shows 'In Fahrt', click the Stop button",
+      "Open the mock server console at http://localhost:3031",
+      "Click 'Take Bahn 2 offline'",
+      "Open the app URL again",
+      "Wait 10 seconds, then take a new accessibility snapshot",
+      "Read the messages on the page",
+      "Open the mock server console at http://localhost:3031",
+      "Click 'Bring Bahn 2 online'"
+    ],
+    "expected": "The page shows an error message that the server 'Bahn 2' cannot be reached"
+  },
+  {
+    "test_id": "TC-35",
+    "feature": "Locomotive server becomes reachable again",
+    "steps": [
+      "Open the app",
+      "If the status badge shows 'In Fahrt', click the Stop button",
+      "Open the mock server console at http://localhost:3031",
+      "Click 'Take Bahn 2 offline'",
+      "Open the app URL again",
+      "Wait 10 seconds, then take a new accessibility snapshot",
+      "Open the mock server console at http://localhost:3031",
+      "Click 'Bring Bahn 2 online'",
+      "Wait 15 seconds, then take a new accessibility snapshot",
+      "Read 'Connected clients' of 'Bahn 2'",
+      "Open the app URL again",
+      "Select 'Bahn 2' and read its status"
+    ],
+    "expected": "The mock console shows at least 1 connected client for 'Bahn 2', and the app shows the connection to 'Bahn 2' again without an error message about 'Bahn 2'"
+  },
+  {
+    "test_id": "TC-36",
+    "feature": "The app speaks the protocol of the hardware servers",
+    "steps": [
+      "Open the mock server console at http://localhost:3031",
+      "Read the column 'Messages from clients' of 'Bahn 1', 'Bahn 2' and 'Weichen'"
+    ],
+    "expected": "Every server shows 'ignored: 0' and 'rejected: 0', and 'Bahn 1', 'Bahn 2' and 'Weichen' each show at least one applied message"
+  }
+]

@@ -86,8 +86,69 @@ $C csv
   das.
 - `finish` trägt in `runs.csv` nur leere Felder ein und nimmt immer den **ersten** Check.
 - Agent-Namen nur aus Kleinbuchstaben, Ziffern und Punkt (z. B. `gpt5.1`), ohne Bindestrich.
-- Projektpfad über `PROJECT=...` änderbar.
+- Projektpfad über `PROJECT=...` änderbar (Aufgabe t2: `PROJECT_T2=...`).
 - Auswertung: `python3 tools/metrics.py summary results/runs.csv`.
+
+## 1b. Zwei Aufgabenstellungen (t1, t2)
+
+Die Case Study hat zwei Aufgabenstellungen. Beide liegen zum Vergleich unter `tasks/`
+(Unterschiede: `tasks/README.md`); der Agent sieht dieses Repo nie.
+
+| | t1: Folgefahrt mit Mockup | t2: Gegenverkehr ohne Mockup |
+| --- | --- | --- |
+| Anforderung, Tests | `tasks/requirement-1.md`, `tasks/tests-1.json` | `tasks/requirement-2.md`, `tasks/tests-2.json` |
+| Ausgangsstand im Projekt-Repo | Branch `TDDev-origin`, Tag `tdd-baseline` | Branch `TDDev-origin-t2`, Tag `tdd-baseline-t2` (ein Commit ohne Vorgänger) |
+| run-id | `opus5.5-whole-r1` | `t2-opus5.5-whole-r1` |
+| Lauf-Branch | `run/opus5.5-whole-r1` | `run/t2-opus5.5-whole-r1` |
+| Projekt-Klon (`PROJECT` / `PROJECT_T2`) | `…/Softwareprojekt/App/softwareprojekt` | `…/Softwareprojekt/App-T2/softwareprojekt` |
+| `task` in `runs.csv` | `t1` | `t2` |
+
+- Im Projekt heißen die Dateien in beiden Aufgaben `tdd/requirement.md` und `tdd/tests.json`,
+  weil die Skills genau diese Namen lesen. Der t2-Ausgangsstand ist bis auf diese beiden Dateien
+  und das entfernte Mockup identisch mit `tdd-baseline` (gleiche Skills, `tdd/app.md`,
+  Mock-Server, Lockfile).
+- t2 läuft in einem eigenen Klon, der nur die t2-Branches holt. So liegen die alte Anforderung,
+  das Mockup und die t1-Lösungen dort nicht vor:
+
+  ```bash
+  git clone --single-branch --branch TDDev-origin-t2 --no-tags \
+    https://github.com/Exxzzent/softwareprojekt.git ~/Desktop/Uni/3.Semester/Softwareprojekt/App-T2/softwareprojekt
+  cd ~/Desktop/Uni/3.Semester/Softwareprojekt/App-T2/softwareprojekt
+  git config --replace-all remote.origin.fetch '+refs/heads/TDDev-origin-t2:refs/remotes/origin/TDDev-origin-t2'
+  git config --add remote.origin.fetch '+refs/heads/run/t2-*:refs/remotes/origin/run/t2-*'
+  git config remote.origin.tagOpt --no-tags
+  git fetch origin tag tdd-baseline-t2 --no-tags && git submodule update --init
+  ```
+
+- Die Befehle sind dieselben; die Aufgabe steckt in der run-id:
+
+  ```bash
+  TASK=t2 $C branches 2 opus5.5 sonnet5.5 gpt6.1terra   # einmal: run/t2-…-Branches + Zeilen in runs.csv
+  $C start  t2-opus5.5-whole-r1
+  $A run    t2-opus5.5-whole-r1
+  $C finish t2-opus5.5-whole-r1
+  $C check  t2-opus5.5-whole-r1
+  $A check  t2-opus5.5-whole-r1
+  $C finish t2-opus5.5-whole-r1
+  ```
+
+- `setup`, `login` und `doctor` nehmen die Aufgabe aus `TASK` (Standard `t1`), z. B.
+  `TASK=t2 $A doctor opus5.5`.
+- `tools/metrics.py summary` rechnet jede Aufgabe für sich: Δ und CostEff immer gegen das
+  Vanilla desselben Agenten in derselben Aufgabe.
+
+### Zweiter Rechner (z. B. Codex auf Linux)
+
+- Auf dem zweiten Rechner: dieses Repo und den t2-Klon holen (`PROJECT_T2=<pfad>` setzen, wenn der
+  Pfad abweicht), `TASK=t2 $A setup`, `$A login codex`, `TASK=t2 $A doctor gpt6.1terra`.
+- Bauen dort: `$C start <run-id>` → `$A run <run-id>` → `$C finish <run-id>`. `finish` zählt die
+  Tokens aus den Transkripten **dieses** Rechners und pusht Lauf-Branch und Ergebnisse.
+- Prüfen auf dem Rechner mit dem festen Prüfer: `$C check <run-id>` holt den Lauf-Branch von
+  GitHub, wenn er lokal fehlt, danach `$A check <run-id>` und `$C finish <run-id>`.
+- `finish` holt vor dem Schreiben den Stand des Ergebnis-Repos (`git pull --rebase`), damit beide
+  Rechner in dieselbe `runs.csv` schreiben können.
+- Pro Rechner läuft immer nur eine Session: App, Mock-Server und Konsole haben feste Ports
+  (3030, 3031, 8095, 8076–8078).
 
 ## 2. Setup (einmal pro Rechner)
 
@@ -387,12 +448,13 @@ Format:
 Eine ausgefüllte Zeile im Texteditor:
 
 ```text
-sonnet-whole-r1,sonnet,claude-code,claude-sonnet-4-6,default,subagent,whole,1,5,1,0,6,91.7,3000,900000,20000,9000,,,
+sonnet-whole-r1,t1,sonnet,claude-code,claude-sonnet-4-6,default,subagent,whole,1,5,1,0,6,91.7,3000,900000,20000,9000,,,
 ```
 
 | Spalte | Inhalt |
 | --- | --- |
-| `run_id` | z. B. `claude-whole-r1` |
+| `run_id` | z. B. `claude-whole-r1`, bei Aufgabe t2 `t2-claude-whole-r1` |
+| `task` | Aufgabenstellung: `t1` oder `t2` (Abschnitt 1b) |
 | `agent` | z. B. `claude`, `gpt`, `gemini` |
 | `harness` | `claude-code`, `codex`, `antigravity` |
 | `model` | genaue Modell-ID der Bau-Session, z. B. `claude-sonnet-4-6` |

@@ -8,10 +8,13 @@
 #   agent.sh doctor [agent...]     Smoke-Test: Skills sichtbar, Subagent öffnet die App mit Playwright
 #
 # Agenten, Modelle und Reasoning stehen in harness/agents.tsv.
+#
+# Zwei Aufgabenstellungen: "opus5.5-whole-r1" ist t1, "t2-opus5.5-whole-r1" ist t2 (eigener
+# Ausgangsstand, eigener Projekt-Klon; siehe tools/case.sh). setup, login und doctor nehmen die
+# Aufgabe aus TASK (Standard t1): TASK=t2 agent.sh doctor opus5.5
 set -euo pipefail
 
 TDDEV="$(cd "$(dirname "$0")/.." && pwd)"
-PROJECT="${PROJECT:-$HOME/Desktop/Uni/3.Semester/Softwareprojekt/App/softwareprojekt}"
 CASE_HOME="${CASE_HOME:-$HOME/.tdd-case}"
 CHECKER="${CHECKER:-opus5.5}"
 AGENTS="$TDDEV/harness/agents.tsv"
@@ -24,6 +27,29 @@ CLAUDE_DENY=(WebSearch WebFetch Artifact ArtifactComments ArtifactData DesignSyn
   CronList RemoteTrigger PushNotification ScheduleWakeup Workflow ReportFindings EnterWorktree ExitWorktree)
 
 die() { echo "Fehler: $*" >&2; exit 1; }
+
+# Aufgabe einer run-id: Präfix "t<n>-", sonst t1.
+task_of() { if [[ "$1" =~ ^(t[0-9]+)- ]]; then echo "${BASH_REMATCH[1]}"; else echo t1; fi; }
+
+# Projekt-Klon einer Aufgabe (ohne zu prüfen, ob er existiert).
+project_of() {
+  if [ "$1" = t1 ]; then
+    echo "${PROJECT:-$HOME/Desktop/Uni/3.Semester/Softwareprojekt/App/softwareprojekt}"
+  else
+    local up; up="$(echo "$1" | tr a-z A-Z)"
+    local var="PROJECT_$up"
+    echo "${!var:-$HOME/Desktop/Uni/3.Semester/Softwareprojekt/App-$up/softwareprojekt}"
+  fi
+}
+
+# Setzt TASK, PROJECT und TAG für eine Aufgabe (wie use_task in case.sh).
+use_task() {
+  TASK="$1"
+  [[ "$TASK" =~ ^t[0-9]+$ ]] || die "unbekannte Aufgabe '$TASK' (t1, t2, ...)"
+  PROJECT="$(project_of "$TASK")"
+  if [ "$TASK" = t1 ]; then TAG="tdd-baseline"; else TAG="tdd-baseline-$TASK"; fi
+  [ -d "$PROJECT/.git" ] || die "kein Git-Repo unter $PROJECT (Aufgabe $TASK)"
+}
 
 # agent -> "harness model reasoning"
 lookup() {
@@ -70,6 +96,7 @@ write_launch() {
   local dest="$TDDEV/results/$run"; mkdir -p "$dest"
   {
     echo "kind: $kind"
+    echo "task: $TASK"
     echo "agent: $agent"
     echo "harness: $harness"
     echo "model: $model"
@@ -88,12 +115,21 @@ need_branch() {
 
 cmd="${1:-}"
 case "$cmd" in
+  run|check) [ -n "${2:-}" ] && use_task "$(task_of "$2")" ;;
+  setup|login|doctor) use_task "${TASK:-t1}" ;;
+esac
+
+case "$cmd" in
   setup)
     mkdir -p "$CLAUDE_CONFIG_DIR" "$CODEX_HOME"
     cp "$TDDEV/harness/claude-settings.json" "$CLAUDE_CONFIG_DIR/settings.json"
     {
       cat "$TDDEV/harness/codex-config.toml"
-      printf '\n[projects."%s"]\ntrust_level = "trusted"\n' "$PROJECT"
+      # Alle vorhandenen Projekt-Klone (t1, t2, ...) für Codex als vertrauenswürdig eintragen.
+      for tk in t1 t2 t3; do
+        pd="$(project_of "$tk")"
+        [ -d "$pd/.git" ] && printf '\n[projects."%s"]\ntrust_level = "trusted"\n' "$pd"
+      done
       for s in "$HOME"/.agents/skills/*/SKILL.md; do
         [ -f "$s" ] && printf '\n[[skills.config]]\npath = "%s"\nenabled = false\n' "$s"
       done
@@ -119,12 +155,12 @@ case "$cmd" in
 
   run)
     run="${2:-}"; [ -n "$run" ] || die "Aufruf: agent.sh run <run-id>   z. B. opus5.5-whole-r1"
-    [[ "$run" =~ ^([a-z0-9.]+)-(vanilla|whole|incremental|agentic)-r[0-9]+$ ]] || die "run-id '$run' hat nicht die Form <agent>-<ansatz>-r<n>"
-    agent="${BASH_REMATCH[1]}"; approach="${BASH_REMATCH[2]}"
+    [[ "$run" =~ ^(t[0-9]+-)?([a-z0-9.]+)-(vanilla|whole|incremental|agentic)-r[0-9]+$ ]] || die "run-id '$run' hat nicht die Form [t<n>-]<agent>-<ansatz>-r<n>"
+    agent="${BASH_REMATCH[2]}"; approach="${BASH_REMATCH[3]}"
     need_branch "$run"
     # Jeder Bau startet exakt auf dem Ausgangsstand, ohne Reste eines abgebrochenen Laufs.
-    [ "$(git -C "$PROJECT" rev-parse HEAD)" = "$(git -C "$PROJECT" rev-parse tdd-baseline^{commit})" ] \
-      || die "run/$run ist nicht mehr auf tdd-baseline (Lauf schon gemacht?)"
+    [ "$(git -C "$PROJECT" rev-parse HEAD)" = "$(git -C "$PROJECT" rev-parse "$TAG^{commit}")" ] \
+      || die "run/$run ist nicht mehr auf $TAG (Lauf schon gemacht?)"
     [ -z "$(git -C "$PROJECT" status --porcelain --ignore-submodules=untracked)" ] \
       || die "Projekt hat Änderungen (abgebrochener Lauf?). Neu aufsetzen: git -C \"$PROJECT\" reset --hard && tools/case.sh start $run"
     write_launch "$run" run "$agent"
@@ -167,5 +203,5 @@ case "$cmd" in
     git -C "$PROJECT" status --short
     ;;
 
-  *) sed -n '2,10p' "$0"; exit 1 ;;
+  *) sed -n '2,14p' "$0"; exit 1 ;;
 esac

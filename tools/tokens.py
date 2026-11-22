@@ -20,6 +20,12 @@ def ts(s):
     return datetime.fromisoformat(s.replace("Z", "+00:00"))
 
 
+def inside(cwd, project):
+    """True if cwd is the project folder or lies in it (not a sibling such as <project>-t2)."""
+    cwd = str(cwd or "")
+    return cwd == project or cwd.startswith(project.rstrip(os.sep) + os.sep)
+
+
 def claude(project, since, until):
     root = os.path.join(os.environ.get("CLAUDE_CONFIG_DIR", os.path.expanduser("~/.claude")), "projects")
     usage, last = {}, None
@@ -29,7 +35,7 @@ def claude(project, since, until):
                 e = json.loads(line)
             except ValueError:
                 continue
-            if e.get("type") != "assistant" or not str(e.get("cwd", "")).startswith(project):
+            if e.get("type") != "assistant" or not inside(e.get("cwd"), project):
                 continue
             t = ts(e["timestamp"])
             if not (since <= t <= until):
@@ -69,7 +75,7 @@ def codex(project, since, until):
                 if since <= t <= until:
                     final, end = p["info"]["total_token_usage"], t
                     turns += 1
-        if not meta or not str(meta.get("cwd", "")).startswith(project) or not final:
+        if not meta or not inside(meta.get("cwd"), project) or not final:
             continue
         cached = final.get("cached_input_tokens", 0)          # part of input_tokens at OpenAI
         tot["tok_input"] += final.get("input_tokens", 0) - cached
@@ -93,8 +99,10 @@ def main():
     else:
         print("{}")
         return
-    if last:
-        tot["minutes"] = round((last - since).total_seconds() / 60, 1)
+    if not last or not tot.get("turns"):
+        print("{}")          # no transcript of this session on this machine: report nothing, not zeros
+        return
+    tot["minutes"] = round((last - since).total_seconds() / 60, 1)
     print(json.dumps(tot))
 
 
