@@ -1,3 +1,3 @@
 branch: run/sonnet5.5-incremental-r1
-commit: d34bf080ea7ce496048c4c2f401c5979f57dc44d
+commit: 24323ef7500e42aad938fbf7fe6bbe29afe9355f
 repo: https://github.com/Exxzzent/softwareprojekt.git

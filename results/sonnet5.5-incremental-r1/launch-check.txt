@@ -1,0 +1,9 @@
+kind: check
+agent: opus5.5
+harness: claude
+model: claude-opus-5-5
+reasoning: medium
+version: 2.1.322 (Claude Code)
+started_utc: 2026-11-22T01:03:20Z
+branch: run/sonnet5.5-incremental-r1
+commit: d34bf080ea7ce496048c4c2f401c5979f57dc44d
