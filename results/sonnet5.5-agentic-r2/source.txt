@@ -1,0 +1,3 @@
+branch: run/sonnet5.5-agentic-r2
+commit: a453a261386fbdd4d772fce5ef3cad4933781faf
+repo: https://github.com/Exxzzent/softwareprojekt.git

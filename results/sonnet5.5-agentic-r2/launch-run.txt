@@ -1,0 +1,9 @@
+kind: run
+agent: sonnet5.5
+harness: claude
+model: claude-sonnet-5-5
+reasoning: medium
+version: 2.1.322 (Claude Code)
+started_utc: 2026-11-22T15:46:18Z
+branch: run/sonnet5.5-agentic-r2
+commit: 558efc5b0e21208e20ba446f1c0763482c60094d
