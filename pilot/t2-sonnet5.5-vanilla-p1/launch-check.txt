@@ -1,0 +1,11 @@
+kind: check
+task: t2 (pilot, not counted)
+agent: opus5.5
+harness: claude
+model: claude-opus-5-5
+reasoning: medium
+version: 2.1.322 (Claude Code)
+started_utc: 2026-11-22T18:13:59Z
+branch: pilot/t2-sonnet5.5-vanilla-p1
+commit: 426dedd9997446ee581936a9eabaf9a8ce97a5f3
+finished_utc: 2026-11-22T18:51:16Z

@@ -260,7 +260,6 @@
       "Click the Start button",
       "Wait 10 seconds, then take a screenshot of the track graphic",
       "Wait 3 seconds, then take a new screenshot of the track graphic",
-      "Wait 3 seconds, then take a new screenshot of the track graphic",
       "Wait 3 seconds, then take a new screenshot of the track graphic"
     ],
     "expected": "Comparing consecutive screenshots, the marker of 'Bahn 1' moves clockwise along the main loop (on the top straight from left to right, on the right curve downwards, on the bottom straight from right to left, on the left curve upwards) and the marker of 'Bahn 2' moves counter-clockwise, apart from phases in which a train stands still, evades to the siding or drives to or from the calibration point; the two trains do not circle the loop in the same sense"
@@ -335,7 +334,6 @@
       "Select 'Bahn 2' and click 'Haltestelle hinzufügen' twice",
       "Set the first stop of 'Bahn 2' to 'Haltestelle 4' and the second stop to 'Haltestelle 2'",
       "Click the Start button",
-      "Wait 8 seconds, then take a new screenshot of the track graphic",
       "Wait 8 seconds, then take a new screenshot of the track graphic",
       "Wait 8 seconds, then take a new screenshot of the track graphic",
       "Wait 8 seconds, then take a new screenshot of the track graphic"

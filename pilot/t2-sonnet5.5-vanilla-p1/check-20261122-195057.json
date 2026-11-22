@@ -1,0 +1,194 @@
+{
+  "run_id": "t2-sonnet5.5-vanilla-p1",
+  "checker": "Claude Code / claude-opus-5-5",
+  "suite": "tdd/tests.json",
+  "tester": "subagent",
+  "tests": [
+    {
+      "test_id": "TC-01",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-02",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-03",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-04",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-05",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-06",
+      "verdict": "fail",
+      "report": "Feature: Confirming the first train starts its calibration\nExpected: The dialog now asks the user to place the second train ('Bahn 2') on the calibration point\nObserved failure: After clicking 'Bahn 1 steht am Kalibrierpunkt' the dialog changed to 'Bahn 1 wird kalibriert …' (Bahn 1 speed 16 cm/s), but after waiting 25 seconds the dialog still showed 'Bahn 1 wird kalibriert …' and did not ask to place Bahn 2 on the calibration point.\nSteps completed before failure: 3"
+    },
+    {
+      "test_id": "TC-07",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-08",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-09",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-10",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-11",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-12",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-13",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-14",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-15",
+      "verdict": "partial",
+      "report": "Feature: Any number of stops, the same stop several times, one list per train\nExpected: 'Bahn 2' lists all 8 stops without an error or limit message, and its stops 1 and 3 both show 'Haltestelle 4'; 'Bahn 1' has exactly 1 stop, the stops of 'Bahn 2' do not appear in its list\nObserved failure: Bahn 2 listed all 8 stops without a limit message and Bahn 1 had exactly 1 stop without Bahn 2's stops, but after setting stops 1 and 3 of Bahn 2 to 'Haltestelle 4', on returning to Bahn 2 only stop 1 showed 'Haltestelle 4'; stop 3 still showed 'Haltestelle 1' (the second change was lost). (First attempt was re-run because the tester's own wasted action exhausted the budget.)\nSteps completed before failure: 6"
+    },
+    {
+      "test_id": "TC-16",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-17",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-18",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-19",
+      "verdict": "partial",
+      "report": "Feature: Start makes the locomotives drive\nExpected: Both histories contain entries with a speed higher than the calibration speed (the train's normal speed) and the direction forward; at least one train currently has a speed greater than 0; apart from the calibration speed, each train uses only one non-zero speed value\nObserved failure: Histories contain 120 forward (above calibration speed 60) and only one non-zero normal speed per train, but 15 s after Start both trains had current speed 0: Bahn 1 received no speed command after this Start, Bahn 2 got 120 forward then 0 about 2 s later.\nSteps completed before failure: 10"
+    },
+    {
+      "test_id": "TC-20",
+      "verdict": "fail",
+      "report": "Feature: Train positions move live in the preview\nExpected: At least one train marker is at a clearly different place on the track in the second screenshot\nObserved failure: After Start (badge 'In Fahrt', log 'Start', 'Bahn 2 wartet') two screenshots of the track graphic several seconds apart were pixel-identical: Bahn 1 stayed at Haltestelle 2, Bahn 2 stayed near Weiche 3; speed 0 cm/s. Also Bahn 2's second stop showed 'Haltestelle 1' while running although set to 'Haltestelle 2'.\nSteps completed before failure: 11"
+    },
+    {
+      "test_id": "TC-21",
+      "verdict": "fail",
+      "report": "Feature: The trains run around the loop in opposite directions\nExpected: Comparing consecutive screenshots, the marker of 'Bahn 1' moves clockwise along the main loop (on the top straight from left to right, on the right curve downwards, on the bottom straight from right to left, on the left curve upwards) and the marker of 'Bahn 2' moves counter-clockwise, apart from phases in which a train stands still, evades to the siding or drives to or from the calibration point; the two trains do not circle the loop in the same sense\nObserved failure: After Start neither train marker moved in any screenshot (~17 s after Start); log after Start only 'Start' and 'Bahn 2 wartet', Bahn 2 speed 0 cm/s. No clockwise/counter-clockwise movement observable.\nSteps completed before failure: 9"
+    },
+    {
+      "test_id": "TC-22",
+      "verdict": "fail",
+      "report": "Feature: Switches are set while driving\nExpected: After Start, new switch changes have been added to the history of 'Weichen', i.e. the app has set switches via the Switch Server while the trains were driving\nObserved failure: Weichen history before Start: '#1: 1 → 2, #0: 1 → 2, #2: 1 → 2' (applied: 3). After Start and 60 s of waiting the history and counter were unchanged; app log only showed 'Start' and 'Bahn 2 wartet', speed 0 cm/s. No switch commands sent while driving.\nSteps completed before failure: 13"
+    },
+    {
+      "test_id": "TC-23",
+      "verdict": "fail",
+      "report": "Feature: Head-on meeting: one train evades to the siding\nExpected: Since the last 'Start' the log contains at least one entry '<train> weicht aus' and, later, an entry '<train> wartet auf dem Ausweichgleis' for the same train: when the trains met head-on, one of them drove back to the siding\nObserved failure: Over ~95 s after Start the only new log entry was 'Bahn 2 wartet'; no '<train> weicht aus' nor 'wartet auf dem Ausweichgleis'. Badge 'In Fahrt', Bahn 2 speed 0 cm/s, markers never moved.\nSteps completed before failure: 10"
+    },
+    {
+      "test_id": "TC-24",
+      "verdict": "fail",
+      "report": "Feature: After a meeting both trains continue (no deadlock)\nExpected: Since the last 'Start' the log contains an entry '<train> wartet auf dem Ausweichgleis', later '<train> fährt weiter' for the same train, and after that further entries '… erreicht …' for both 'Bahn 1' and 'Bahn 2': the trains passed each other and both keep reaching their stops\nObserved failure: After Start the log showed only 'Start' and 'Bahn 2 wartet'; no 'wartet auf dem Ausweichgleis', 'fährt weiter' or any 'erreicht' entries for either train; the trains deadlock/stand still (same pattern across all previous Start cycles of up to 2 minutes).\nSteps completed before failure: 11"
+    },
+    {
+      "test_id": "TC-25",
+      "verdict": "partial",
+      "report": "Feature: Trains never occupy the same place\nExpected: In none of the screenshots do the markers of 'Bahn 1' and 'Bahn 2' overlap or stand on the same track section; one train waits or evades while the other passes\nObserved failure: Screenshots 8 s and 16 s after Start show markers not overlapping (Bahn 1 at Haltestelle 2, Bahn 2 near Weiche 3), but the screenshots are identical: neither train moved, so no train waited/evaded while the other passed. Action budget used up before screenshots 3 and 4.\nSteps completed before failure: 10"
+    },
+    {
+      "test_id": "TC-26",
+      "verdict": "fail",
+      "report": "Feature: Stops are driven in a loop\nExpected: Since the last 'Start' the log contains 'Bahn 1 erreicht Haltestelle 2', later 'Bahn 1 erreicht Haltestelle 4' and later again 'Bahn 1 erreicht Haltestelle 2' (other entries in between are allowed): after its last stop the train starts again with its first stop\nObserved failure: Since the last Start the log contains only 'Bahn 2 wartet'; no 'Bahn 1 erreicht …' entry at all (no Bahn 1 entries in any Start cycle, including one lasting ~2 minutes).\nSteps completed before failure: 9"
+    },
+    {
+      "test_id": "TC-27",
+      "verdict": "fail",
+      "report": "Feature: Recalibration during operation\nExpected: Since the last 'Start' the log contains an entry '<train> wird kalibriert' followed later by '<train> ist kalibriert' for the same train, and the mock history of this train shows, after entries with its normal speed, a new entry with the low calibration speed, followed later by its normal speed again: the train was recalibrated at the calibration point during operation and then continued driving\nObserved failure: After ~2.5 min since Start, log contains only 'Bahn 2 wartet'; no 'wird kalibriert' / 'ist kalibriert'. Both trains 0 cm/s; mock histories end '… 120 forward → 0 forward', last locomotive command predates this Start; no recalibration during operation.\nSteps completed before failure: 11"
+    },
+    {
+      "test_id": "TC-28",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-29",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-30",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-31",
+      "verdict": "fail",
+      "report": "Feature: Operation can be started again after a Stop\nExpected: The log shows, from old to new, 'Start', 'Stop' and 'Start' again, and after the second 'Start' at least one new entry '<train> erreicht <stop>': after a Stop the operation starts again and the trains continue to reach their stops\nObserved failure: Log shows Start, Bahn 2 wartet, Stop, Start correctly, but in the 60 s after the second Start only 'Bahn 2 wartet' appeared; no '<train> erreicht <stop>' entry anywhere.\nSteps completed before failure: 14"
+    },
+    {
+      "test_id": "TC-32",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-33",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-34",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-35",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-36",
+      "verdict": "pass",
+      "report": ""
+    }
+  ],
+  "n_pass": 24,
+  "n_partial": 3,
+  "n_fail": 9,
+  "n_error": 0,
+  "n_valid": 36,
+  "accuracy": 70.8
+}
