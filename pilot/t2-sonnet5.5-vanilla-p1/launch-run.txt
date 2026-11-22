@@ -1,0 +1,10 @@
+kind: run
+task: t2 (pilot, not counted)
+agent: sonnet5.5
+harness: claude
+model: claude-sonnet-5-5
+reasoning: medium
+version: 2.1.322 (Claude Code)
+started_utc: 2026-11-22T17:56:05Z
+branch: pilot/t2-sonnet5.5-vanilla-p1
+commit: 52568a549d2fb96075effef9dbbb129dc884b363
