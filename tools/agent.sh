@@ -147,7 +147,10 @@ case "$cmd" in
 
   login)
     case "${2:-}" in
-      claude) cd "$PROJECT"; echo "In der Session /login ausführen, danach /exit."; exec claude ;;
+      # --strict-mcp-config: sonst fragt Claude Code nach den Servern aus .mcp.json und schreibt die
+      # Antwort in die versionierte .claude/settings.local.json (der Arbeitsbaum wäre dann nicht sauber).
+      claude) cd "$PROJECT"; echo "Ordner bestätigen, bei Bedarf /login ausführen, danach /exit."
+              exec claude --strict-mcp-config --mcp-config '{"mcpServers":{}}' ;;
       codex) exec codex login ;;
       *) die "Aufruf: agent.sh login claude|codex" ;;
     esac

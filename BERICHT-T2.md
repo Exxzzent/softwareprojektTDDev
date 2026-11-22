@@ -543,14 +543,10 @@ Die Fahrtests nutzen jetzt feste Haltestellen (Bahn 1: Haltestelle 2 → 4, Bahn
 
 ## 7. So startest du
 
-Einmalig auf dem Mac, bevor der erste gezählte Lauf startet (Claude Code fragt im neuen Ordner
-einmal nach Vertrauen; das soll nicht in einer gezählten Session passieren):
-
-```bash
-TASK=t2 ~/Desktop/Code/Skills/softwareprojektTDDev/tools/agent.sh login claude
-```
-
-Dort den Ordner bestätigen und mit `/exit` beenden. Danach pro Lauf wie bisher, nur mit `t2-`:
+Die einmalige Vertrauensabfrage für den t2-Ordner ist auf dem Mac erledigt (23.11.). Dabei hatte
+Claude Code die Freigabe für `.mcp.json` in die versionierte `.claude/settings.local.json`
+geschrieben; die Datei ist zurückgesetzt, und `agent.sh login claude` startet jetzt mit
+`--strict-mcp-config`, damit das nicht mehr passiert. Pro Lauf wie bisher, nur mit `t2-`:
 
 ```bash
 C=~/Desktop/Code/Skills/softwareprojektTDDev/tools/case.sh
