@@ -1,0 +1,3 @@
+branch: run/t2-gpt6.1terra-whole-r1
+commit: 58224c0f89d301b994daaaffc764e950456a91ca
+repo: https://github.com/Exxzzent/softwareprojekt.git
