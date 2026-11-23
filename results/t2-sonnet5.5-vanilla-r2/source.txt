@@ -1,0 +1,3 @@
+branch: run/t2-sonnet5.5-vanilla-r2
+commit: 417e48218ee1e22a525491920c983f8f692c2718
+repo: https://github.com/Exxzzent/softwareprojekt.git
