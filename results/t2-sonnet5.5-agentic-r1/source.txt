@@ -1,3 +1,3 @@
 branch: run/t2-sonnet5.5-agentic-r1
-commit: 034f2259e394b69eefbd41ce026fbff246b78115
+commit: 12ab316a47e8c53faf433c27445446d6388296ea
 repo: https://github.com/Exxzzent/softwareprojekt.git
