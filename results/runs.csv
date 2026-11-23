@@ -16,7 +16,7 @@ sonnet5.5-incremental-r2,t1,sonnet5.5,claude,claude-sonnet-5-5,medium,subagent,i
 sonnet5.5-agentic-r1,t1,sonnet5.5,claude,claude-sonnet-5-5,medium,subagent,agentic,1,33,3,0,36,95.8,2504,86594822,2324907,353484,1143,81.1,
 sonnet5.5-agentic-r2,t1,sonnet5.5,claude,claude-sonnet-5-5,medium,subagent,agentic,2,33,1,2,36,93.1,1812,57594701,1527869,302544,831,57.4,
 t2-opus5.5-vanilla-r1,t2,opus5.5,claude,claude-opus-5-5,medium,,vanilla,1,35,0,1,36,97.2,44,2531018,186298,264447,21,42.1,
-t2-opus5.5-vanilla-r2,t2,opus5.5,claude,claude-opus-5-5,medium,,vanilla,2,,,,,,,,,,,,
+t2-opus5.5-vanilla-r2,t2,opus5.5,claude,claude-opus-5-5,medium,,vanilla,2,,,,,,50,3256502,213931,162019,25,26.0,
 t2-opus5.5-whole-r1,t2,opus5.5,claude,claude-opus-5-5,medium,,whole,1,,,,,,,,,,,,
 t2-opus5.5-whole-r2,t2,opus5.5,claude,claude-opus-5-5,medium,,whole,2,,,,,,,,,,,,
 t2-opus5.5-incremental-r1,t2,opus5.5,claude,claude-opus-5-5,medium,,incremental,1,,,,,,,,,,,,
