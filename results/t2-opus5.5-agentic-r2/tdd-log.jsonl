@@ -1,0 +1,84 @@
+{"event": "tool", "approach": "agentic", "tool": "start_app"}
+{"event": "tool", "approach": "agentic", "tool": "stop_app"}
+{"event": "tool", "approach": "agentic", "tool": "start_app"}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-01", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-02", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-03", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-04", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-05", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-06", "verdict": "fail", "report": "Feature: Confirming the first train starts its calibration\nExpected: The dialog now asks the user to place the second train ('Bahn 2') on the calibration point\nObserved failure: Clicked 'Bahn 1 steht am Kalibrierpunkt'; calibration started (Bahn 1 at 16 cm/s, Stufe 60). After 25 s the dialog still showed 'Bahn 1 wird kalibriert …' with a disabled button; never asked for Bahn 2.\nSteps completed before failure: 4"}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-07", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-08", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-09", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-10", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-11", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-12", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-13", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-14", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-15", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-16", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-17", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-18", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-19", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-20", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-21", "verdict": "fail", "report": "Feature: The trains run around the loop in opposite directions\nExpected: Bahn 1 moves clockwise, Bahn 2 counter-clockwise in at least one pair of consecutive screenshots\nObserved failure: 5 screenshots after Start. Bahn 1 on the main loop only in shots 1-2: from top straight left of Haltestelle 1 to the lower left curve, i.e. counter-clockwise. Shots 3-5 Bahn 1 on the siding / towards the calibration point. Bahn 2 moved counter-clockwise throughout. Bahn 1 never seen moving clockwise.\nSteps completed before failure: 11"}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-22", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-23", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-24", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-25", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-26", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-27", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-28", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-29", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-30", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-31", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-32", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-33", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-34", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 1, "phase": "agentic", "test_id": "TC-35", "verdict": "pass", "report": ""}
+{"event": "tool", "approach": "agentic", "tool": "stop_app"}
+{"event": "tool", "approach": "agentic", "tool": "start_app"}
+{"event": "tool", "approach": "agentic", "tool": "stop_app"}
+{"event": "tool", "approach": "agentic", "tool": "start_app"}
+{"event": "tool", "approach": "agentic", "tool": "stop_app"}
+{"event": "tool", "approach": "agentic", "tool": "start_app"}
+{"event": "tool", "approach": "agentic", "tool": "stop_app"}
+{"event": "tool", "approach": "agentic", "tool": "start_app"}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-01", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-02", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-03", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-04", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-05", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-06", "verdict": "fail", "report": "Feature: Confirming the first train starts its calibration\nExpected: The dialog now asks the user to place the second train ('Bahn 2') on the calibration point\nObserved failure: Clicked 'Bahn 1 steht am Kalibrierpunkt', waited 25 s, new snapshot: dialog still 'Bahn 1 wird kalibriert …' (button disabled), Bahn 1 shown at Kalibrierpunkt at 16 cm/s (Stufe 60); never asked for Bahn 2.\nSteps completed before failure: 4"}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-07", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-08", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-09", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-10", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-11", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-12", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-13", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-14", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-15", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-16", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-17", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-18", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-19", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-20", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-21", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-22", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-23", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-24", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-25", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-26", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-27", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-28", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-29", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-30", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-31", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-32", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-33", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-34", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-35", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "agentic", "round": 2, "phase": "agentic", "test_id": "TC-36", "verdict": "pass", "report": ""}
+{"event": "tool", "approach": "agentic", "tool": "stop_app"}
+{"event": "done", "approach": "agentic", "rounds_used": 2, "stop_reason": "agent_decided", "tester": "subagent"}
