@@ -59,6 +59,13 @@ clean_runtime() {
 }
 need_submodule() { ! p submodule status --recursive | grep -q '^-' || die "Submodul references/ise-server fehlt ('git submodule update --init')"; }
 
+# Der Projekt-Klon muss mit derselben Git-E-Mail committen wie dieses Repo. Sonst lehnt GitHub den
+# Push am Ende eines Laufs ab, wenn dort die private Adresse geschützt ist (GH007).
+need_identity() {
+  local pe te; pe="$(p config user.email || true)"; te="$(t config user.email || true)"
+  [ -n "$pe" ] && [ "$pe" = "$te" ] || die "Git-E-Mail im Projekt-Klon ('$pe') weicht von der im TDDev-Repo ('$te') ab. Beheben: git -C \"$PROJECT\" config user.email \"$te\""
+}
+
 need_tag() { p rev-parse -q --verify "refs/tags/$TAG" >/dev/null || die "Tag $TAG fehlt, zuerst 'case.sh freeze'"; }
 need_clean() { [ -z "$(p status --porcelain --ignore-submodules=untracked)" ] || die "Projekt hat uncommittete Änderungen (erst 'case.sh finish <run-id>')"; }
 
@@ -131,7 +138,7 @@ EOF
 
   start)
     [ -n "$run" ] || die "Aufruf: case.sh start <run-id>   z. B. sonnet-whole-r1"
-    need_clean; need_tag
+    need_clean; need_tag; need_identity
     b="run/$run"
     if p rev-parse -q --verify "refs/heads/$b" >/dev/null; then
       [ -z "$(p rev-list "$TAG..$b")" ] || die "$b hat schon Commits nach $TAG, der Lauf wurde bereits gemacht"
@@ -165,6 +172,7 @@ EOF
   finish)
     [ -n "$run" ] || die "Aufruf: case.sh finish <run-id>"
     [ "$(p branch --show-current)" = "run/$run" ] || die "Projekt ist nicht auf run/$run"
+    need_identity
     # 1) Projekt: Lauf committen und auf softwareprojekt.git pushen
     p add -A
     if p diff --cached --quiet; then echo "Projekt: nichts Neues zu committen."

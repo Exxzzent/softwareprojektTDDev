@@ -118,7 +118,12 @@ Die Case Study hat zwei Aufgabenstellungen. Beide liegen zum Vergleich unter `ta
   git config --add remote.origin.fetch '+refs/heads/run/t2-*:refs/remotes/origin/run/t2-*'
   git config remote.origin.tagOpt --no-tags
   git fetch origin tag tdd-baseline-t2 --no-tags && git submodule update --init
+  git config user.email "<dieselbe E-Mail wie in diesem Repo: git config user.email>"
   ```
+
+  Ohne die letzte Zeile committet der neue Klon mit der globalen Adresse. Ist die bei GitHub als
+  privat geschützt, wird der Push am Ende des Laufs abgelehnt (GH007). `case.sh start` und
+  `finish` brechen deshalb ab, wenn die E-Mail im Projekt-Klon von der in diesem Repo abweicht.
 
 - Die Befehle sind dieselben; die Aufgabe steckt in der run-id:
 
@@ -143,7 +148,8 @@ Die Case Study hat zwei Aufgabenstellungen. Beide liegen zum Vergleich unter `ta
   Harness-CLI (z. B. `codex`) und der Browser für Playwright
   (`npx -y playwright install --with-deps chromium`).
 - Auf dem zweiten Rechner: dieses Repo und den t2-Klon holen (`PROJECT_T2=<pfad>` setzen, wenn der
-  Pfad abweicht), `TASK=t2 $A setup`, `$A login codex`, `TASK=t2 $A doctor gpt6.1terra`.
+  Pfad abweicht), in beiden Klonen die GitHub-No-Reply-Adresse setzen
+  (`git config user.email <id>+<name>@users.noreply.github.com`), `TASK=t2 $A setup`, `$A login codex`, `TASK=t2 $A doctor gpt6.1terra`.
   `doctor` muss die fünf `tdd-`Skills, `subagent_used: true` und den Seitentitel melden; erst
   dann zählt ein Lauf.
 - Bauen dort: `$C start <run-id>` → `$A run <run-id>` → `$C finish <run-id>`. `finish` zählt die
