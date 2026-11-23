@@ -1,0 +1,194 @@
+{
+  "run_id": "t2-sonnet5.5-vanilla-r2",
+  "checker": "Claude Code / claude-opus-5-5",
+  "suite": "tdd/tests.json",
+  "tester": "subagent",
+  "tests": [
+    {
+      "test_id": "TC-01",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-02",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-03",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-04",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-05",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-06",
+      "verdict": "fail",
+      "report": "Feature: Confirming the first train starts its calibration\nExpected: The dialog now asks the user to place the second train ('Bahn 2') on the calibration point\nObserved failure: I opened the app and the \"Ersteinrichtung\" dialog showed \"Bitte Bahn 1 auf den Kalibrierpunkt stellen.\" I clicked the button \"Bahn 1 steht am Kalibrierpunkt\" and waited 25 seconds. In the new snapshot the dialog had not moved on: it still said \"Bitte Bahn 1 auf den Kalibrierpunkt stellen.\" with the same \"Bahn 1 steht am Kalibrierpunkt\" button, and it never mentioned Bahn 2. The page reported 3 console errors during the wait. The Betriebsprotokoll still said \"Noch keine Ereignisse.\" and Bahn 1 still showed \"Geschwindigkeit: 0\", so confirming apparently did nothing.\nSteps completed before failure: 4"
+    },
+    {
+      "test_id": "TC-07",
+      "verdict": "fail",
+      "report": "Feature: A second frontend shows the current setup step\nExpected: The second tab directly shows the current step, i.e. the request to place the second train ('Bahn 2') on the calibration point, not the request for the first train\nObserved failure: I opened the app at http://localhost:3030 in tab 1. The \"Ersteinrichtung\" dialog said \"Bitte Bahn 1 auf den Kalibrierpunkt stellen.\" and showed the button \"Bahn 1 steht am Kalibrierpunkt\". I then opened http://localhost:3030 in a second tab, and its dialog showed the same request for Bahn 1. The request to place Bahn 2 on the calibration point did not appear. The steps say nothing about confirming Bahn 1 in the first tab, so I did not click that button. The two tabs did show the same step, but it was the Bahn 1 step and not the expected Bahn 2 step.\nSteps completed before failure: 4"
+    },
+    {
+      "test_id": "TC-08",
+      "verdict": "fail",
+      "report": "Feature: Completing the setup in one frontend completes it in all frontends\nExpected: In both tabs the calibration dialog is gone and the Start button is enabled, and the track graphic shows markers for both 'Bahn 1' and 'Bahn 2'\nObserved failure: I opened the app in tab 1 and again in a second tab. Both showed the \"Ersteinrichtung\" dialog asking only for Bahn 1 (\"Bitte Bahn 1 auf den Kalibrierpunkt stellen.\" with the button \"Bahn 1 steht am Kalibrierpunkt\"). There was no button for the second train. To get to that button, I clicked \"Bahn 1 steht am Kalibrierpunkt\" in the second tab. Nothing happened. After that click and again after a 5-second wait, the dialog still asked for Bahn 1, Start stayed disabled, the log still said \"Noch keine Ereignisse.\" and the track graphic showed no train markers. The console kept logging \"net::ERR_INCOMPLETE_CHUNKED_ENCODING @ http://localhost:3030/events\", so the app's live event stream kept breaking. I switched to the first tab without reloading it. It was in the same state: dialog still open asking for Bahn 1, Start disabled, no Bahn 1 or Bahn 2 markers. Because the button for the second train never appeared, I could not do step 4 or anything after it.\nSteps completed before failure: 3"
+    },
+    {
+      "test_id": "TC-09",
+      "verdict": "fail",
+      "report": "Feature: Each train is calibrated in its own direction\nExpected: The history of 'Bahn 1' contains a low speed greater than 0 with the direction backward (the calibration speed: 'Bahn 1' backs against the buffer stop), the history of 'Bahn 2' contains the same low speed with the direction forward, and for both trains it is later followed by speed 0\nObserved failure: I opened the mock server console at http://localhost:3031 and read the 'Applied speed changes (oldest first)' column. It showed \"none\" for both 'Bahn 1' and 'Bahn 2', and both rows also showed \"Messages from clients: applied: 0, ignored: 0, rejected: 0\". Both trains were Online with 1 connected client, speed 0 and direction forward (0). I waited 5 more seconds and read the column again; it was still \"none\" for both. The message log shows the clients connecting at 18:49:41 but no speed or direction commands sent to either locomotive. No calibration run, backward for Bahn 1 or forward for Bahn 2, ever reached the servers.\nSteps completed before failure: 1"
+    },
+    {
+      "test_id": "TC-10",
+      "verdict": "fail",
+      "report": "Feature: After the setup the first train waits at the calibration waiting point and the second stays at the calibration point\nExpected: After its calibration speed, the history of 'Bahn 1' contains a higher speed with the direction forward (the drive to the calibration waiting point) and then speed 0; the history of 'Bahn 2' contains only the calibration speed and speed 0 (no higher speed); the current speed of both trains is 0\nObserved failure: I opened the mock server console at http://localhost:3031 and read the Locomotive Servers table. Both 'Bahn 1' and 'Bahn 2' show \"none\" under 'Applied speed changes (oldest first)', so neither train received a calibration speed. 'Bahn 1' never got the higher forward speed to drive to the calibration waiting point. 'Speed (0-255)' is 0 for both trains, and both show \"applied: 0\" messages from clients. Each locomotive server has 1 connected client, but the message log has no speed commands at all, only connect and initial-state messages from 18:49:41. The setup/calibration sequence was never sent to the trains.\nSteps completed before failure: 2"
+    },
+    {
+      "test_id": "TC-11",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-12",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-13",
+      "verdict": "partial",
+      "report": "Feature: Live status of each train\nExpected: For each train the app shows that a connection to the train exists ('Verbunden') and shows its current speed (0 while the trains are stopped)\nObserved failure: The page opened with the status badge at \"Gestoppt\", so no Stop click was needed. Bahn 1 was already the selected tab and showed \"Verbunden\" and \"Geschwindigkeit: 0\", which is correct. Bahn 2 could not be selected. A modal \"Ersteinrichtung\" dialog (\"Bitte Bahn 1 auf den Kalibrierpunkt stellen.\") covers the page and blocked the click on the \"Bahn 1\" tab. I clicked \"Bahn 1 steht am Kalibrierpunkt\" twice, and both clicks registered, but the dialog stayed on the same step and never closed. The console repeatedly logged net::ERR_INCOMPLETE_CHUNKED_ENCODING on http://localhost:3030/events about every 12 s. Because of this, I never saw Bahn 2's connection status or speed.\nSteps completed before failure: 4"
+    },
+    {
+      "test_id": "TC-14",
+      "verdict": "fail",
+      "report": "Feature: Edit the stops of a train\nExpected: The stop selection offers exactly the four stops 'Haltestelle 1' to 'Haltestelle 4'; after removing, exactly 'Haltestelle 1' and 'Haltestelle 3' remain, numbered 1 and 2 in this order\nObserved failure: When I opened the app, a modal \"Ersteinrichtung\" dialog asked me to confirm with \"Bahn 1 steht am Kalibrierpunkt\". I clicked that button twice and both clicks went through, but the dialog never moved on. It kept re-rendering with the same prompt, and its element refs changed every few seconds. The browser console repeatedly logged \"Failed to load resource: net::ERR_INCOMPLETE_CHUNKED_ENCODING @ http://localhost:3030/events\", so the app's event stream keeps dropping its connection. The dialog stayed blocking after a further 10-second wait. Behind it, \"Haltestelle hinzufügen\", \"Start\" and \"Alle Strecken zurücksetzen\" all stayed disabled, with \"Noch keine Haltestelle gewählt.\" shown. The status badge showed \"Gestoppt\". Because of this I could not reset the routes or add, set or remove stops.\nSteps completed before failure: 3"
+    },
+    {
+      "test_id": "TC-15",
+      "verdict": "fail",
+      "report": "Feature: Any number of stops, the same stop several times, one list per train\nExpected: 'Bahn 2' lists all 8 stops without an error or limit message, and its stops 1 and 3 both show 'Haltestelle 4'; 'Bahn 1' has exactly 1 stop, the stops of 'Bahn 2' do not appear in its list\nObserved failure: I opened http://localhost:3030 and a modal \"Ersteinrichtung\" dialog appeared (\"Bitte Bahn 1 auf den Kalibrierpunkt stellen.\") on top of the Control Panel. The status badge showed \"Gestoppt\", so no Stop click was needed. Behind the dialog, \"Alle Strecken zurücksetzen\", \"Haltestelle hinzufügen\" and \"Start\" were all disabled. I clicked \"Bahn 1 steht am Kalibrierpunkt\" twice (once by ref, once by role selector) and waited 3 seconds. Neither click had any effect: the dialog stayed on the same step, the controls stayed disabled and the Betriebsprotokoll still said \"Noch keine Ereignisse.\" The page kept re-rendering, and the console logged repeated \"net::ERR_INCOMPLETE_CHUNKED_ENCODING\" errors on http://localhost:3030/events, so the event stream kept breaking off. Because setup never finished, I could not reset routes, select a train or add stops, and none of the expected outcome could be checked.\nSteps completed before failure: 3"
+    },
+    {
+      "test_id": "TC-16",
+      "verdict": "fail",
+      "report": "Feature: Reset all routes removes all stops\nExpected: Both trains have no stops anymore; the stop list shows 'Noch keine Haltestelle gewählt.'\nObserved failure: I opened http://localhost:3030. The status badge showed \"Gestoppt\", so there was nothing to stop. A modal \"Ersteinrichtung\" (initial setup) dialog covered the page with the text \"Bitte Bahn 1 auf den Kalibrierpunkt stellen.\" and a button \"Bahn 1 steht am Kalibrierpunkt\". I clicked that button twice. Each click had no visible effect: the dialog was redrawn with the same Bahn 1 prompt and never moved on. I then waited about 20 seconds and pressed Escape, and the dialog stayed open. Throughout, the console kept logging \"net::ERR_INCOMPLETE_CHUNKED_ENCODING @ http://localhost:3030/events\", which means the app's live event stream keeps breaking. Behind the dialog, \"Haltestelle hinzufügen\", \"Start\" and \"Alle Strecken zurücksetzen\" all stayed disabled. So I could not add a stop to Bahn 1 or Bahn 2, and I could not test resetting all routes.\nSteps completed before failure: 3"
+    },
+    {
+      "test_id": "TC-17",
+      "verdict": "fail",
+      "report": "Feature: Start without any stop is refused\nExpected: The control does not start: the status badge still shows 'Gestoppt' and the Start button is still shown, and the message 'Bitte mindestens eine Haltestelle wählen' appears (it may disappear again after a few seconds)\nObserved failure: The app at http://localhost:3030 opened with a modal \"Ersteinrichtung\" dialog (\"Bitte Bahn 1 auf den Kalibrierpunkt stellen.\") on top of everything. I clicked \"Bahn 1 steht am Kalibrierpunkt\" twice, the second time by role selector, and waited 3 seconds after each click. Both times the dialog came back in the same step, so setup never finished. The browser console logged a new error after each click (3 in total). Because setup stays stuck, every control stays disabled: \"Haltestelle hinzufügen\", \"Start\" and \"Alle Strecken zurücksetzen\". I could not click 'Alle Strecken zurücksetzen' or 'Start'. The status badge showed 'Gestoppt' throughout and the Start button was visible but disabled, but the message 'Bitte mindestens eine Haltestelle wählen' never appeared, because Start could not be clicked.\nSteps completed before failure: 3"
+    },
+    {
+      "test_id": "TC-18",
+      "verdict": "fail",
+      "report": "Feature: Start locks the editing\nExpected: The status badge shows 'In Fahrt', a red Stop button is shown instead of the Start button, the stops cannot be changed, added or removed (instead of 'Haltestelle hinzufügen' there is a disabled button 'Während der Fahrt gesperrt'), and 'Alle Strecken zurücksetzen' is disabled\nObserved failure: When I opened the app, a modal \"Ersteinrichtung\" dialog came up (\"Bitte Bahn 1 auf den Kalibrierpunkt stellen.\") with the button \"Bahn 1 steht am Kalibrierpunkt\". Behind it the badge showed \"Gestoppt\", and \"Haltestelle hinzufügen\", \"Start\" and \"Alle Strecken zurücksetzen\" were all disabled. Clicking \"Bahn 1 steht am Kalibrierpunkt\" (hx-post /setup/confirm?n=1&who=0) went through without error but changed nothing. The dialog stayed unchanged for more than 18 seconds, and a wait for the button to disappear timed out after 15 seconds. The console showed \"Failed to load resource: net::ERR_INCOMPLETE_CHUNKED_ENCODING @ http://localhost:3030/events\". After reloading the page the dialog was still on the first setup step and all controls were still disabled. Because setup never finishes, I could not select or edit trains or stops, the Start button stayed disabled, and the locked state could not be reached or checked.\nSteps completed before failure: 2"
+    },
+    {
+      "test_id": "TC-19",
+      "verdict": "fail",
+      "report": "Feature: Start makes the locomotives drive\nExpected: Both histories contain entries with a speed higher than the calibration speed (the train's normal speed) and the direction forward; at least one train currently has a speed greater than 0; apart from the calibration speed, each train uses only one non-zero speed value\nObserved failure: When the app opened, a modal \"Ersteinrichtung\" dialog (\"Bitte Bahn 1 auf den Kalibrierpunkt stellen.\") covered the page. The setup could not be finished. I clicked \"Bahn 1 steht am Kalibrierpunkt\" twice, on fresh element refs. Neither click moved the setup forward: the dialog kept showing the same Bahn 1 step, and after waiting more than 10 seconds the button was still visible. While the dialog stayed open, \"Haltestelle hinzufügen\" and \"Start\" stayed disabled, with \"Noch keine Haltestelle gewählt.\" and \"Geschwindigkeit: 0\". So I could not set up the stop lists for Bahn 1 or Bahn 2, could not press Start, and the trains never drove. The browser console showed 4 repeated errors \"net::ERR_INCOMPLETE_CHUNKED_ENCODING @ http://localhost:3030/events\", which means the app's live event stream kept breaking. Because the trains never started, I did not open the mock server console.\nSteps completed before failure: 3"
+    },
+    {
+      "test_id": "TC-20",
+      "verdict": "fail",
+      "report": "Feature: Train positions move live in the preview\nExpected: At least one train marker is at a clearly different place on the track in the second screenshot\nObserved failure: I opened http://localhost:3030. The status badge showed \"Gestoppt\", so no Stop was needed. A modal \"Ersteinrichtung\" dialog (\"Bitte Bahn 1 auf den Kalibrierpunkt stellen.\") covered the app and blocked it. I clicked its only button, \"Bahn 1 steht am Kalibrierpunkt\", twice. Each click redrew the dialog unchanged with the same prompt and button, and the setup never moved on. A 5-second wait for the button to disappear timed out. The page logged a console error. Behind the dialog the Bahn 1 stop list stayed at \"Noch keine Haltestelle gewählt.\", and \"Haltestelle hinzufügen\", \"Start\" and \"Alle Strecken zurücksetzen\" stayed disabled. So I could not set stop lists for Bahn 1 or Bahn 2 or start the trains, and I could not observe any train movement. The setup confirmation has no effect, which counts as broken functionality.\nSteps completed before failure: 3\n\nNote: I made one procedure slip. I sent the second click and the snapshot that followed it in the same message instead of one at a time. Both completed, and the snapshot after them still showed the unchanged dialog."
+    },
+    {
+      "test_id": "TC-21",
+      "verdict": "fail",
+      "report": "Feature: The trains run around the loop in opposite directions\nExpected: Comparing consecutive screenshots, the marker of 'Bahn 1' moves clockwise along the main loop and the marker of 'Bahn 2' moves counter-clockwise (standing still, evading to the siding or driving to or from the calibration point do not count). Each train needs to be seen moving in its own direction in at least one pair of consecutive screenshots, and the two trains must not circle the loop in the same direction.\nObserved failure: When the app opened, a modal \"Ersteinrichtung\" dialog appeared over the whole UI. It said \"Bitte Bahn 1 auf den Kalibrierpunkt stellen.\" and had the button \"Bahn 1 steht am Kalibrierpunkt\". I clicked that button twice, with a 3-second wait in between. Each time the dialog re-rendered at the same step and never moved on. The browser console logged errors after each click (1, then 2). Behind the dialog the status badge showed \"Gestoppt\", both trains had no stops (\"Noch keine Haltestelle gewählt.\"), and the \"Haltestelle hinzufügen\" and \"Start\" buttons were disabled. Because the setup could not be finished, I could not edit the stop lists for Bahn 1 or Bahn 2, start the trains, or watch them move.\nSteps completed before failure: 3"
+    },
+    {
+      "test_id": "TC-22",
+      "verdict": "fail",
+      "report": "Feature: Switches are set while driving\nExpected: After Start, new switch changes have been added to the history of 'Weichen', i.e. the app has set switches via the Switch Server while the trains were driving\nObserved failure: The mock server console showed \"none\" for 'Applied switch changes (oldest first)' of 'Weichen'. When I opened the app at http://localhost:3030, a modal dialog \"Ersteinrichtung\" (\"Bitte Bahn 1 auf den Kalibrierpunkt stellen.\") covered the page. I clicked its only button, \"Bahn 1 steht am Kalibrierpunkt\", twice, and each time nothing changed. The dialog re-rendered with the same prompt and never moved on. Each click logged the console error \"Failed to load resource: net::ERR_INCOMPLETE_CHUNKED_ENCODING @ http://localhost:3030/events\". Behind the dialog, both \"Haltestelle hinzufügen\" and \"Start\" stayed disabled with \"Noch keine Haltestelle gewählt.\", so I could not set any stop lists or start the trains, and no switch changes could be produced.\nSteps completed before failure: 4"
+    },
+    {
+      "test_id": "TC-23",
+      "verdict": "fail",
+      "report": "Feature: Head-on meeting: one train evades to the siding\nExpected: Since the last 'Start' the log contains at least one entry '<train> weicht aus' and, later, an entry '<train> wartet auf dem Ausweichgleis' for the same train: when the trains met head-on, one of them drove back to the siding\nObserved failure: When the app opened, a modal dialog \"Ersteinrichtung\" (\"Bitte Bahn 1 auf den Kalibrierpunkt stellen.\" with the button \"Bahn 1 steht am Kalibrierpunkt\") covered the page. Behind it the status badge showed \"Gestoppt\", and the \"Haltestelle hinzufügen\", \"Start\" and \"Alle Strecken zurücksetzen\" buttons were disabled. I clicked \"Bahn 1 steht am Kalibrierpunkt\" three times, once after a full page reload. Each click went through, but the dialog never moved on: it stayed on the same Bahn 1 calibration prompt, including during a 25-second wait for it to disappear. The page re-rendered each time (element refs changed) and the console logged \"Failed to load resource: net::ERR_INCOMPLETE_CHUNKED_ENCODING @ http://localhost:3030/events\" (3 errors in total). Because the setup never finished, no stops could be set for Bahn 1 or Bahn 2 and Start could not be clicked. The Betriebsprotokoll stayed at \"Noch keine Ereignisse.\" (no events yet).\nSteps completed before failure: 3\n\nNote: in the first attempt I accidentally sent one click and one snapshot together instead of strictly one call at a time. The dialog behaved the same in the strictly sequential attempts afterwards."
+    },
+    {
+      "test_id": "TC-24",
+      "verdict": "fail",
+      "report": "Feature: After a meeting both trains continue (no deadlock)\nExpected: Since the last 'Start' the log contains an entry '<train> wartet auf dem Ausweichgleis', later '<train> fährt weiter' for the same train, and after that further entries '… erreicht …' for both 'Bahn 1' and 'Bahn 2': the trains passed each other and both keep reaching their stops\nObserved failure: I opened http://localhost:3030 and a modal dialog \"Ersteinrichtung\" appeared (\"Bitte prüfen, ob die Weichen richtig gestellt sind. Bitte Bahn 1 auf den Kalibrierpunkt stellen.\"). It blocks the whole app. I clicked the button \"Bahn 1 steht am Kalibrierpunkt\" 3 times over about 30 seconds, waiting each time. Nothing changed: the dialog stayed on the same calibration step, the status badge stayed \"Gestoppt\", \"Haltestelle hinzufügen\", \"Start\" and \"Alle Strecken zurücksetzen\" stayed disabled, and the Betriebsprotokoll still showed \"Noch keine Ereignisse.\" The console logged \"Failed to load resource: net::ERR_INCOMPLETE_CHUNKED_ENCODING @ http://localhost:3030/events\" about every 12 seconds, so the app's event stream keeps breaking. Because setup never finishes, I could not set the stop lists for either train or start them, and the meeting/no-deadlock behaviour could not be observed.\nSteps completed before failure: 3"
+    },
+    {
+      "test_id": "TC-25",
+      "verdict": "fail",
+      "report": "Feature: Trains never occupy the same place\nExpected: In none of the screenshots do the markers of 'Bahn 1' and 'Bahn 2' overlap or stand on the same track section; one train waits or evades while the other passes\nObserved failure: When the app opened, a modal \"Ersteinrichtung\" (initial setup) dialog appeared over the page. It said \"Bitte Bahn 1 auf den Kalibrierpunkt stellen.\" and had one button, \"Bahn 1 steht am Kalibrierpunkt\" (hx-post /setup/confirm?n=1&who=0). I clicked the button twice. Neither click moved the setup on: the dialog stayed with the same prompt, and it was still there after waiting 3 s and then 10 s. Reloading the app showed the same dialog again. Behind the dialog the status badge read \"Gestoppt\", the stop list for Bahn 1 was empty (\"Noch keine Haltestelle gewählt.\"), \"Haltestelle hinzufügen\" and \"Start\" were disabled, and the event log said \"Noch keine Ereignisse.\" The browser console logged repeated \"net::ERR_INCOMPLETE_CHUNKED_ENCODING\" errors for http://localhost:3030/events, so the app's live update stream appears to break. Because the setup never finished, I could not set any stops for Bahn 1 or Bahn 2, start the trains or take the track screenshots.\nSteps completed before failure: 3"
+    },
+    {
+      "test_id": "TC-26",
+      "verdict": "fail",
+      "report": "Feature: Stops are driven in a loop\nExpected: Since the last 'Start' the log contains 'Bahn 1 erreicht Haltestelle 2', later 'Bahn 1 erreicht Haltestelle 4' and later again 'Bahn 1 erreicht Haltestelle 2' (other entries in between are allowed): after its last stop the train starts again with its first stop\nObserved failure: When I opened the app, a modal dialog \"Ersteinrichtung\" covered the page and said \"Bitte Bahn 1 auf den Kalibrierpunkt stellen\" with the button \"Bahn 1 steht am Kalibrierpunkt\". Clicking that button did nothing: the dialog stayed open with the same text, and after a few more seconds it still had not moved on. The status badge read \"Gestoppt\", the stop list read \"Noch keine Haltestelle gewählt.\", \"Haltestelle hinzufügen\" and \"Start\" were disabled, and the Betriebsprotokoll read \"Noch keine Ereignisse.\". The browser console showed \"Failed to load resource: net::ERR_INCOMPLETE_CHUNKED_ENCODING @ http://localhost:3030/events\". After reloading the page, the same dialog came back and nothing had changed. Because the first-time setup never finishes, I could not set up stops for Bahn 1 or Bahn 2, start the trains, or watch the stops loop. One process slip: right after the reload I sent a page load and a snapshot in the same message, against the one-call-at-a-time rule. The snapshot only errored on an outdated reference and did not change anything.\nSteps completed before failure: 2"
+    },
+    {
+      "test_id": "TC-27",
+      "verdict": "fail",
+      "report": "Feature: Recalibration during operation\nExpected: Since the last 'Start' the log contains an entry '<train> wird kalibriert' followed later by '<train> ist kalibriert' for the same train, and the mock history of this train shows, after entries with its normal speed, a new entry with the low calibration speed, followed later by its normal speed again: the train was recalibrated at the calibration point during operation and then continued driving\nObserved failure: When I opened the app, a modal \"Ersteinrichtung\" (initial setup) dialog was in the way. It said \"Bitte Bahn 1 auf den Kalibrierpunkt stellen.\" and had the button \"Bahn 1 steht am Kalibrierpunkt\". Behind the dialog, the control panel showed \"Gestoppt\". The buttons \"Haltestelle hinzufügen\" and \"Start\" were disabled, and the Betriebsprotokoll said \"Noch keine Ereignisse.\" I clicked the confirm button and nothing happened: the dialog stayed open unchanged and the controls stayed disabled. The console showed \"Failed to load resource: net::ERR_INCOMPLETE_CHUNKED_ENCODING @ http://localhost:3030/events\". I reloaded the page and clicked the button again, then waited 20 seconds. The dialog still did not go away. The setup could not be finished, so I could not set the stop lists for Bahn 1 and Bahn 2, start the trains or watch a recalibration. I did not open the mock server console.\nSteps completed before failure: 3"
+    },
+    {
+      "test_id": "TC-28",
+      "verdict": "fail",
+      "report": "Feature: The operation log shows Start and Stop\nExpected: After Start the log shows a new entry 'Start', and after Stop the newest entry, at the top of the log, is 'Stop'; every entry shows a time of day\nObserved failure: When the app opened, a modal \"Ersteinrichtung\" dialog appeared with \"Bitte Bahn 1 auf den Kalibrierpunkt stellen.\" and the button \"Bahn 1 steht am Kalibrierpunkt\". I clicked the button three times, once after reloading the page. Each click went through without error, but the dialog never moved on: after waits of 2 s, 3 s and 15 s the same prompt was still showing. Behind the dialog the Control Panel stayed blocked. The status was \"Gestoppt\", neither Bahn had any stops (\"Noch keine Haltestelle gewählt.\"), and \"Haltestelle hinzufügen\", \"Start\" and \"Alle Strecken zurücksetzen\" were all disabled. The browser console kept logging \"Failed to load resource: net::ERR_INCOMPLETE_CHUNKED_ENCODING @ http://localhost:3030/events\", which points to the app's event stream breaking repeatedly. Because setup never finished, I could not set routes or press Start or Stop. The Betriebsprotokoll only ever showed \"Noch keine Ereignisse.\", so no Start or Stop entries and no times of day appeared.\nSteps completed before failure: 2"
+    },
+    {
+      "test_id": "TC-29",
+      "verdict": "fail",
+      "report": "Feature: Stop unlocks the editing\nExpected: The status badge shows 'Gestoppt', the Start button is shown again, and 'Bahn 1' now has 3 stops\nObserved failure: When the app opened, a modal dialog \"Ersteinrichtung\" (initial setup) appeared with the text \"Bitte Bahn 1 auf den Kalibrierpunkt stellen.\" and a button \"Bahn 1 steht am Kalibrierpunkt\". Behind it the badge showed \"Gestoppt\", \"Bahn 1\" had no stops (\"Noch keine Haltestelle gewählt.\"), and both \"Haltestelle hinzufügen\" and \"Start\" were disabled. I clicked \"Bahn 1 steht am Kalibrierpunkt\" twice and waited 3 and 5 seconds. Each click only re-rendered the page. The dialog stayed on the same step and the controls stayed disabled. The console showed repeated \"net::ERR_INCOMPLETE_CHUNKED_ENCODING\" errors for http://localhost:3030/events, so the app's live event stream keeps breaking. Because the app never got past the first setup step, I could not set up the stop lists (step 4) or do anything after that (Start, Stop, adding a stop).\nSteps completed before failure: 3"
+    },
+    {
+      "test_id": "TC-30",
+      "verdict": "fail",
+      "report": "Feature: Stop halts all locomotives\nExpected: The speed of both 'Bahn 1' and 'Bahn 2' is 0\nObserved failure: I opened the app at http://localhost:3030. A modal dialog \"Ersteinrichtung\" (initial setup) blocks the page and shows \"Bitte Bahn 1 auf den Kalibrierpunkt stellen\" with the button \"Bahn 1 steht am Kalibrierpunkt\". I clicked this button twice and waited 2 and 5 seconds. Each time the dialog re-rendered with the same prompt and setup never moved forward. The page console logged 2 errors during this. Behind the dialog, the status badge shows \"Gestoppt\", no stops are set (\"Noch keine Haltestelle gewählt.\"), and \"Haltestelle hinzufügen\", \"Start\" and \"Alle Strecken zurücksetzen\" are all disabled. Because setup never finishes, I could not set the stop lists for Bahn 1 and Bahn 2, start the trains, stop them, or check their speeds on the mock server console.\nSteps completed before failure: 3"
+    },
+    {
+      "test_id": "TC-31",
+      "verdict": "fail",
+      "report": "Feature: Operation can be started again after a Stop\nExpected: The log shows, from old to new, 'Start', 'Stop' and 'Start' again, and after the second 'Start' at least one new entry '<train> erreicht <stop>': after a Stop the operation starts again and the trains continue to reach their stops\nObserved failure: When the app opens, a modal \"Ersteinrichtung\" dialog appears (\"Bitte prüfen, ob die Weichen richtig gestellt sind. Bitte Bahn 1 auf den Kalibrierpunkt stellen.\") with the button \"Bahn 1 steht am Kalibrierpunkt\". Behind it, \"Haltestelle hinzufügen\", \"Start\" and \"Alle Strecken zurücksetzen\" are all disabled. I clicked the button once, waited 10 more seconds, then reloaded the page and clicked it once more on the fresh page. Both times the dialog stayed on the Bahn 1 calibration step and never moved on, and the controls stayed disabled. The browser console showed \"Failed to load resource: net::ERR_INCOMPLETE_CHUNKED_ENCODING @ http://localhost:3030/events\" after each page load, so the app's live event stream seems to break. Because setup never finishes, no stops can be set for Bahn 1 or Bahn 2 and operation cannot be started. Status stayed \"Gestoppt\" and the Betriebsprotokoll stayed \"Noch keine Ereignisse.\"\nSteps completed before failure: 3"
+    },
+    {
+      "test_id": "TC-32",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-33",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-34",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-35",
+      "verdict": "partial",
+      "report": "Feature: Locomotive server becomes reachable again\nExpected: The mock console shows at least 1 connected client for 'Bahn 2', and the app shows the connection to 'Bahn 2' again without an error message about 'Bahn 2'\nObserved failure: The app status badge showed \"Gestoppt\", so no Stop was needed. I took Bahn 2 offline in the mock console and reloaded the app. After 10 seconds the app showed the alert \"Server Bahn 2 ist nicht erreichbar\". I then brought Bahn 2 back online and waited 15 seconds. The mock console then showed Bahn 2 as \"Online\" with 1 connected client. After reloading the app, its alert area was empty, so there was no error about Bahn 2. I could not select the 'Bahn 2' tab, though. The \"Ersteinrichtung\" setup dialog (a modal) covers the page and blocks every click on the tab. Clicking \"Bahn 1 steht am Kalibrierpunkt\" did nothing: the dialog stayed on the same step and the console logged an error. Pressing Escape did not close the dialog either. The panel only showed \"Verbunden\" for the tab already selected (Bahn 1 by default), so I never saw Bahn 2's own connection status.\nSteps completed before failure: 12"
+    },
+    {
+      "test_id": "TC-36",
+      "verdict": "fail",
+      "report": "Feature: The app speaks the protocol of the hardware servers\nExpected: Every server shows 'ignored: 0' and 'rejected: 0', and 'Bahn 1', 'Bahn 2' and 'Weichen' each show at least one applied message\nObserved failure: I opened the mock server console at http://localhost:3031 and read the 'Messages from clients' column. Bahn 1, Bahn 2 and Weichen all show \"applied: 0, ignored: 0, rejected: 0\". Ignored and rejected are 0 as expected, but none of the three servers shows an applied message. All three are Online with 1 connected client, but the message log has no incoming (\"in\") client messages at all, only server-side info entries and \"out\" state messages sent to new clients. The app connects to the servers but has never sent a message that any of them applied.\nSteps completed before failure: 1"
+    }
+  ],
+  "n_pass": 10,
+  "n_partial": 2,
+  "n_fail": 24,
+  "n_error": 0,
+  "n_valid": 36,
+  "accuracy": 30.6
+}
