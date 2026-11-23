@@ -1,3 +1,3 @@
 branch: run/t2-opus5.5-agentic-r1
-commit: ccba1eb683e57c431a64bb645d28dc6687a2643b
+commit: ee9c5ea56c78c24ac58c85a20348024d75664c02
 repo: https://github.com/Exxzzent/softwareprojekt.git

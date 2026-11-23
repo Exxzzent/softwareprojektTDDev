@@ -1,0 +1,194 @@
+{
+  "run_id": "t2-opus5.5-agentic-r1",
+  "checker": "Claude Code / claude-opus-5-5",
+  "suite": "tdd/tests.json",
+  "tester": "subagent",
+  "tests": [
+    {
+      "test_id": "TC-01",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-02",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-03",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-04",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-05",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-06",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-07",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-08",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-09",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-10",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-11",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-12",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-13",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-14",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-15",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-16",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-17",
+      "verdict": "partial",
+      "report": "Feature: Start without any stop is refused\nExpected: The control does not start: the status badge still shows 'Gestoppt' and the Start button is still shown, and the message 'Bitte mindestens eine Haltestelle wählen' appears (it may disappear again after a few seconds)\nObserved failure: The app opened with the status badge showing 'Gestoppt', so no Stop click was needed. I clicked 'Alle Strecken zurücksetzen', and Bahn 1 showed \"Noch keine Haltestelle gewählt.\" I then clicked Start twice. Both times the control did not start: the badge stayed 'Gestoppt', the Start button stayed visible and the speed stayed at 0. But 'Bitte mindestens eine Haltestelle wählen' never appeared. It was not in the snapshot taken right after the first click, a wait for the text right after the second click timed out after 2 seconds, and the next snapshot did not have it either. The log (\"Betriebsprotokoll\") still said \"Noch keine Ereignisse.\" The Control Panel is redrawn every few seconds, which may be erasing the message before it can be seen.\nSteps completed before failure: 5"
+    },
+    {
+      "test_id": "TC-18",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-19",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-20",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-21",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-22",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-23",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-24",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-25",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-26",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-27",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-28",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-29",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-30",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-31",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-32",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-33",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-34",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-35",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-36",
+      "verdict": "pass",
+      "report": ""
+    }
+  ],
+  "n_pass": 35,
+  "n_partial": 1,
+  "n_fail": 0,
+  "n_error": 0,
+  "n_valid": 36,
+  "accuracy": 98.6
+}
