@@ -1,0 +1,194 @@
+{
+  "run_id": "t2-opus5.5-whole-r1",
+  "checker": "Claude Code / claude-opus-5-5",
+  "suite": "tdd/tests.json",
+  "tester": "subagent",
+  "tests": [
+    {
+      "test_id": "TC-01",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-02",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-03",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-04",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-05",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-06",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-07",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-08",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-09",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-10",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-11",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-12",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-13",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-14",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-15",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-16",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-17",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-18",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-19",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-20",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-21",
+      "verdict": "fail",
+      "report": "Feature: The trains run around the loop in opposite directions\nExpected: Comparing consecutive screenshots, Bahn 1 moves clockwise along the main loop and Bahn 2 moves counter-clockwise; each train seen moving in its own sense in at least one pair; the two trains do not circle the loop in the same sense\nObserved failure: Stop clicked (was 'In Fahrt'), stop lists already correct, Start clicked, 5 screenshots taken. Bahn 2 moved counter-clockwise correctly (bottom straight -> right curve up -> top straight right to left -> left curve down). Bahn 1 was never seen moving clockwise: shot 1->2 it moved from Haltestelle 4 down the left curve to the bottom straight (counter-clockwise / siding approach), 2->3 into the siding, 3->4 back onto the bottom straight left of Weiche 1, 4->5 left to right along the bottom straight (counter-clockwise again). Its only main-loop movements were counter-clockwise, same sense as Bahn 2.\nSteps completed before failure: 11"
+    },
+    {
+      "test_id": "TC-22",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-23",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-24",
+      "verdict": "partial",
+      "report": "Feature: After a meeting both trains continue (no deadlock)\nExpected: Since the last 'Start' the log contains an entry '<train> wartet auf dem Ausweichgleis', later '<train> fährt weiter' for the same train, and after that further entries '… erreicht …' for both 'Bahn 1' and 'Bahn 2': the trains passed each other and both keep reaching their stops\nObserved failure: The app was running when opened, so Stop was clicked; stop lists already correct. Start clicked (log 'Start' at 21:44:37), waited 4 x 30 s. Log after Start: 'Bahn 1 wartet auf dem Ausweichgleis' (21:44:45), then 'Bahn 1 fährt weiter' (21:45:03). After that only Bahn 2 reaches stops ('Bahn 2 erreicht Haltestelle 2' 21:45:13, 'Bahn 2 erreicht Haltestelle 4' 21:45:57). Bahn 1 has no 'erreicht' entry in ~2 minutes; it repeats 'weicht aus' -> 'wartet auf dem Ausweichgleis' -> 'fährt weiter' over and over (21:45:21/21:45:33, 21:45:39/21:45:44/21:46:02, 21:46:08/21:46:14/21:46:30, again 21:46:45), with one calibration in between. Bahn 2 keeps moving, but Bahn 1 never gets past the siding meeting to reach its stops.\nSteps completed before failure: 11"
+    },
+    {
+      "test_id": "TC-25",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-26",
+      "verdict": "partial",
+      "report": "Feature: Stops are driven in a loop\nExpected: Since the last 'Start' the log contains 'Bahn 1 erreicht Haltestelle 2', later 'Bahn 1 erreicht Haltestelle 4' and later again 'Bahn 1 erreicht Haltestelle 2' (other entries in between are allowed): after its last stop the train starts again with its first stop\nObserved failure: Badge showed 'In Fahrt', so Stop was clicked; stop lists already correct. Start clicked (21:49:26), waited 5 x 30 s. Log after Start: 'Bahn 1 erreicht Haltestelle 2' (21:49:26, same second as Start), then 'Bahn 1 erreicht Haltestelle 4' (21:50:35), but no later 'Bahn 1 erreicht Haltestelle 2'. For the remaining ~1.5 minutes Bahn 1 only cycles through 'fährt weiter', 'wird kalibriert / ist kalibriert', 'weicht aus' and 'wartet auf dem Ausweichgleis' (last 21:52:11). Bahn 2 does loop (H4 21:49:56, H2 21:50:11, H4 21:51:24, H2 21:51:40), but the required third Bahn 1 entry never appeared.\nSteps completed before failure: 11"
+    },
+    {
+      "test_id": "TC-27",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-28",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-29",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-30",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-31",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-32",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-33",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-34",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-35",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-36",
+      "verdict": "pass",
+      "report": ""
+    }
+  ],
+  "n_pass": 33,
+  "n_partial": 2,
+  "n_fail": 1,
+  "n_error": 0,
+  "n_valid": 36,
+  "accuracy": 94.4
+}
