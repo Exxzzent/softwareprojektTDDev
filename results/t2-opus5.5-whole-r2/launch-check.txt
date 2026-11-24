@@ -1,0 +1,10 @@
+kind: check
+task: t2
+agent: opus5.5
+harness: claude
+model: claude-opus-5-5
+reasoning: medium
+version: 2.1.322 (Claude Code)
+started_utc: 2026-11-24T22:32:10Z
+branch: run/t2-opus5.5-whole-r2
+commit: ee53920c8430571da0a7a24a0b866d43ac7aa1ac
