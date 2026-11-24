@@ -1,0 +1,3 @@
+branch: run/t2-opus5.5-whole-r2
+commit: ee53920c8430571da0a7a24a0b866d43ac7aa1ac
+repo: https://github.com/Exxzzent/softwareprojekt.git
