@@ -72,7 +72,11 @@ launch() {
         --strict-mcp-config --mcp-config "$mcp" --disallowedTools "${CLAUDE_DENY[@]}" \
         --dangerously-skip-permissions -- "/$prompt" ;;
     codex)
+      # command/args wiederholen .codex/config.toml des Projekts: Mit "enabled" allein bricht die
+      # TUI beim Start ab ("failed to load workspace requirements: invalid data", codex 0.172.0).
       exec codex -m "$model" -c "model_reasoning_effort=\"$reasoning\"" \
+        -c 'mcp_servers.playwright.command="npx"' \
+        -c 'mcp_servers.playwright.args=["-y","@playwright/mcp@0.0.85","--isolated"]' \
         -c "mcp_servers.playwright.enabled=$pw" "\$$prompt" ;;
     antigravity)
       if [ "$pw" = true ]; then agy mcp enable playwright >/dev/null; else agy mcp disable playwright >/dev/null; fi
