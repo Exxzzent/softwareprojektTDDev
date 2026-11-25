@@ -1,0 +1,194 @@
+{
+  "run_id": "t2-sonnet5.5-whole-r2",
+  "checker": "Claude Code / claude-opus-5-5",
+  "suite": "tdd/tests.json",
+  "tester": "subagent",
+  "tests": [
+    {
+      "test_id": "TC-01",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-02",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-03",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-04",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-05",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-06",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-07",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-08",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-09",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-10",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-11",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-12",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-13",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-14",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-15",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-16",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-17",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-18",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-19",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-20",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-21",
+      "verdict": "partial",
+      "report": "Feature: The trains run around the loop in opposite directions\nExpected: In consecutive screenshots the marker of Bahn 1 moves clockwise and the marker of Bahn 2 counter-clockwise around the main loop; the two trains do not circle the loop in the same direction.\nObserved failure: Clicked Stop; the stop lists were already Bahn 1: H2, H4 and Bahn 2: H4, H2. Clicked Start, then took 5 screenshots of the track graphic after waiting 10 s, 5 s, 5 s, 5 s and 5 s. Bahn 2 moved counter-clockwise as expected: top straight (right of Haltestelle 1) -> Haltestelle 4 (left curve) -> bottom straight heading right (near Haltestelle 3) -> Haltestelle 2 (right curve) -> top straight (left of Haltestelle 1). Bahn 1 was never seen moving on the main loop: shot 1 at Weiche 1 (bottom left), shots 2-5 on the siding or the calibration track (middle of the siding -> near Kalibrierpunkt -> back on the siding near Weiche 2), almost standing still in the last two shots. Clockwise movement of Bahn 1 around the loop could not be confirmed. No evidence that both trains ran in the same direction.\nSteps completed before failure: 11"
+    },
+    {
+      "test_id": "TC-22",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-23",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-24",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-25",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-26",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-27",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-28",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-29",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-30",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-31",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-32",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-33",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-34",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-35",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-36",
+      "verdict": "pass",
+      "report": ""
+    }
+  ],
+  "n_pass": 35,
+  "n_partial": 1,
+  "n_fail": 0,
+  "n_error": 0,
+  "n_valid": 36,
+  "accuracy": 98.6
+}
