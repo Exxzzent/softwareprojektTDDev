@@ -1,0 +1,185 @@
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-01", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-02", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-03", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-04", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-05", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-06", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-07", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-08", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-09", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-10", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-11", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-12", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-13", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-14", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-15", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-16", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-17", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-18", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-19", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-20", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-21", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-22", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-23", "verdict": "fail", "report": "Feature: Head-on meeting: one train evades to the siding\nExpected: log contains '<train> weicht aus' and later '<train> wartet auf dem Ausweichgleis' for the same train\nObserved failure: after Start the log only had 'Bahn 2 weicht aus', 'Bahn 1 wartet', 'Bahn 2 wartet' within 1 s and nothing for 90 s; no 'wartet auf dem Ausweichgleis'; both trains stood still (deadlock)\nSteps completed before failure: 10"}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-24", "verdict": "fail", "report": "Feature: After a meeting both trains continue (no deadlock)\nExpected: 'wartet auf dem Ausweichgleis', later 'fährt weiter', then 'erreicht' for both trains\nObserved failure: after Start only 'Bahn 2 weicht aus', 'Bahn 1 wartet', 'Bahn 2 wartet'; no entries for 2 minutes; deadlock\nSteps completed before failure: 10"}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-25", "verdict": "fail", "report": "Feature: Trains never occupy the same place\nExpected: markers never overlap or stand on the same track section\nObserved failure: after Start both markers were drawn on top of each other near Weiche 2 in all three screenshots and did not move\nSteps completed before failure: 6"}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-26", "verdict": "fail", "report": "Feature: Stops are driven in a loop\nExpected: 'Bahn 1 erreicht Haltestelle 2', later '... 4', later '... 2' again\nObserved failure: after Start only 'Bahn 2 weicht aus', 'Bahn 1 wartet', 'Bahn 2 wartet'; no 'erreicht' entry within 150 s\nSteps completed before failure: 7"}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-27", "verdict": "fail", "report": "Feature: Recalibration during operation\nExpected: '<train> wird kalibriert' followed by '<train> ist kalibriert' and a calibration-speed entry in the mock history\nObserved failure: after Start only 'Bahn 2 weicht aus', 'Bahn 1 wartet', 'Bahn 2 wartet' for 2 minutes; no calibration entries\nSteps completed before failure: 9"}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-28", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-29", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-30", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-31", "verdict": "fail", "report": "Feature: Operation can be started again after a Stop\nExpected: after the second 'Start' at least one '<train> erreicht <stop>'\nObserved failure: after the second Start only 'Bahn 2 weicht aus', 'Bahn 1 wartet', 'Bahn 2 wartet'; no 'erreicht' entry in 60 s\nSteps completed before failure: 13"}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-32", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-33", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-34", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-35", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 1, "phase": "whole", "test_id": "TC-36", "verdict": "pass", "report": ""}
+{"event": "repair", "approach": "whole", "round": 1, "tests": ["TC-23", "TC-24", "TC-25", "TC-26", "TC-27", "TC-31"]}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-01", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-02", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-03", "verdict": "partial", "report": "Feature: Track graphic in the preview\nExpected: whole layout visible incl. Weiche 2/3, spur, buffer stop and labels\nObserved failure: the centred setup dialog covered the lower-right part of the graphic, so the siding end, Weiche 2/3, spur and buffer stop could not be verified\nSteps completed before failure: 2"}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-04", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-05", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-06", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-07", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-08", "verdict": "partial", "report": "Feature: Completing the setup in one frontend completes it in all frontends\nExpected: dialog gone and Start enabled in both tabs, both markers shown\nObserved failure: the tab where the confirm button was clicked still showed 'Bahn 2 wird kalibriert …' with Start disabled and no Bahn 2 marker after 25 s, while the other tab was complete\nSteps completed before failure: 9"}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-09", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-10", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-11", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-12", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-13", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-14", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-15", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-16", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-17", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-18", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-19", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-20", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-21", "verdict": "fail", "report": "Feature: The trains run around the loop in opposite directions\nExpected: Bahn 1 clockwise, Bahn 2 counter-clockwise\nObserved failure: no marker moved in five screenshots; Bahn 1 stood on the siding near Weiche 2, Bahn 2 near Weiche 1; the log repeated 'Bahn 2 weicht aus / fährt weiter / wartet auf dem Ausweichgleis' many times per second\nSteps completed before failure: 11"}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-22", "verdict": "fail", "report": "Feature: Switches are set while driving\nExpected: new switch changes in the Weichen history after Start\nObserved failure: history unchanged (12 entries before and after 60 s), trains stood still (speed 0)\nSteps completed before failure: 12"}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-23", "verdict": "partial", "report": "Feature: Head-on meeting: one train evades to the siding\nExpected: '<train> weicht aus' then '<train> wartet auf dem Ausweichgleis' since the last Start\nObserved failure: both entries exist for Bahn 2 but repeat many times per second (flood), the 'Start' entry was not visible, Bahn 1 never appears\nSteps completed before failure: 10"}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-24", "verdict": "fail", "report": "Feature: After a meeting both trains continue (no deadlock)\nExpected: wartet auf dem Ausweichgleis, fährt weiter, then 'erreicht' for both trains\nObserved failure: no 'erreicht' entry after 2 minutes; log flooded by Bahn 2 weicht aus / fährt weiter / wartet auf dem Ausweichgleis loop\nSteps completed before failure: 10"}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-25", "verdict": "partial", "report": "Feature: Trains never occupy the same place\nExpected: markers never overlap; one train waits or evades while the other passes\nObserved failure: markers never overlapped but neither train moved in 24 s (speed 0), log shows an evade/wait loop of Bahn 2\nSteps completed before failure: 9"}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-26", "verdict": "fail", "report": "Feature: Stops are driven in a loop\nExpected: Bahn 1 erreicht Haltestelle 2, 4, 2\nObserved failure: no 'erreicht' entry within 150 s; log flooded by Bahn 2 evade loop\nSteps completed before failure: 8"}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-27", "verdict": "fail", "report": "Feature: Recalibration during operation\nExpected: wird kalibriert / ist kalibriert and calibration speed in mock history\nObserved failure: no 'kalibriert' entry, log flooded by Bahn 2 evade loop, Bahn 1 never recalibrated since last Start\nSteps completed before failure: 10"}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-28", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-29", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-30", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-31", "verdict": "fail", "report": "Feature: Operation can be started again after a Stop\nExpected: after the second Start at least one '<train> erreicht <stop>'\nObserved failure: no 'erreicht' entry, log flooded by Bahn 2 evade loop\nSteps completed before failure: 13"}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-32", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-33", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-34", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-35", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 2, "phase": "whole", "test_id": "TC-36", "verdict": "pass", "report": ""}
+{"event": "repair", "approach": "whole", "round": 2, "tests": ["TC-03", "TC-08", "TC-21", "TC-22", "TC-23", "TC-24", "TC-25", "TC-26", "TC-27", "TC-31"]}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-01", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-02", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-03", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-04", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-05", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-06", "verdict": "fail", "report": "Feature: Confirming the first train starts its calibration\nExpected: after confirming and waiting 25 s the dialog asks for Bahn 2\nObserved failure: the dialog still showed 'Bahn 1 wird kalibriert …' after 25 s and the speed display stayed at '60 (20 cm/s)' although the mock server had already finished the calibration after 10 s (page content stale)\nSteps completed before failure: 4"}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-07", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-08", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-09", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-10", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-11", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-12", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-13", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-14", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-15", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-16", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-17", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-18", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-19", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-20", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-21", "verdict": "fail", "report": "Feature: The trains run around the loop in opposite directions\nExpected: Bahn 1 clockwise, Bahn 2 counter-clockwise\nObserved failure: (re-run after a blocked first attempt) no marker moved in five screenshots; Bahn 1 oscillated on the siding, Bahn 2 stood at Weiche 1 ('wartet'); log repeated 'Bahn 1 fährt weiter / weicht aus / wartet auf dem Ausweichgleis' every 12 s\nSteps completed before failure: 10"}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-22", "verdict": "fail", "report": "Feature: Switches are set while driving\nExpected: new switch changes in the Weichen history after Start\nObserved failure: history unchanged (10 entries before and after 60 s); trains stuck in a standoff at Weiche 1 / siding\nSteps completed before failure: 11"}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-23", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-24", "verdict": "fail", "report": "Feature: After a meeting both trains continue (no deadlock)\nExpected: wartet auf dem Ausweichgleis, fährt weiter, then 'erreicht' for both trains\nObserved failure: no 'erreicht' entry; Bahn 2 stayed at 'wartet', Bahn 1 repeated weicht aus / wartet auf dem Ausweichgleis / fährt weiter every 12 s\nSteps completed before failure: 7"}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-25", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-26", "verdict": "fail", "report": "Feature: Stops are driven in a loop\nExpected: Bahn 1 erreicht Haltestelle 2, 4, 2\nObserved failure: no 'erreicht' entry in 150 s; same repeating Bahn 1 evade cycle, Bahn 2 waiting\nSteps completed before failure: 7"}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-27", "verdict": "fail", "report": "Feature: Recalibration during operation\nExpected: wird kalibriert / ist kalibriert and calibration speed in mock history\nObserved failure: no 'kalibriert' entry; Bahn 2 (on its way to the calibration point through the siding) waited at Weiche 1 while Bahn 1 sat on the siding\nSteps completed before failure: 9"}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-28", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-29", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-30", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-31", "verdict": "fail", "report": "Feature: Operation can be started again after a Stop\nExpected: after the second Start at least one '<train> erreicht <stop>'\nObserved failure: no 'erreicht' entry; same standoff, speed 0\nSteps completed before failure: 12"}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-32", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-33", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-34", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-35", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 3, "phase": "whole", "test_id": "TC-36", "verdict": "pass", "report": ""}
+{"event": "repair", "approach": "whole", "round": 3, "tests": ["TC-06", "TC-21", "TC-22", "TC-24", "TC-26", "TC-27", "TC-31"]}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-01", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-02", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-03", "verdict": "fail", "report": "Feature: Track graphic in the preview\nExpected: siding with third switch at the right end of its straight section and a dead-end spur continuing straight to the buffer stop\nObserved failure: tester judged that Weiche 2 sits mid-line and the siding does not have its own straight section ending in a third switch (the described layout otherwise matched: spur level with the siding, buffer stop labelled Kalibrierpunkt, four stops)\nSteps completed before failure: 2"}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-04", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-05", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-06", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-07", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-08", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-09", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-10", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-11", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-12", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-13", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-14", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-15", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-16", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-17", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-18", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-19", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-20", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-21", "verdict": "fail", "report": "Feature: The trains run around the loop in opposite directions\nExpected: Bahn 1 clockwise, Bahn 2 counter-clockwise\nObserved failure: no marker moved around the loop in five screenshots; Bahn 2 stood at Weiche 1 ('wartet'), Bahn 1 repeated weicht aus / wartet auf dem Ausweichgleis / fährt weiter on the siding every 12 s\nSteps completed before failure: 10"}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-22", "verdict": "fail", "report": "Feature: Switches are set while driving\nExpected: new switch changes in the Weichen history after Start\nObserved failure: history unchanged (10 entries before and after 60 s), trains in standoff at Weiche 1 / siding\nSteps completed before failure: 11"}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-23", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-24", "verdict": "fail", "report": "Feature: After a meeting both trains continue (no deadlock)\nExpected: wartet auf dem Ausweichgleis, fährt weiter, then 'erreicht' for both trains\nObserved failure: no 'erreicht' entry; Bahn 2 'wartet' once, Bahn 1 repeats the evade cycle every 12 s\nSteps completed before failure: 7"}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-25", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-26", "verdict": "fail", "report": "Feature: Stops are driven in a loop\nExpected: Bahn 1 erreicht Haltestelle 2, 4, 2\nObserved failure: no 'erreicht' entry in 150 s, same repeating evade cycle of Bahn 1, Bahn 2 waiting\nSteps completed before failure: 7"}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-27", "verdict": "fail", "report": "Feature: Recalibration during operation\nExpected: wird kalibriert / ist kalibriert and calibration speed in mock history\nObserved failure: no 'kalibriert' entry, same standoff\nSteps completed before failure: 9"}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-28", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-29", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-30", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-31", "verdict": "fail", "report": "Feature: Operation can be started again after a Stop\nExpected: after the second Start at least one '<train> erreicht <stop>'\nObserved failure: no 'erreicht' entry, same standoff\nSteps completed before failure: 12"}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-32", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-33", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-34", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-35", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 4, "phase": "whole", "test_id": "TC-36", "verdict": "pass", "report": ""}
+{"event": "repair", "approach": "whole", "round": 4, "tests": ["TC-03", "TC-21", "TC-22", "TC-24", "TC-26", "TC-27", "TC-31"]}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-01", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-02", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-03", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-04", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-05", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-06", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-07", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-08", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-09", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-10", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-11", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-12", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-13", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-14", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-15", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-16", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-17", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-18", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-19", "verdict": "fail", "report": "Feature: Start makes the locomotives drive\nExpected: both histories show the normal speed with direction forward, one non-zero speed besides calibration\nObserved failure: tester judged the direction criterion violated because both trains also drive at their normal speed backward (evasion); speeds themselves single-valued (120 / 110)\nSteps completed before failure: 9"}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-20", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-21", "verdict": "fail", "report": "Feature: The trains run around the loop in opposite directions\nExpected: Bahn 1 clockwise, Bahn 2 counter-clockwise\nObserved failure: tester saw Bahn 2 moving clockwise and Bahn 1 counter-clockwise on the top straight (trains were evading / driving to the calibration point), later both on the siding\nSteps completed before failure: 10"}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-22", "verdict": "fail", "report": "Feature: Switches are set while driving\nExpected: new switch changes in the Weichen history after Start\nObserved failure: history unchanged (12 entries before and after 60 s); trains stuck in the evade cycle\nSteps completed before failure: 11"}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-23", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-24", "verdict": "fail", "report": "Feature: After a meeting both trains continue (no deadlock)\nExpected: wartet auf dem Ausweichgleis, fährt weiter, then 'erreicht' for both trains\nObserved failure: no 'erreicht' entry; Bahn 2 repeats weicht aus / wartet auf dem Ausweichgleis / fährt weiter every 12 s, Bahn 1 only 'wartet' once\nSteps completed before failure: 7"}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-25", "verdict": "partial", "report": "Feature: Trains never occupy the same place\nExpected: markers never overlap; one train waits or evades while the other passes\nObserved failure: markers never overlapped but neither train moved during 24 s (both on the siding)\nSteps completed before failure: 8"}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-26", "verdict": "fail", "report": "Feature: Stops are driven in a loop\nExpected: Bahn 1 erreicht Haltestelle 2, 4, 2\nObserved failure: no 'erreicht' entry in 150 s; Bahn 2 repeats the evade cycle, Bahn 1 waits\nSteps completed before failure: 7"}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-27", "verdict": "fail", "report": "Feature: Recalibration during operation\nExpected: wird kalibriert / ist kalibriert and calibration speed in the mock history\nObserved failure: no 'kalibriert' entry since the last Start\nSteps completed before failure: 9"}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-28", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-29", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-30", "verdict": "error", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-31", "verdict": "error", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-32", "verdict": "error", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-33", "verdict": "error", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-34", "verdict": "error", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-35", "verdict": "error", "report": ""}
+{"event": "test_eval", "approach": "whole", "round": 5, "phase": "whole", "test_id": "TC-36", "verdict": "error", "report": ""}
+{"event": "done", "approach": "whole", "rounds_used": 5, "stop_reason": "budget", "tester": "subagent"}
