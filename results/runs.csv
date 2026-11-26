@@ -37,5 +37,5 @@ t2-gpt6.1terra-whole-r1,t2,gpt6.1terra,codex,gpt-6.1-terra,medium,,whole,1,,,,,,
 t2-gpt6.1terra-whole-r2,t2,gpt6.1terra,codex,gpt-6.1-terra,medium,,whole,2,,,,,,,,,,,,
 t2-gpt6.1terra-incremental-r1,t2,gpt6.1terra,codex,gpt-6.1-terra,medium,,incremental,1,,,,,,,,,,,,
 t2-gpt6.1terra-incremental-r2,t2,gpt6.1terra,codex,gpt-6.1-terra,medium,,incremental,2,,,,,,,,,,,,
-t2-gpt6.1terra-agentic-r1,t2,gpt6.1terra,codex,gpt-6.1-terra,medium,subagent,agentic,1,,,,,,147832,1434112,0,8193,46,3.3,
+t2-gpt6.1terra-agentic-r1,t2,gpt6.1terra,codex,gpt-6.1-terra,medium,subagent,agentic,1,,,,,,147832,1434112,0,8193,46,3.3,Ansatz nicht eingehalten: einzige Testrunde nur 3 von 36 Tests (TC-01 bis TC-03); keine Reparatur; Agent beendete nach 3.3 min selbst (stop_reason agent_decided) und meldete die App als unvollstaendig (Fahrsteuerung bewusst nicht umgesetzt; Start gesperrt).
 t2-gpt6.1terra-agentic-r2,t2,gpt6.1terra,codex,gpt-6.1-terra,medium,,agentic,2,,,,,,,,,,,,
