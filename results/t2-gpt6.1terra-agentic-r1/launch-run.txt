@@ -1,0 +1,10 @@
+kind: run
+task: t2
+agent: gpt6.1terra
+harness: codex
+model: gpt-6.1-terra
+reasoning: medium
+version: codex-cli 0.172.0
+started_utc: 2026-11-26T08:08:05Z
+branch: run/t2-gpt6.1terra-agentic-r1
+commit: 1ad63175c87a7ec2fad30cf9e713115270644ea3

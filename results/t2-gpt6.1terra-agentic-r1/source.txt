@@ -1,0 +1,3 @@
+branch: run/t2-gpt6.1terra-agentic-r1
+commit: cd4824a19fca2ed31de19c5e0fbb7a37a78b51e0
+repo: https://github.com/Exxzzent/softwareprojekt.git
