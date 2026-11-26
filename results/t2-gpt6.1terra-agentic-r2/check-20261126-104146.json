@@ -1,0 +1,194 @@
+{
+  "run_id": "t2-gpt6.1terra-agentic-r2",
+  "checker": "Claude Code / claude-opus-5-5",
+  "suite": "tdd/tests.json",
+  "tester": "subagent",
+  "tests": [
+    {
+      "test_id": "TC-01",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-02",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-03",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-04",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-05",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-06",
+      "verdict": "fail",
+      "report": "Feature: Confirming the first train starts its calibration\nExpected: The dialog now asks the user to place the second train ('Bahn 2') on the calibration point\nObserved failure: Clicked 'Bahn steht auf dem Kalibrierpunkt' in the 'Ersteinrichtung' dialog (first attempts errored because the continuously re-rendering dialog made element refs stale; a text-based click then succeeded). After waiting 25 seconds the new snapshot still showed the dialog asking to place Bahn 1 on the calibration point with the same confirm button; it never advanced to Bahn 2. One console error was logged.\nSteps completed before failure: 4"
+    },
+    {
+      "test_id": "TC-07",
+      "verdict": "fail",
+      "report": "Feature: A second frontend shows the current setup step\nExpected: The second tab directly shows the current step, i.e. the request to place the second train ('Bahn 2') on the calibration point, not the request for the first train\nObserved failure: Opened the app and a second tab at the app URL. The 'Ersteinrichtung' dialog in the second tab (like the first) still asked to place Bahn 1 on the calibration point ('Bitte stellen Sie Bahn 1 auf den Kalibrierpunkt.'); the request for Bahn 2 never appeared - the setup had not advanced past the first train.\nSteps completed before failure: 3"
+    },
+    {
+      "test_id": "TC-08",
+      "verdict": "fail",
+      "report": "Feature: Completing the setup in one frontend completes it in all frontends\nExpected: In both tabs the calibration dialog is gone and the Start button is enabled, and the track graphic shows markers for both 'Bahn 1' and 'Bahn 2'\nObserved failure: Opened the app in two tabs; both still showed the 'Ersteinrichtung' dialog asking for Bahn 1, so no confirm button for the second train existed. Clicking the only confirm button 'Bahn steht auf dem Kalibrierpunkt' in tab 2 had no visible effect - after 25 seconds tab 2 still showed the Bahn 1 prompt. Tab 1 (snapshot and screenshot): calibration dialog still open, Start button disabled, no train markers in the track graphic (only legend entries).\nSteps completed before failure: 3"
+    },
+    {
+      "test_id": "TC-09",
+      "verdict": "fail",
+      "report": "Feature: Each train is calibrated in its own direction\nExpected: The history of 'Bahn 1' contains a low speed greater than 0 with the direction backward, the history of 'Bahn 2' contains the same low speed with the direction forward, and for both trains it is later followed by speed 0\nObserved failure: In the mock server console the column 'Applied speed changes (oldest first)' shows only '0 forward' for both Bahn 1 and Bahn 2; no calibration speed > 0 (backward for Bahn 1, forward for Bahn 2) was ever sent. The message log shows only the initial speed 0 commands at app connect.\nSteps completed before failure: 1"
+    },
+    {
+      "test_id": "TC-10",
+      "verdict": "fail",
+      "report": "Feature: After the setup the first train waits at the calibration waiting point and the second stays at the calibration point\nExpected: After its calibration speed, the history of 'Bahn 1' contains a higher speed forward and then speed 0; the history of 'Bahn 2' contains only the calibration speed and speed 0; the current speed of both trains is 0\nObserved failure: Mock server console: 'Applied speed changes (oldest first)' shows only '0 forward' for both trains, current speed 0. No calibration speed and no drive of Bahn 1 to the calibration waiting point ever occurred; the message log shows only the initial speed 0 command per train.\nSteps completed before failure: 2"
+    },
+    {
+      "test_id": "TC-11",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-12",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-13",
+      "verdict": "partial",
+      "report": "Feature: Live status of each train\nExpected: For each train the app shows that a connection to the train exists ('Verbunden') and shows its current speed (0 while the trains are stopped)\nObserved failure: The 'Ersteinrichtung' modal (asking for Bahn 1) overlays the control panel and intercepts clicks on the 'Bahn 1'/'Bahn 2' tabs. Clicking 'Bahn steht auf dem Kalibrierpunkt' had no effect (dialog still asks for Bahn 1). The default-selected Bahn 1 tab shows 'Verbunden' and 'Geschwindigkeit: 0' (OK), but Bahn 2 could never be selected, so its status and speed were not shown.\nSteps completed before failure: 4"
+    },
+    {
+      "test_id": "TC-14",
+      "verdict": "fail",
+      "report": "Feature: Edit the stops of a train\nExpected: The stop selection offers exactly the four stops 'Haltestelle 1' to 'Haltestelle 4'; after removing, exactly 'Haltestelle 1' and 'Haltestelle 3' remain, numbered 1 and 2 in this order\nObserved failure: The 'Ersteinrichtung' modal (asking for Bahn 1) covers the page; 'Alle Strecken zurücksetzen', 'Haltestelle hinzufügen' and 'Start' are disabled behind it. Clicking 'Bahn steht auf dem Kalibrierpunkt' twice (waiting 15 s and 30 s) never closed the dialog. Routes could not be reset, no stops could be added, set or removed.\nSteps completed before failure: 2"
+    },
+    {
+      "test_id": "TC-15",
+      "verdict": "fail",
+      "report": "Feature: Any number of stops, the same stop several times, one list per train\nExpected: 'Bahn 2' lists all 8 stops without an error or limit message, and its stops 1 and 3 both show 'Haltestelle 4'; 'Bahn 1' has exactly 1 stop, the stops of 'Bahn 2' do not appear in its list\nObserved failure: The 'Ersteinrichtung' modal (asking for Bahn 1) covers the page; 'Alle Strecken zurücksetzen' and 'Haltestelle hinzufügen' are disabled. Clicking 'Bahn steht auf dem Kalibrierpunkt' twice had no effect; the dialog stayed open and the buttons stayed disabled. No stops could be added.\nSteps completed before failure: 2"
+    },
+    {
+      "test_id": "TC-16",
+      "verdict": "fail",
+      "report": "Feature: Reset all routes removes all stops\nExpected: Both trains have no stops anymore; the stop list shows 'Noch keine Haltestelle gewählt.'\nObserved failure: The 'Ersteinrichtung' modal (asking for Bahn 1) stays open; clicking 'Bahn steht auf dem Kalibrierpunkt' has no effect (still open after 10 s). Its overlay intercepts clicks on the 'Bahn 1' tab; 'Haltestelle hinzufügen', 'Start' and 'Alle Strecken zurücksetzen' are disabled. No stops could be added or reset.\nSteps completed before failure: 2"
+    },
+    {
+      "test_id": "TC-17",
+      "verdict": "fail",
+      "report": "Feature: Start without any stop is refused\nExpected: The control does not start: the status badge still shows 'Gestoppt' and the Start button is still shown, and the message 'Bitte mindestens eine Haltestelle wählen' appears\nObserved failure: The 'Ersteinrichtung' modal (asking for Bahn 1) blocks the page; 'Alle Strecken zurücksetzen' and 'Start' are disabled behind it (badge 'Gestoppt'). Clicking 'Bahn steht auf dem Kalibrierpunkt' twice had no effect; the dialog stayed open and both buttons stayed disabled. Start could not be clicked and the message 'Bitte mindestens eine Haltestelle wählen' never appeared.\nSteps completed before failure: 2"
+    },
+    {
+      "test_id": "TC-18",
+      "verdict": "fail",
+      "report": "Feature: Start locks the editing\nExpected: The status badge shows 'In Fahrt', a red Stop button is shown instead of the Start button, the stops cannot be changed, added or removed (instead of 'Haltestelle hinzufügen' there is a disabled button 'Während der Fahrt gesperrt'), and 'Alle Strecken zurücksetzen' is disabled\nObserved failure: The 'Ersteinrichtung' modal (asking for Bahn 1) covers the UI; 'Haltestelle hinzufügen', 'Start' and 'Alle Strecken zurücksetzen' are disabled behind it. Clicking 'Bahn steht auf dem Kalibrierpunkt' twice had no effect; the dialog never closed. No train could be selected, no stops set and Start could not be clicked.\nSteps completed before failure: 1"
+    },
+    {
+      "test_id": "TC-19",
+      "verdict": "fail",
+      "report": "Feature: Start makes the locomotives drive\nExpected: Both histories contain entries with a speed higher than the calibration speed (the train's normal speed) and the direction forward; at least one train currently has a speed greater than 0; apart from the calibration speed, each train uses only one non-zero speed value\nObserved failure: The 'Ersteinrichtung' modal (asking for Bahn 1) stays open; clicking 'Bahn steht auf dem Kalibrierpunkt' twice had no effect. Behind it 'Haltestelle hinzufügen' and 'Start' are disabled, status 'Gestoppt', speed 0, no stops. Stop lists could not be set and Start could not be clicked, so the locomotives never drove.\nSteps completed before failure: 2"
+    },
+    {
+      "test_id": "TC-20",
+      "verdict": "fail",
+      "report": "Feature: Train positions move live in the preview\nExpected: At least one train marker is at a clearly different place on the track in the second screenshot\nObserved failure: The 'Ersteinrichtung' modal (asking for Bahn 1) stays open; clicking 'Bahn steht auf dem Kalibrierpunkt' twice had no effect. The modal covers the page, so no train could be selected and no stops set; 'Haltestelle hinzufügen' and 'Start' are disabled. The trains could not be started, so no marker movement could be observed.\nSteps completed before failure: 2"
+    },
+    {
+      "test_id": "TC-21",
+      "verdict": "fail",
+      "report": "Feature: The trains run around the loop in opposite directions\nExpected: Comparing consecutive screenshots, the marker of 'Bahn 1' moves clockwise along the main loop and the marker of 'Bahn 2' moves counter-clockwise; the two trains do not circle the loop in the same sense\nObserved failure: The 'Ersteinrichtung' modal (asking for Bahn 1) stays open; clicking 'Bahn steht auf dem Kalibrierpunkt' twice had no effect (still visible after 10 s). 'Haltestelle hinzufügen' and 'Start' are disabled behind it, no stops set. The trains could not be started; no train movement was seen in the track graphic.\nSteps completed before failure: 1"
+    },
+    {
+      "test_id": "TC-22",
+      "verdict": "fail",
+      "report": "Feature: Switches are set while driving\nExpected: After Start, new switch changes have been added to the history of 'Weichen', i.e. the app has set switches via the Switch Server while the trains were driving\nObserved failure: Mock console showed 'none' under 'Applied switch changes' for 'Weichen'. In the app the 'Ersteinrichtung' modal (asking for Bahn 1) stays open; clicking 'Bahn steht auf dem Kalibrierpunkt' twice had no effect. 'Haltestelle hinzufügen' and 'Start' stay disabled, no stops set. The trains could not be started, so no switch changes occurred.\nSteps completed before failure: 4"
+    },
+    {
+      "test_id": "TC-23",
+      "verdict": "fail",
+      "report": "Feature: Head-on meeting: one train evades to the siding\nExpected: Since the last 'Start' the log contains at least one entry '<train> weicht aus' and, later, an entry '<train> wartet auf dem Ausweichgleis' for the same train\nObserved failure: The 'Ersteinrichtung' modal (asking for Bahn 1) stays open; clicking 'Bahn steht auf dem Kalibrierpunkt' twice had no effect. Its overlay intercepts clicks on 'Bahn 1'; 'Start' is disabled. No stop lists could be set and the trains could not be started; the 'Betriebsprotokoll' shows 'Noch keine Einträge.'\nSteps completed before failure: 1"
+    },
+    {
+      "test_id": "TC-24",
+      "verdict": "fail",
+      "report": "Feature: After a meeting both trains continue (no deadlock)\nExpected: Since the last 'Start' the log contains an entry '<train> wartet auf dem Ausweichgleis', later '<train> fährt weiter' for the same train, and after that further entries '… erreicht …' for both 'Bahn 1' and 'Bahn 2'\nObserved failure: The 'Ersteinrichtung' modal (asking for Bahn 1) stays open; clicking 'Bahn steht auf dem Kalibrierpunkt' twice had no effect (still open after > 15 s; the dialog is re-rendered about every second). 'Haltestelle hinzufügen' and 'Start' are disabled. No stop lists could be set and the trains could not be started; the 'Betriebsprotokoll' stays 'Noch keine Einträge.'\nSteps completed before failure: 1"
+    },
+    {
+      "test_id": "TC-25",
+      "verdict": "fail",
+      "report": "Feature: Trains never occupy the same place\nExpected: In none of the screenshots do the markers of 'Bahn 1' and 'Bahn 2' overlap or stand on the same track section; one train waits or evades while the other passes\nObserved failure: The 'Ersteinrichtung' modal (asking for Bahn 1) stays open; clicking 'Bahn steht auf dem Kalibrierpunkt' twice had no effect. 'Haltestelle hinzufügen' and 'Start' stay disabled, no stops, badge 'Gestoppt'. Stop lists could not be set and the trains could not be started, so the required behaviour could not be observed.\nSteps completed before failure: 3"
+    },
+    {
+      "test_id": "TC-26",
+      "verdict": "fail",
+      "report": "Feature: Stops are driven in a loop\nExpected: Since the last 'Start' the log contains 'Bahn 1 erreicht Haltestelle 2', later 'Bahn 1 erreicht Haltestelle 4' and later again 'Bahn 1 erreicht Haltestelle 2'\nObserved failure: The 'Ersteinrichtung' modal (asking for Bahn 1) stays open; clicking 'Bahn steht auf dem Kalibrierpunkt' twice had no effect. Its overlay intercepts the click on 'Bahn 1'; 'Haltestelle hinzufügen' and 'Start' are disabled, badge 'Gestoppt'. No stop lists could be set and the trains could not be started; nothing was written to the 'Betriebsprotokoll'.\nSteps completed before failure: 1"
+    },
+    {
+      "test_id": "TC-27",
+      "verdict": "fail",
+      "report": "Feature: Recalibration during operation\nExpected: Since the last 'Start' the log contains '<train> wird kalibriert' followed later by '<train> ist kalibriert' for the same train, and the mock history shows normal speed, then the low calibration speed, then normal speed again\nObserved failure: The 'Ersteinrichtung' modal (asking for Bahn 1) stays open; clicking 'Bahn steht auf dem Kalibrierpunkt' twice had no effect. Badge 'Gestoppt', 'Start' and 'Haltestelle hinzufügen' disabled, no stops, 'Betriebsprotokoll' shows 'Noch keine Einträge.' Operation could not be started, so no recalibration could be observed.\nSteps completed before failure: 1"
+    },
+    {
+      "test_id": "TC-28",
+      "verdict": "fail",
+      "report": "Feature: The operation log shows Start and Stop\nExpected: After Start the log shows a new entry 'Start', and after Stop the newest entry, at the top of the log, is 'Stop'; every entry shows a time of day\nObserved failure: The 'Ersteinrichtung' modal (asking for Bahn 1) stays open; clicking 'Bahn steht auf dem Kalibrierpunkt' twice had no effect (still open after 10 s). 'Haltestelle hinzufügen' and 'Start' disabled, no stops, badge 'Gestoppt'. Start/Stop could not be clicked; the 'Betriebsprotokoll' only showed 'Noch keine Einträge.'\nSteps completed before failure: 3"
+    },
+    {
+      "test_id": "TC-29",
+      "verdict": "fail",
+      "report": "Feature: Stop unlocks the editing\nExpected: The status badge shows 'Gestoppt', the Start button is shown again, and 'Bahn 1' now has 3 stops\nObserved failure: The 'Ersteinrichtung' modal (asking for Bahn 1) stays open; clicking 'Bahn steht auf dem Kalibrierpunkt' twice had no effect. Its overlay intercepts the click on 'Bahn 1'; 'Haltestelle hinzufügen' and 'Start' are disabled, 'Noch keine Haltestelle gewählt.' No train could be selected, no stops edited, operation could not be started or stopped.\nSteps completed before failure: 2"
+    },
+    {
+      "test_id": "TC-30",
+      "verdict": "fail",
+      "report": "Feature: Stop halts all locomotives\nExpected: The speed of both 'Bahn 1' and 'Bahn 2' is 0\nObserved failure: The 'Ersteinrichtung' modal (asking for Bahn 1) stays open; clicking 'Bahn steht auf dem Kalibrierpunkt' twice had no effect. Its overlay intercepts the click on the 'Bahn 1' tab; 'Start' and 'Haltestelle hinzufügen' are disabled. Stop lists could not be configured; Start and Stop could not be clicked, so the required Start/Stop sequence could not be performed.\nSteps completed before failure: 1"
+    },
+    {
+      "test_id": "TC-31",
+      "verdict": "fail",
+      "report": "Feature: Operation can be started again after a Stop\nExpected: The log shows, from old to new, 'Start', 'Stop' and 'Start' again, and after the second 'Start' at least one new entry '<train> erreicht <stop>'\nObserved failure: The 'Ersteinrichtung' modal (asking for Bahn 1) stays open; clicking 'Bahn steht auf dem Kalibrierpunkt' twice had no effect (still open after 10 s). Its overlay intercepts the click on 'Bahn 1'. Stops could not be configured, 'Start' stays disabled; the 'Betriebsprotokoll' stays 'Noch keine Einträge.'\nSteps completed before failure: 3"
+    },
+    {
+      "test_id": "TC-32",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-33",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-34",
+      "verdict": "partial",
+      "report": "Feature: Unreachable locomotive server: train hidden, disconnected and an error message is shown\nExpected: 'Bahn 2' is not shown in the track graphic, its status shows that there is no connection to the train ('Nicht verbunden'), and the page shows an error message that the server 'Bahn 2' cannot be reached\nObserved failure: After taking Bahn 2 offline and reloading, the page shows 'Server Bahn 2 kann nicht erreicht werden.' (OK) and no Bahn 2 marker is visible in the track graphic. But the 'Bahn 2' tab cannot be selected: the overlay of the 'Ersteinrichtung' modal intercepts the click, and confirming in the modal has no effect. The status panel only ever showed '● Verbunden / Geschwindigkeit: 0' (Bahn 1); 'Nicht verbunden' for Bahn 2 was never shown.\nSteps completed before failure: 8"
+    },
+    {
+      "test_id": "TC-35",
+      "verdict": "partial",
+      "report": "Feature: Locomotive server becomes reachable again\nExpected: The mock console shows at least 1 connected client for 'Bahn 2', and the app shows the connection to 'Bahn 2' again without an error message about 'Bahn 2'\nObserved failure: After bringing Bahn 2 back online the mock console shows 'Online', 'Connected clients: 1', and on reload the app no longer shows the Bahn 2 error banner (OK). But 'Bahn 2' could not be selected: the 'Ersteinrichtung' modal overlay intercepts the click and confirming in the modal has no effect. The only visible status '● Verbunden' belongs to the default-selected Bahn 1; the status of Bahn 2 was never shown.\nSteps completed before failure: 12"
+    },
+    {
+      "test_id": "TC-36",
+      "verdict": "pass",
+      "report": ""
+    }
+  ],
+  "n_pass": 10,
+  "n_partial": 3,
+  "n_fail": 23,
+  "n_error": 0,
+  "n_valid": 36,
+  "accuracy": 31.9
+}
