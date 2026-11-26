@@ -1,0 +1,10 @@
+kind: check
+task: t2
+agent: opus5.5
+harness: claude
+model: claude-opus-5-5
+reasoning: medium
+version: 2.1.322 (Claude Code)
+started_utc: 2026-11-26T08:14:13Z
+branch: run/t2-gpt6.1terra-agentic-r1
+commit: cd4824a19fca2ed31de19c5e0fbb7a37a78b51e0
