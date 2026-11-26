@@ -1,0 +1,6 @@
+{"event":"tool","approach":"agentic","tool":"start_app"}
+{"event":"test_eval","approach":"agentic","round":1,"phase":"agentic","test_id":"TC-01","verdict":"pass","report":""}
+{"event":"test_eval","approach":"agentic","round":1,"phase":"agentic","test_id":"TC-02","verdict":"pass","report":""}
+{"event":"test_eval","approach":"agentic","round":1,"phase":"agentic","test_id":"TC-03","verdict":"partial","report":"Feature: Track graphic in the preview\nExpected: All four stop labels visible on the specified track layout.\nObserved failure: The left and right curves obscured the digits in the stop labels at the default viewport.\nSteps completed before failure: 2"}
+{"event":"tool","approach":"agentic","tool":"stop_app"}
+{"event":"done","approach":"agentic","rounds_used":1,"stop_reason":"agent_decided","tester":"subagent"}
