@@ -1,0 +1,5 @@
+{"event":"test_eval","approach":"whole","round":1,"phase":"whole","test_id":"TC-01","verdict":"pass","report":""}
+{"event":"test_eval","approach":"whole","round":1,"phase":"whole","test_id":"TC-02","verdict":"pass","report":""}
+{"event":"test_eval","approach":"whole","round":1,"phase":"whole","test_id":"TC-03","verdict":"error","report":""}
+{"event":"test_eval","approach":"whole","round":1,"phase":"whole","test_id":"TC-04","verdict":"pass","report":""}
+{"event":"test_eval","approach":"whole","round":1,"phase":"whole","test_id":"TC-05","verdict":"pass","report":""}
