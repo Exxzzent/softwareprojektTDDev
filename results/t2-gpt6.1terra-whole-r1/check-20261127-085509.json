@@ -1,0 +1,194 @@
+{
+  "run_id": "t2-gpt6.1terra-whole-r1",
+  "checker": "Claude Code / claude-opus-5-5",
+  "suite": "tdd/tests.json",
+  "tester": "subagent",
+  "tests": [
+    {
+      "test_id": "TC-01",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-02",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-03",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-04",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-05",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-06",
+      "verdict": "fail",
+      "report": "Feature: Confirming the first train starts its calibration\nExpected: The dialog now asks the user to place the second train ('Bahn 2') on the calibration point\nObserved failure: Opened the app, clicked 'Bahn 1 steht am Kalibrierpunkt' in the 'Ersteinrichtung' dialog, waited 25 seconds and took a new snapshot. The dialog still showed only 'Bitte prüfen, ob die Weichen richtig gestellt sind.' and 'Bahn 1 wird kalibriert …' (control panel: 'Geschwindigkeit: 60'); it did not ask to place Bahn 2 on the calibration point.\nSteps completed before failure: 4"
+    },
+    {
+      "test_id": "TC-07",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-08",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-09",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-10",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-11",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-12",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-13",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-14",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-15",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-16",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-17",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-18",
+      "verdict": "fail",
+      "report": "Feature: Start locks the editing\nExpected: The status badge shows 'In Fahrt', a red Stop button is shown instead of the Start button, the stops cannot be changed, added or removed (instead of 'Haltestelle hinzufügen' there is a disabled button 'Während der Fahrt gesperrt'), and 'Alle Strecken zurücksetzen' is disabled\nObserved failure: Badge showed 'Gestoppt'. Stop lists set to Bahn 1: Haltestelle 2, Haltestelle 4 and Bahn 2: Haltestelle 4, Haltestelle 2. Clicking Start logged a console error and changed nothing: badge stayed 'Gestoppt', Start button still shown, no Stop button; 'Haltestelle hinzufügen', the stop comboboxes, the remove buttons and 'Alle Strecken zurücksetzen' all stayed enabled. Waiting 5 s for 'In Fahrt' did not help.\nSteps completed before failure: 5"
+    },
+    {
+      "test_id": "TC-19",
+      "verdict": "fail",
+      "report": "Feature: Start makes the locomotives drive\nExpected: Both histories contain entries with a speed higher than the calibration speed (the train's normal speed) and the direction forward; at least one train currently has a speed greater than 0; apart from the calibration speed, each train uses only one non-zero speed value\nObserved failure: Stop lists set (Bahn 1: Haltestelle 2, 4; Bahn 2: Haltestelle 4, 2), clicked Start (console error logged), waited 15 s. Mock console: Bahn 1 speed 0, history '60 backward → 0 backward → 100 forward → 0 forward' (from the setup); Bahn 2 speed 0, history '60 forward → 0 forward' only. No locomotive command arrived after Start; neither train drives, Bahn 2 never got a normal speed.\nSteps completed before failure: 8"
+    },
+    {
+      "test_id": "TC-20",
+      "verdict": "fail",
+      "report": "Feature: Train positions move live in the preview\nExpected: At least one train marker is at a clearly different place on the track in the second screenshot\nObserved failure: Stop lists set (Bahn 1: Haltestelle 2, 4; Bahn 2: Haltestelle 4, 2), clicked Start (console error). After 5 s the badge still showed 'Gestoppt', 'Geschwindigkeit: 0', no log entry; both markers stayed at their initial places (Bahn 1 between Weiche 1 and Haltestelle 3, Bahn 2 near the Kalibrierpunkt). Operation never started, so no marker moved.\nSteps completed before failure: 6"
+    },
+    {
+      "test_id": "TC-21",
+      "verdict": "fail",
+      "report": "Feature: The trains run around the loop in opposite directions\nExpected: Bahn 1 moves clockwise and Bahn 2 counter-clockwise along the main loop in at least one pair of consecutive screenshots; the trains do not circle the loop in the same sense\nObserved failure: Stop lists set (Bahn 1: Haltestelle 2, 4; Bahn 2: Haltestelle 4, 2), clicked Start (console error). Screenshots after 10 s and 15 s were identical: Bahn 1 stood on the bottom straight between Weiche 1 and Haltestelle 3, Bahn 2 on the siding near the Kalibrierpunkt; badge 'Gestoppt', 'Geschwindigkeit: 0'. Neither train moved at any time.\nSteps completed before failure: 6"
+    },
+    {
+      "test_id": "TC-22",
+      "verdict": "fail",
+      "report": "Feature: Switches are set while driving\nExpected: After Start, new switch changes have been added to the history of 'Weichen', i.e. the app has set switches via the Switch Server while the trains were driving\nObserved failure: Before: 'Weichen' history 'none', 'applied: 0, ignored: 0, rejected: 0'. Set stop lists (Bahn 1: Haltestelle 2, 4; Bahn 2: Haltestelle 4, 2), clicked Start (console error), waited 2 × 30 s. Mock console afterwards: 'Weichen' history still 'none', applied 0, all switches at track 1; 1 client connected but no switch command was sent.\nSteps completed before failure: 11"
+    },
+    {
+      "test_id": "TC-23",
+      "verdict": "fail",
+      "report": "Feature: Head-on meeting: one train evades to the siding\nExpected: Since the last 'Start' the log contains at least one entry '<train> weicht aus' and, later, an entry '<train> wartet auf dem Ausweichgleis' for the same train\nObserved failure: Stop lists set (Bahn 1: Haltestelle 2, 4; Bahn 2: Haltestelle 4, 2), clicked Start (console error). After 3 × 30 s the badge still showed 'Gestoppt', 'Geschwindigkeit: 0', and the 'Betriebsprotokoll' had no entries at all (no 'Start', no 'weicht aus', no 'wartet auf dem Ausweichgleis'). Operation never started.\nSteps completed before failure: 6"
+    },
+    {
+      "test_id": "TC-24",
+      "verdict": "fail",
+      "report": "Feature: After a meeting both trains continue (no deadlock)\nExpected: Since the last 'Start' the log contains '<train> wartet auf dem Ausweichgleis', later '<train> fährt weiter' for the same train, and after that further '… erreicht …' entries for both trains\nObserved failure: Stop lists set (Bahn 1: Haltestelle 2, 4; Bahn 2: Haltestelle 4, 2), clicked Start (console error). After 4 × 30 s the badge still showed 'Gestoppt', 'Geschwindigkeit: 0', and the 'Betriebsprotokoll' had no entries. Operation never started.\nSteps completed before failure: 6"
+    },
+    {
+      "test_id": "TC-25",
+      "verdict": "fail",
+      "report": "Feature: Trains never occupy the same place\nExpected: In none of the screenshots do the markers of 'Bahn 1' and 'Bahn 2' overlap or stand on the same track section; one train waits or evades while the other passes\nObserved failure: Stop lists set (Bahn 1: Haltestelle 2, 4; Bahn 2: Haltestelle 4, 2), clicked Start (console error). Screenshots after 8 s and 16 s identical: badge 'Gestoppt', 'Geschwindigkeit: 0', Bahn 1 between Weiche 1 and Haltestelle 3, Bahn 2 near the Kalibrierpunkt. Markers did not overlap only because nothing moved; no waiting or evading while the other passes was shown.\nSteps completed before failure: 6"
+    },
+    {
+      "test_id": "TC-26",
+      "verdict": "fail",
+      "report": "Feature: Stops are driven in a loop\nExpected: Since the last 'Start' the log contains 'Bahn 1 erreicht Haltestelle 2', later 'Bahn 1 erreicht Haltestelle 4' and later again 'Bahn 1 erreicht Haltestelle 2'\nObserved failure: Stop lists set (Bahn 1: Haltestelle 2, 4; Bahn 2: Haltestelle 4, 2), clicked Start (console error). Snapshots after the waits still showed 'Gestoppt', 'Geschwindigkeit: 0' and an empty 'Betriebsprotokoll' (no 'Start', no 'erreicht' entries). Operation never started.\nSteps completed before failure: 6"
+    },
+    {
+      "test_id": "TC-27",
+      "verdict": "fail",
+      "report": "Feature: Recalibration during operation\nExpected: Since the last 'Start' the log contains '<train> wird kalibriert' followed later by '<train> ist kalibriert' for the same train, and the mock history shows normal speed, then calibration speed, then normal speed again\nObserved failure: Stop lists set (Bahn 1: Haltestelle 2, 4; Bahn 2: Haltestelle 4, 2), clicked Start (console error). After 4 × 30 s: badge 'Gestoppt', 'Geschwindigkeit: 0', empty 'Betriebsprotokoll'. Mock console: Bahn 1 '60 backward → 0 backward → 100 forward → 0 forward', Bahn 2 '60 forward → 0 forward', all from the initial setup; no speed command after Start. No train drove or was recalibrated.\nSteps completed before failure: 6"
+    },
+    {
+      "test_id": "TC-28",
+      "verdict": "fail",
+      "report": "Feature: The operation log shows Start and Stop\nExpected: After Start the log shows a new entry 'Start', and after Stop the newest entry, at the top of the log, is 'Stop'; every entry shows a time of day\nObserved failure: Stop lists set and confirmed (Bahn 1: Haltestelle 2, 4; Bahn 2: Haltestelle 4, 2), clicked Start. The page showed the alert 'Die automatische Steuerung ist noch nicht verfügbar.' (console error logged), the badge stayed 'Gestoppt', no Stop button appeared and the 'Betriebsprotokoll' had no entries. No 'Start' entry; the Stop step could not be performed.\nSteps completed before failure: 6"
+    },
+    {
+      "test_id": "TC-29",
+      "verdict": "fail",
+      "report": "Feature: Stop unlocks the editing\nExpected: The status badge shows 'Gestoppt', the Start button is shown again, and 'Bahn 1' now has 3 stops\nObserved failure: Stop lists set and confirmed (Bahn 1: Haltestelle 2, 4; Bahn 2: Haltestelle 4, 2), clicked Start: POST http://localhost:3030/start answered 503 (Service Unavailable). After 5 s the badge still showed 'Gestoppt', the Start button was still shown, no Stop button existed, speed 0, empty log. The operation never started, so the Stop button and the unlocking after Stop could not be exercised.\nSteps completed before failure: 6"
+    },
+    {
+      "test_id": "TC-30",
+      "verdict": "fail",
+      "report": "Feature: Stop halts all locomotives\nExpected: The speed of both 'Bahn 1' and 'Bahn 2' is 0\nObserved failure: Stop lists set (Bahn 1: Haltestelle 2, 4; Bahn 2: Haltestelle 4, 2), clicked Start (console error). After 10 s the badge still showed 'Gestoppt', 'Geschwindigkeit: 0', the Start button was still shown and no Stop button existed; clicking Stop failed because the element is absent. The trains never started, so the Stop function could not be exercised.\nSteps completed before failure: 6"
+    },
+    {
+      "test_id": "TC-31",
+      "verdict": "fail",
+      "report": "Feature: Operation can be started again after a Stop\nExpected: The log shows, from old to new, 'Start', 'Stop' and 'Start' again, and after the second 'Start' at least one new entry '<train> erreicht <stop>'\nObserved failure: Stop lists set (Bahn 1: Haltestelle 2, 4; Bahn 2: Haltestelle 4, 2), clicked Start (console error), waited 20 s. Badge still 'Gestoppt', speed 0, Start button still shown, no Stop button, 'Betriebsprotokoll' empty (not even 'Start'). Operation never started; Stop and second Start could not be performed.\nSteps completed before failure: 7"
+    },
+    {
+      "test_id": "TC-32",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-33",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-34",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-35",
+      "verdict": "pass",
+      "report": ""
+    },
+    {
+      "test_id": "TC-36",
+      "verdict": "partial",
+      "report": "Feature: The app speaks the protocol of the hardware servers\nExpected: Every server shows 'ignored: 0' and 'rejected: 0', and 'Bahn 1', 'Bahn 2' and 'Weichen' each show at least one applied message\nObserved failure: Mock console 'Messages from clients': Bahn 1 'applied: 4, ignored: 0, rejected: 0', Bahn 2 'applied: 2, ignored: 0, rejected: 0' (as expected), but Weichen 'applied: 0, ignored: 0, rejected: 0' with applied switch changes 'none'; the message log contains no incoming message for Weichen. The app never sent a switch command.\nSteps completed before failure: 2"
+    }
+  ],
+  "n_pass": 20,
+  "n_partial": 1,
+  "n_fail": 15,
+  "n_error": 0,
+  "n_valid": 36,
+  "accuracy": 56.9
+}
