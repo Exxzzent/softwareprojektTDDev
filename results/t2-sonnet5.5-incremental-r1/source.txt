@@ -1,0 +1,3 @@
+branch: run/t2-sonnet5.5-incremental-r1
+commit: 3391b6dbda24519f3dde2865735ad2d4247bf3bd
+repo: https://github.com/Exxzzent/softwareprojekt.git

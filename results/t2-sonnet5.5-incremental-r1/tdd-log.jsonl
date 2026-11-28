@@ -1,0 +1,89 @@
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-01", "test_id": "TC-01", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-01", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-02", "test_id": "TC-01", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-02", "test_id": "TC-02", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-02", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-03", "test_id": "TC-03", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-03", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-04", "test_id": "TC-04", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-04", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-05", "test_id": "TC-04", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-05", "test_id": "TC-05", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-05", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-06", "test_id": "TC-04", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-06", "test_id": "TC-05", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-06", "test_id": "TC-06", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-06", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-07", "test_id": "TC-07", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-07", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-08", "test_id": "TC-04", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-08", "test_id": "TC-05", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-08", "test_id": "TC-06", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-08", "test_id": "TC-07", "verdict": "pass", "report": ""}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-08", "test_id": "TC-08", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-08", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-09", "test_id": "TC-09", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-09", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-10", "test_id": "TC-10", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-10", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-11", "test_id": "TC-11", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-11", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-12", "test_id": "TC-12", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-12", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-13", "test_id": "TC-13", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-13", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-14", "test_id": "TC-14", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-14", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-15", "test_id": "TC-15", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-15", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-16", "test_id": "TC-16", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-16", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-17", "test_id": "TC-17", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-17", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-18", "test_id": "TC-18", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-18", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-19", "test_id": "TC-19", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-19", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-20", "test_id": "TC-20", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-20", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-21", "test_id": "TC-21", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-21", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-22", "test_id": "TC-22", "verdict": "fail", "report": "Feature: Switches are set while driving\nExpected: After Start, new switch changes have been added to the history of 'Weichen'\nObserved failure: Switch history identical before and after 60 s of driving (#0: 1 → 2, #1: 1 → 2, #2: 1 → 2, #2: 2 → 1, #0: 2 → 1); no switch message arrived after Start.\nSteps completed before failure: 11"}
+{"event": "repair", "approach": "incremental", "round": 1, "phase": "incr:TC-22", "tests": ["TC-22"]}
+{"event": "test_eval", "approach": "incremental", "round": 2, "phase": "incr:TC-22", "test_id": "TC-22", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-22", "level": "pass", "round": 2}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-23", "test_id": "TC-23", "verdict": "fail", "report": "Feature: Head-on meeting: one train evades to the siding\nExpected: Since the last 'Start' the log contains '<train> weicht aus' and later '<train> wartet auf dem Ausweichgleis' for the same train\nObserved failure: About 90 s after Start the Betriebsprotokoll held only one entry '11:29:45 Start'; no 'weicht aus' and no 'wartet auf dem Ausweichgleis'. Status badge 'In Fahrt', speed shown 0 cm/s.\nSteps completed before failure: 9"}
+{"event": "repair", "approach": "incremental", "round": 1, "phase": "incr:TC-23", "tests": ["TC-23"]}
+{"event": "test_eval", "approach": "incremental", "round": 2, "phase": "incr:TC-23", "test_id": "TC-23", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-23", "level": "pass", "round": 2}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-24", "test_id": "TC-24", "verdict": "fail", "report": "Feature: After a meeting both trains continue (no deadlock)\nExpected: log contains 'wartet auf dem Ausweichgleis', later 'fährt weiter' for the same train, then '… erreicht …' for both trains\nObserved failure: about 2 minutes after Start the log only had 'Bahn 1 wartet' and 'Bahn 2 wartet' (both 11:34:51); no 'erreicht', no 'fährt weiter'; status 'In Fahrt', speed 0 cm/s, both trains stuck.\nSteps completed before failure: 10"}
+{"event": "repair", "approach": "incremental", "round": 1, "phase": "incr:TC-24", "tests": ["TC-24"]}
+{"event": "test_eval", "approach": "incremental", "round": 2, "phase": "incr:TC-24", "test_id": "TC-24", "verdict": "partial", "report": "Feature: After a meeting both trains continue (no deadlock)\nExpected: after each wait on the siding a 'fährt weiter' entry and both trains keep reaching their stops\nObserved failure: first meeting resolved (weicht aus, wartet auf dem Ausweichgleis, fährt weiter, both trains reached stops); after a second meeting the log ended with 'Bahn 1 wartet auf dem Ausweichgleis' (11:39:34) and 'Bahn 2 wartet' (11:39:41), no 'fährt weiter' and no further 'erreicht', speed 0 cm/s.\nSteps completed before failure: 10"}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-24", "level": "partial", "round": 2}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-25", "test_id": "TC-25", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-25", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-26", "test_id": "TC-26", "verdict": "fail", "report": "Feature: Stops are driven in a loop\nExpected: log contains 'Bahn 1 erreicht Haltestelle 2', later 'Bahn 1 erreicht Haltestelle 4' and later again 'Bahn 1 erreicht Haltestelle 2'\nObserved failure: after the last Start (11:43:21) the log has no 'erreicht' entry at all; last entry 11:43:44 'Bahn 2 wartet'; nothing new for 2.5 minutes; badge 'In Fahrt', speed 0 cm/s.\nSteps completed before failure: 11"}
+{"event": "repair", "approach": "incremental", "round": 1, "phase": "incr:TC-26", "tests": ["TC-26"]}
+{"event": "test_eval", "approach": "incremental", "round": 2, "phase": "incr:TC-26", "test_id": "TC-26", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-26", "level": "pass", "round": 2}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-27", "test_id": "TC-27", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-27", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-28", "test_id": "TC-28", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-28", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-29", "test_id": "TC-29", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-29", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-30", "test_id": "TC-30", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-30", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-31", "test_id": "TC-31", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-31", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-32", "test_id": "TC-32", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-32", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-33", "test_id": "TC-33", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-33", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-34", "test_id": "TC-34", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-34", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-35", "test_id": "TC-35", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-35", "level": "pass", "round": 1}
+{"event": "test_eval", "approach": "incremental", "round": 1, "phase": "incr:TC-36", "test_id": "TC-36", "verdict": "pass", "report": ""}
+{"event": "feature_admitted", "approach": "incremental", "test_id": "TC-36", "level": "pass", "round": 1}
+{"event": "done", "approach": "incremental", "rounds_used": 62, "stop_reason": "all_features_attempted", "tester": "subagent"}
